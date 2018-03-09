@@ -6,7 +6,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vaadin.version>8.0.0</vaadin.version>
-        <charts.version>4.0.0</charts.version>
+        <!--<charts.version>4.0.0</charts.version>-->
+        <charts.version>4.0-SNAPSHOT</charts.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
         <testbench.version>5.1.0</testbench.version>
         <testbench.api.version>${vaadin.version}</testbench.api.version>
@@ -66,6 +67,18 @@
     </distributionManagement>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spreadsheet</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-charts</artifactId>
+            <version>${charts.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
@@ -78,16 +91,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-spreadsheet</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-charts</artifactId>
-            <version>${charts.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -133,7 +136,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
-                    <licenseName>cval3</licenseName>
+                    <licenseName>agpl</licenseName>
                     <licenseResolver>file://${basedir}/src/license</licenseResolver>
                     <includes>
                         <include>**/main/**/*.java</include>
@@ -167,7 +170,7 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <version>1.8</version>
                 <configuration>
-                    <licenseName>cval3</licenseName>
+                    <licenseName>agpl</licenseName>
                     <licenseResolver>file://${basedir}/src/license</licenseResolver>
                     <includes>
                         <include>**/main/**/*.java</include>
@@ -298,7 +301,7 @@
                         <exclude>**/junit/*</exclude>
                     </excludes>
                     <systemPropertyVariables>
-                            <tb.hub>${tb.hub}</tb.hub>
+                        <tb.hub>${tb.hub}</tb.hub>
                     </systemPropertyVariables>
                 </configuration>
                 <executions>

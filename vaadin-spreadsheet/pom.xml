@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vaadin-spreadsheet</artifactId>
     <version>2.1-SNAPSHOT</version>
@@ -32,7 +32,7 @@
 
     <licenses>
         <license>
-            <name>CVALv3</name>
+            <name>agpl</name>
             <url>https://vaadin.com/license/cval-3</url>
         </license>
     </licenses>
@@ -43,7 +43,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
-                    <licenseName>cval3</licenseName>
+                    <licenseName>agpl</licenseName>
                     <licenseResolver>file://${basedir}/src/license</licenseResolver>
                     <includes>
                         <include>**/main/**/*.java</include>
@@ -88,7 +88,7 @@
                             <Vaadin-Package-Version>1</Vaadin-Package-Version>
 
                             <!-- Add-on specific fields to update -->
-                            <AdVaaLicen>cval</AdVaaLicen>
+                            <AdVaaLicen>agpl</AdVaaLicen>
                             <AdVaaName>vaadin-spreadsheet</AdVaaName>
                             <AdVaaPkg>com.vaadin.addon.spreadsheet.client</AdVaaPkg>
 
@@ -129,7 +129,8 @@
                         <!-- Ignore GWT stuff, not needed in osgi bundles,
                             GWT compilation seldom happens in such -->
                         <Import-Package>!com.google.gwt.*,
-                            !com.vaadin.client.*, *</Import-Package>
+                            !com.vaadin.client.*, *
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
@@ -407,7 +408,6 @@
         </resources>
 
 
-
     </build>
     <distributionManagement>
         <snapshotRepository>
@@ -483,6 +483,12 @@
     </pluginRepositories>
 
     <dependencies>
+      <!--  <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spreadsheet-charts</artifactId>
+            <version>2.1-SNAPSHOT</version>
+        </dependency>
+-->
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
