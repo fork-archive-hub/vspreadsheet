@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet.action;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +11,13 @@ import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 
 /**
- * Default action handler for Spreadsheet actions. By default this handler adds
- * all available actions to the Spreadsheet.
- * 
+ * 工作表操作默认处理器
+ * 注册所有操作
+ * Default action handler for Spreadsheet actions.
+ * By default this handler adds all available actions to the Spreadsheet.
+ *
  * @author Vaadin Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class SpreadsheetDefaultActionHandler implements Handler {
@@ -57,9 +41,8 @@ public class SpreadsheetDefaultActionHandler implements Handler {
 
     /**
      * Adds the given SpreadsheetAction to this handler.
-     * 
-     * @param action
-     *            SpreadsheetAction to add
+     *
+     * @param action SpreadsheetAction to add
      */
     public void addSpreadsheetAction(SpreadsheetAction action) {
         defaultActions.add(action);
@@ -67,9 +50,8 @@ public class SpreadsheetDefaultActionHandler implements Handler {
 
     /**
      * Removes the given SpreadsheetAction from this handler.
-     * 
-     * @param action
-     *            SpreadsheetAction to remove
+     *
+     * @param action SpreadsheetAction to remove
      * @return true if the action was present in this handler, false otherwise
      */
     public boolean removeSpreadsheetAction(SpreadsheetAction action) {

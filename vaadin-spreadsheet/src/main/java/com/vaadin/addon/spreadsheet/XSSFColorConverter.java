@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,9 +25,11 @@ import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTColor;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTXf;
 
 /**
+ * xlsx颜色转换器
+ * <p>
  * Color converter implementation for the current Excel file type (.xlsx or XSSF
  * in POI terms).
- * 
+ *
  * @author Vaadin Ltd.
  * @since 1.0
  */
@@ -106,7 +91,7 @@ public class XSSFColorConverter implements ColorConverter {
 
     @Override
     public String getBorderColorCSS(BorderSide borderSide, String attr,
-            CellStyle cellStyle) {
+                                    CellStyle cellStyle) {
 
         StringBuilder sb = new StringBuilder();
 
@@ -129,8 +114,8 @@ public class XSSFColorConverter implements ColorConverter {
         }
 
         if (color.isIndexed() && ColorConverterUtil
-            .hasCustomIndexedColors(workbook)) {
-            sb.append(ColorConverterUtil.getIndexedARGB(workbook,color));
+                .hasCustomIndexedColors(workbook)) {
+            sb.append(ColorConverterUtil.getIndexedARGB(workbook, color));
             return sb.toString();
         }
 
@@ -216,7 +201,7 @@ public class XSSFColorConverter implements ColorConverter {
     }
 
     private CTColor getBorderColor(XSSFBorderFormatting casted,
-            BorderSide borderSide) {
+                                   BorderSide borderSide) {
 
         // No POI API exists for this, but the data exists in the underlying
         // implementation.
@@ -227,17 +212,17 @@ public class XSSFColorConverter implements ColorConverter {
             declaredField.setAccessible(true);
             CTBorder object = (CTBorder) declaredField.get(casted);
             switch (borderSide) {
-            case BOTTOM:
-                return object.getBottom().getColor();
-            case LEFT:
-                return object.getLeft().getColor();
-            case RIGHT:
-                return object.getRight().getColor();
-            case TOP:
-                return object.getTop().getColor();
+                case BOTTOM:
+                    return object.getBottom().getColor();
+                case LEFT:
+                    return object.getLeft().getColor();
+                case RIGHT:
+                    return object.getRight().getColor();
+                case TOP:
+                    return object.getTop().getColor();
 
-            default:
-                break;
+                default:
+                    break;
             }
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
             LOGGER.log(Level.SEVERE, "Incompatible POI implementation; unable to parse border color", e);

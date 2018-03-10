@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -23,23 +23,29 @@ import java.util.Map;
 import com.google.gwt.dom.client.NativeEvent;
 import com.vaadin.addon.spreadsheet.client.GroupingWidget.GroupingHandler;
 
+/**
+ * 工作表处理器 接口
+ */
 public interface SheetHandler extends GroupingHandler {
 
-    void onCellClick(int column, int row, String value, boolean shiftPressed,
-            boolean metaOrCtrlPressed, boolean updateToActionHandler);
+    void onCellClick(int column, int row,
+                     String value,
+                     boolean shiftPressed,
+                     boolean metaOrCtrlPressed,
+                     boolean updateToActionHandler);
 
     void onLinkCellClick(int column, int row);
 
     void onCellDoubleClick(int column, int row, String value);
 
     void onRowHeaderClick(int row, boolean shiftPressed,
-            boolean metaOrCrtlPressed);
+                          boolean metaOrCrtlPressed);
 
     void onColumnHeaderClick(int row, boolean shiftPressed,
-            boolean metaOrCrtlPressed);
+                             boolean metaOrCrtlPressed);
 
     void onScrollViewChanged(int firstRow, int lastRow, int firstColumn,
-            int lastColumn);
+                             int lastColumn);
 
     void onSelectionIncreasePainted(int c1, int c2, int r1, int r2);
 
@@ -74,7 +80,9 @@ public interface SheetHandler extends GroupingHandler {
      */
     float getDefaultRowHeight();
 
-    /** Number of defined rows in the spreadsheet */
+    /**
+     * Number of defined rows in the spreadsheet
+     */
     int getDefinedRows();
 
     int[] getColWidths();
@@ -95,8 +103,7 @@ public interface SheetHandler extends GroupingHandler {
      * Returns 0 for hidden columns, otherwise same as {@link #getColWidth(int)}
      * .
      *
-     * @param col
-     *            1-based
+     * @param col 1-based
      * @return width (px)
      */
     int getColWidthActual(int col);
@@ -107,7 +114,9 @@ public interface SheetHandler extends GroupingHandler {
      */
     String getColHeader(int col);
 
-    /** Get header of a row as HTML. Rows are indexed from 1 to getRows(). */
+    /**
+     * Get header of a row as HTML. Rows are indexed from 1 to getRows().
+     */
     String getRowHeader(int row);
 
     /**
@@ -135,17 +144,13 @@ public interface SheetHandler extends GroupingHandler {
     Map<Integer, String> getConditionalFormattingStyles();
 
     /**
-     *
-     * @param i
-     *            1-based
+     * @param i 1-based
      * @return true if the column is hidden
      */
     boolean isColumnHidden(int i);
 
     /**
-     *
-     * @param i
-     *            1-based
+     * @param i 1-based
      * @return true if the row is hidden
      */
     boolean isRowHidden(int i);
@@ -154,10 +159,8 @@ public interface SheetHandler extends GroupingHandler {
      * Called on right mouse button click on top of some cell.
      *
      * @param nativeEvent
-     * @param column
-     *            1-based
-     * @param row
-     *            1-based
+     * @param column      1-based
+     * @param row         1-based
      */
     void onCellRightClick(NativeEvent nativeEvent, int column, int row);
 
@@ -165,8 +168,7 @@ public interface SheetHandler extends GroupingHandler {
      * Called on right mouse button click on top of a row header
      *
      * @param nativeEvent
-     * @param rowIndex
-     *            1-based
+     * @param rowIndex    1-based
      */
     void onRowHeaderRightClick(NativeEvent nativeEvent, int rowIndex);
 
@@ -174,8 +176,7 @@ public interface SheetHandler extends GroupingHandler {
      * Called on right mouse button click on top of a column header
      *
      * @param nativeEvent
-     * @param columnIndex
-     *            1-based
+     * @param columnIndex 1-based
      */
     void onColumnHeaderRightClick(NativeEvent nativeEvent, int columnIndex);
 
@@ -185,22 +186,23 @@ public interface SheetHandler extends GroupingHandler {
 
     boolean canResizeRow();
 
-    /** Map containing 1-based row indexes and new sizes as pt */
+    /**
+     * Map containing 1-based row indexes and new sizes as pt
+     */
     void onRowsResized(Map<Integer, Float> newSizes);
 
-    /** Map containing 1-based column indexes and new sizes as pt */
+    /**
+     * Map containing 1-based column indexes and new sizes as pt
+     */
     void onColumnsResized(Map<Integer, Integer> newSizes);
 
     /**
-     * @param rowIndex
-     *     1-based
+     * @param rowIndex 1-based
      */
     void onRowHeaderDoubleClick(int rowIndex);
 
     /**
-     *
-     * @param columnIndex
-     *            1-based
+     * @param columnIndex 1-based
      */
     void onColumnHeaderResizeDoubleClick(int columnIndex);
 
@@ -216,10 +218,8 @@ public interface SheetHandler extends GroupingHandler {
     /**
      * Params 1-based
      *
-     * @param col
-     *            starting column of merged cell
-     * @param row
-     *            starting row of merged cell
+     * @param col starting column of merged cell
+     * @param row starting row of merged cell
      * @return
      */
     MergedRegion getMergedRegionStartingFrom(int col, int row);
@@ -233,8 +233,7 @@ public interface SheetHandler extends GroupingHandler {
     /**
      * Called when user pastes something inside the sheet.
      *
-     * @param text
-     *            the pasted content
+     * @param text the pasted content
      */
     void onSheetPaste(String text);
 

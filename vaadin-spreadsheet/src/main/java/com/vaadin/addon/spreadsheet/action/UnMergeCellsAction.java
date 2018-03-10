@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet.action;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -26,8 +9,9 @@ import com.vaadin.addon.spreadsheet.Spreadsheet;
 import com.vaadin.addon.spreadsheet.Spreadsheet.SelectionChangeEvent;
 
 /**
+ * 合并单元格拆分
  * Spreadsheet action for breaking a merged cell into its constituents.
- * 
+ *
  * @author Vaadin Ltd.
  * @since 1.0
  */
@@ -40,7 +24,7 @@ public class UnMergeCellsAction extends SpreadsheetAction {
 
     @Override
     public boolean isApplicableForSelection(Spreadsheet spreadsheet,
-            SelectionChangeEvent event) {
+                                            SelectionChangeEvent event) {
         if (event.getSelectedCellMergedRegion() != null
                 && event.getIndividualSelectedCells().size() == 0
                 && event.getCellRangeAddresses().size() == 0) {
@@ -66,13 +50,13 @@ public class UnMergeCellsAction extends SpreadsheetAction {
 
     @Override
     public boolean isApplicableForHeader(Spreadsheet spreadsheet,
-            CellRangeAddress headerRange) {
+                                         CellRangeAddress headerRange) {
         return false;
     }
 
     @Override
     public void executeActionOnSelection(Spreadsheet spreadsheet,
-            SelectionChangeEvent event) {
+                                         SelectionChangeEvent event) {
         CellRangeAddress selectedCellReference = event
                 .getSelectedCellMergedRegion();
         Sheet sheet = spreadsheet.getActiveSheet();
@@ -81,7 +65,7 @@ public class UnMergeCellsAction extends SpreadsheetAction {
             if (selectedCellReference.getFirstColumn() == mergedRegion
                     .getFirstColumn()
                     && selectedCellReference.getFirstRow() == mergedRegion
-                            .getFirstRow()) {
+                    .getFirstRow()) {
                 spreadsheet.removeMergedRegion(i);
             }
         }
@@ -89,7 +73,7 @@ public class UnMergeCellsAction extends SpreadsheetAction {
 
     @Override
     public void executeActionOnHeader(Spreadsheet spreadsheet,
-            CellRangeAddress headerRange) {
+                                      CellRangeAddress headerRange) {
         throw new UnsupportedOperationException(
                 "Unmerge action can't be executed against a header range.");
     }

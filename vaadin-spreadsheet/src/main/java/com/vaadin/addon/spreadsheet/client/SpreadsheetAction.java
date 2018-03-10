@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -20,13 +20,18 @@ package com.vaadin.addon.spreadsheet.client;
 import com.vaadin.client.ui.Action;
 import com.vaadin.client.ui.ActionOwner;
 
+/**
+ * 工作表操作
+ */
 public class SpreadsheetAction extends Action {
 
     private SpreadsheetServerRpc rpc;
 
     private String actionKey = "";
 
-    /** 0 = cell, 1 = row, 2 = column */
+    /**
+     * 0 = cell, 1 = row, 2 = column
+     */
     private int type;
 
     private SpreadsheetWidget widget;
@@ -36,7 +41,7 @@ public class SpreadsheetAction extends Action {
     }
 
     public SpreadsheetAction(ActionOwner owner, SpreadsheetServerRpc rpc,
-            String key, int type, SpreadsheetWidget widget) {
+                             String key, int type, SpreadsheetWidget widget) {
         this(owner);
         this.rpc = rpc;
         this.type = type;

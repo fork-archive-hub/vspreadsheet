@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 import java.util.LinkedList;
 
@@ -28,10 +11,12 @@ import com.vaadin.addon.spreadsheet.command.Command;
 import com.vaadin.addon.spreadsheet.command.ValueChangeCommand;
 
 /**
+ * 工作表历史操作记录管理器 为了实现undo/redo
+ * <p>
  * SpreadsheetHistoryManager is an utility class of the Spreadsheet add-on. This
  * class handles remembering any actions done in the Spreadsheet. The purpose is
  * to allow the user to undo and redo any action.
- * 
+ *
  * @author Vaadin Ltd.
  */
 @SuppressWarnings("serial")
@@ -56,9 +41,8 @@ public class SpreadsheetHistoryManager implements Serializable {
 
     /**
      * Creates a new history manager for the given Spreadsheet.
-     * 
-     * @param spreadsheet
-     *            Target spreadsheet
+     *
+     * @param spreadsheet Target spreadsheet
      */
     public SpreadsheetHistoryManager(Spreadsheet spreadsheet) {
         this.spreadsheet = spreadsheet;
@@ -75,9 +59,8 @@ public class SpreadsheetHistoryManager implements Serializable {
     /**
      * Adds a command to the end of the command history. Discards commands after
      * the current position (historyIndex) within the history.
-     * 
-     * @param command
-     *            Command to add as the latest command in history
+     *
+     * @param command Command to add as the latest command in history
      */
     public void addCommand(Command command) {
         SpreadsheetFactory.logMemoryUsage();
@@ -93,9 +76,8 @@ public class SpreadsheetHistoryManager implements Serializable {
 
     /**
      * Gets the Command at the given history index.
-     * 
-     * @param historyIndex
-     *            Index of Command to get, 0-based
+     *
+     * @param historyIndex Index of Command to get, 0-based
      * @return The command at the index or {@link IndexOutOfBoundsException}
      */
     public Command getCommand(int historyIndex) {
@@ -105,7 +87,7 @@ public class SpreadsheetHistoryManager implements Serializable {
     /**
      * Determines if redo is possible at the moment. In practice tells if there
      * is at least one Command available after the current history index.
-     * 
+     *
      * @return true if {@link #redo()} possible, false otherwise.
      */
     public boolean canRedo() {
@@ -115,7 +97,7 @@ public class SpreadsheetHistoryManager implements Serializable {
     /**
      * Determines if undo is possible at the moment. In practice tells if there
      * is at least one Command available before the current history index.
-     * 
+     *
      * @return true if {@link #undo()} possible, false otherwise.
      */
     public boolean canUndo() {
@@ -161,9 +143,8 @@ public class SpreadsheetHistoryManager implements Serializable {
     /**
      * Changes the history size. Discards possible commands that won't fit the
      * size anymore.
-     * 
-     * @param historySize
-     *            New size for Command history
+     *
+     * @param historySize New size for Command history
      */
     public void setHistorySize(int historySize) {
         this.historySize = historySize;
@@ -173,7 +154,7 @@ public class SpreadsheetHistoryManager implements Serializable {
     /**
      * Gets the current size of the Command history. The default size is 20
      * commands.
-     * 
+     *
      * @return Current size of history.
      */
     public int getHistorySize() {
@@ -182,7 +163,7 @@ public class SpreadsheetHistoryManager implements Serializable {
 
     /**
      * Gets the current index within the Command history.
-     * 
+     *
      * @return Current history index, 0-based
      */
     public int getHistoryIndex() {
@@ -192,9 +173,8 @@ public class SpreadsheetHistoryManager implements Serializable {
     /**
      * Ensures that the correct sheet is active, as recorded in the given
      * Command.
-     * 
-     * @param command
-     *            Command to fetch the sheet from
+     *
+     * @param command Command to fetch the sheet from
      */
     protected void makeSureCorrectSheetActive(Command command) {
         if (spreadsheet.getActiveSheetIndex() != command.getActiveSheetIndex()) {
@@ -205,16 +185,15 @@ public class SpreadsheetHistoryManager implements Serializable {
             String initialSheetSelection = paintedCellRange != null ? paintedCellRange
                     .formatAsString()
                     : selectedCellReference != null ? selectedCellReference
-                            .formatAsString() : "A1";
+                    .formatAsString() : "A1";
             spreadsheet.initialSheetSelection = initialSheetSelection;
         }
     }
 
     /**
      * Applies the cell selection from the given Command.
-     * 
-     * @param command
-     *            Command to fetch the cell selection from.
+     *
+     * @param command Command to fetch the cell selection from.
      */
     protected void changeSelection(Command command) {
         // if the sheet has changed, the selected cell can't be set
@@ -244,9 +223,8 @@ public class SpreadsheetHistoryManager implements Serializable {
     /**
      * Clears all history after the given history index NOT including the
      * command at the given index.
-     * 
-     * @param index
-     *            History index to start the clearing from.
+     *
+     * @param index History index to start the clearing from.
      */
     protected void discardAllAfter(int index) {
         while (commands.size() > (index + 1)) {

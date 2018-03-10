@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -25,10 +8,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import com.vaadin.ui.Component;
 
 /**
- * Defines an interface for having custom components inside the
- * {@link Spreadsheet}. Use it with
- * {@link Spreadsheet#setSpreadsheetComponentFactory(SpreadsheetComponentFactory)}
- * . The more custom components you have visible, the slower the spreadsheet
+ * 工作表内容组件工厂 接口
+ * <p>
+ * Defines an interface for having custom components inside the {@link Spreadsheet}.
+ * Use it with {@link Spreadsheet#setSpreadsheetComponentFactory(SpreadsheetComponentFactory)}.
+ * The more custom components you have visible, the slower the spreadsheet
  * comes. It is a very bad idea to have layouts and complex widgets inside the
  * spreadsheet.
  * <p>
@@ -51,7 +35,7 @@ import com.vaadin.ui.Component;
  * <p>
  * The {@link #getCustomComponentForCell(Cell, int, int, Spreadsheet, Sheet)} is
  * called first
- * 
+ *
  * @author Vaadin Ltd.
  */
 public interface SpreadsheetComponentFactory extends Serializable {
@@ -72,24 +56,19 @@ public interface SpreadsheetComponentFactory extends Serializable {
      * <p>
      * For merged regions, this method is only called for the first cell of the
      * merged region.
-     * 
-     * @param cell
-     *            Cell that should display the component or <code>null</code> if
-     *            the cell doesn't yet exist inside POI
-     * @param rowIndex
-     *            0-based
-     * @param columnIndex
-     *            0-based
-     * @param spreadsheet
-     *            The target Spreadsheet component
-     * @param sheet
-     *            The active sheet of the workbook (never <code>null</code>)
+     *
+     * @param cell        Cell that should display the component or <code>null</code> if
+     *                    the cell doesn't yet exist inside POI
+     * @param rowIndex    0-based
+     * @param columnIndex 0-based
+     * @param spreadsheet The target Spreadsheet component
+     * @param sheet       The active sheet of the workbook (never <code>null</code>)
      * @return The unique component that is displayed as the corresponding cell
-     *         becomes visible or <code>null</code> if no component should be
-     *         displayed when the cell is not selected.
+     * becomes visible or <code>null</code> if no component should be
+     * displayed when the cell is not selected.
      */
     public Component getCustomComponentForCell(Cell cell, int rowIndex,
-            int columnIndex, Spreadsheet spreadsheet, Sheet sheet);
+                                               int columnIndex, Spreadsheet spreadsheet, Sheet sheet);
 
     /**
      * Should return the custom component that is displayed in the cell when it
@@ -111,24 +90,19 @@ public interface SpreadsheetComponentFactory extends Serializable {
      * <p>
      * For merged regions, this method is only called for the first cell of the
      * merged region.
-     * 
-     * @param cell
-     *            Cell that should display the custom editor or
-     *            <code>null</code> if the cell doesn't yet exist inside POI
-     * @param rowIndex
-     *            0-based
-     * @param columnIndex
-     *            0-based
-     * @param spreadsheet
-     *            The target spreadsheet component
-     * @param sheet
-     *            The active sheet of the workbook (never <code>null</code>)
+     *
+     * @param cell        Cell that should display the custom editor or
+     *                    <code>null</code> if the cell doesn't yet exist inside POI
+     * @param rowIndex    0-based
+     * @param columnIndex 0-based
+     * @param spreadsheet The target spreadsheet component
+     * @param sheet       The active sheet of the workbook (never <code>null</code>)
      * @return The component that should be used as the custom editor or
-     *         <code>null</code> if the default editor (input field) should be
-     *         used.
+     * <code>null</code> if the default editor (input field) should be
+     * used.
      */
     public Component getCustomEditorForCell(Cell cell, int rowIndex,
-            int columnIndex, Spreadsheet spreadsheet, Sheet sheet);
+                                            int columnIndex, Spreadsheet spreadsheet, Sheet sheet);
 
     /**
      * This method is called when a cell with a custom editor is displayed (the
@@ -138,22 +112,16 @@ public interface SpreadsheetComponentFactory extends Serializable {
      * <p>
      * Note that the Spreadsheet component doesn't automatically update the Cell
      * value if it has a custom editor.
-     * 
-     * @param cell
-     *            The cell that has the editor, might be <code>null</code> if
-     *            the cell doesn't exist it the POI model
-     * @param rowIndex
-     *            0-based
-     * @param columnIndex
-     *            0-based
-     * @param spreadsheet
-     *            The target spreadsheet component
-     * @param sheet
-     *            The active sheet of the workbook (never <code>null</code>)
-     * @param customEditor
-     *            The component that is displayed inside the cell
+     *
+     * @param cell         The cell that has the editor, might be <code>null</code> if
+     *                     the cell doesn't exist it the POI model
+     * @param rowIndex     0-based
+     * @param columnIndex  0-based
+     * @param spreadsheet  The target spreadsheet component
+     * @param sheet        The active sheet of the workbook (never <code>null</code>)
+     * @param customEditor The component that is displayed inside the cell
      */
     public void onCustomEditorDisplayed(Cell cell, int rowIndex,
-            int columnIndex, Spreadsheet spreadsheet, Sheet sheet,
-            Component customEditor);
+                                        int columnIndex, Spreadsheet spreadsheet, Sheet sheet,
+                                        Component customEditor);
 }

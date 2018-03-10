@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -35,10 +35,12 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * 工作表输入事件监听器
+ */
 //TODO merge with FormulaBarWidget? or parts of it?
-public class SheetInputEventListener implements FocusHandler, KeyPressHandler,
-        KeyDownHandler, ClickHandler, MouseDownHandler, BlurHandler,
-        MouseUpHandler {
+public class SheetInputEventListener
+        implements FocusHandler, KeyPressHandler, KeyDownHandler, ClickHandler, MouseDownHandler, BlurHandler, MouseUpHandler {
 
     private SheetWidget widget;
 
@@ -48,7 +50,7 @@ public class SheetInputEventListener implements FocusHandler, KeyPressHandler,
     }
 
     public void setSheetWidget(SheetWidget sheetWidget,
-            FormulaBarWidget formulaBarWidget) {
+                               FormulaBarWidget formulaBarWidget) {
         widget = sheetWidget;
         this.formulaBarWidget = formulaBarWidget;
 
@@ -94,88 +96,88 @@ public class SheetInputEventListener implements FocusHandler, KeyPressHandler,
         final SheetHandler handler = widget.getSheetHandler();
         if (widget.isEditingCell()) {
             switch (keyCode) {
-            case KeyCodes.KEY_BACKSPACE:
-            case KeyCodes.KEY_DELETE:
-                widget.handleInputElementValueChange(true);
-                formulaBarWidget.updateFormulaSelectionStyles();
-                formulaBarWidget.updateEditorCaretPos(true);
-                formulaBarWidget.checkKeyboardNavigation();
-
-                formulaBarWidget.checkEmptyValue();
-
-                break;
-            case KeyCodes.KEY_ESCAPE:
-                handler.onCellInputCancel();
-                formulaBarWidget.clearFormulaSelection();
-                break;
-            case KeyCodes.KEY_TAB:
-                handler.onCellInputTab(widget.getInlineEditor().getValue(),
-                        event.isShiftKeyDown());
-                formulaBarWidget.clearFormulaSelection();
-                // prevent the default tab from happening (switches
-                // focus)
-                event.preventDefault();
-                break;
-            case KeyCodes.KEY_UP:
-                if (formulaBarWidget.hasLightFocus()) {
-                    handler.onCellInputEnter(widget.getInlineEditor()
-                            .getValue(), true);
-                    event.preventDefault();
-                } else if (formulaBarWidget.isKeyboardNavigationEnabled()) {
-                    formulaBarWidget.moveFormulaCellSelection(
-                            event.isShiftKeyDown(), true, false, false);
-                    event.preventDefault();
-                }
-                break;
-            case KeyCodes.KEY_DOWN:
-                if (formulaBarWidget.hasLightFocus()) {
-                    handler.onCellInputEnter(widget.getInlineEditor()
-                            .getValue(), false);
-                    event.preventDefault();
-                } else if (formulaBarWidget.isKeyboardNavigationEnabled()) {
-                    formulaBarWidget.moveFormulaCellSelection(
-                            event.isShiftKeyDown(), false, false, true);
-                    event.preventDefault();
-                }
-                break;
-            case KeyCodes.KEY_LEFT:
-                if (formulaBarWidget.hasLightFocus()) {
-                    handler.onCellInputTab(widget.getInlineEditor().getValue(),
-                            true);
-                    event.preventDefault();
-                } else if (formulaBarWidget.isKeyboardNavigationEnabled()) {
-                    formulaBarWidget.moveFormulaCellSelection(
-                            event.isShiftKeyDown(), false, false, false);
-                    event.preventDefault();
-                } else if (formulaBarWidget.isInlineEdit()) {
+                case KeyCodes.KEY_BACKSPACE:
+                case KeyCodes.KEY_DELETE:
+                    widget.handleInputElementValueChange(true);
+                    formulaBarWidget.updateFormulaSelectionStyles();
                     formulaBarWidget.updateEditorCaretPos(true);
-                    // prevent scrolling
-                    if (widget.getInlineEditor().getCursorPos() == 0) {
+                    formulaBarWidget.checkKeyboardNavigation();
+
+                    formulaBarWidget.checkEmptyValue();
+
+                    break;
+                case KeyCodes.KEY_ESCAPE:
+                    handler.onCellInputCancel();
+                    formulaBarWidget.clearFormulaSelection();
+                    break;
+                case KeyCodes.KEY_TAB:
+                    handler.onCellInputTab(widget.getInlineEditor().getValue(),
+                            event.isShiftKeyDown());
+                    formulaBarWidget.clearFormulaSelection();
+                    // prevent the default tab from happening (switches
+                    // focus)
+                    event.preventDefault();
+                    break;
+                case KeyCodes.KEY_UP:
+                    if (formulaBarWidget.hasLightFocus()) {
+                        handler.onCellInputEnter(widget.getInlineEditor()
+                                .getValue(), true);
+                        event.preventDefault();
+                    } else if (formulaBarWidget.isKeyboardNavigationEnabled()) {
+                        formulaBarWidget.moveFormulaCellSelection(
+                                event.isShiftKeyDown(), true, false, false);
                         event.preventDefault();
                     }
-                }
-                break;
-            case KeyCodes.KEY_RIGHT:
-                if (formulaBarWidget.hasLightFocus()) {
-                    handler.onCellInputTab(widget.getInlineEditor().getValue(),
-                            false);
-                    event.preventDefault();
-                } else if (formulaBarWidget.isKeyboardNavigationEnabled()) {
-                    formulaBarWidget.moveFormulaCellSelection(
-                            event.isShiftKeyDown(), false, true, false);
-                    event.preventDefault();
-                } else if (formulaBarWidget.isInlineEdit()) {
-                    formulaBarWidget.updateEditorCaretPos(true);
-                    // prevent scrolling
-                    int cursorPos = widget.getInlineEditor().getCursorPos();
-                    int length = widget.getInlineEditor().getValue().length();
-                    if (cursorPos == length) {
+                    break;
+                case KeyCodes.KEY_DOWN:
+                    if (formulaBarWidget.hasLightFocus()) {
+                        handler.onCellInputEnter(widget.getInlineEditor()
+                                .getValue(), false);
+                        event.preventDefault();
+                    } else if (formulaBarWidget.isKeyboardNavigationEnabled()) {
+                        formulaBarWidget.moveFormulaCellSelection(
+                                event.isShiftKeyDown(), false, false, true);
                         event.preventDefault();
                     }
-                }
-                break;
-            default:
-                break;
+                    break;
+                case KeyCodes.KEY_LEFT:
+                    if (formulaBarWidget.hasLightFocus()) {
+                        handler.onCellInputTab(widget.getInlineEditor().getValue(),
+                                true);
+                        event.preventDefault();
+                    } else if (formulaBarWidget.isKeyboardNavigationEnabled()) {
+                        formulaBarWidget.moveFormulaCellSelection(
+                                event.isShiftKeyDown(), false, false, false);
+                        event.preventDefault();
+                    } else if (formulaBarWidget.isInlineEdit()) {
+                        formulaBarWidget.updateEditorCaretPos(true);
+                        // prevent scrolling
+                        if (widget.getInlineEditor().getCursorPos() == 0) {
+                            event.preventDefault();
+                        }
+                    }
+                    break;
+                case KeyCodes.KEY_RIGHT:
+                    if (formulaBarWidget.hasLightFocus()) {
+                        handler.onCellInputTab(widget.getInlineEditor().getValue(),
+                                false);
+                        event.preventDefault();
+                    } else if (formulaBarWidget.isKeyboardNavigationEnabled()) {
+                        formulaBarWidget.moveFormulaCellSelection(
+                                event.isShiftKeyDown(), false, true, false);
+                        event.preventDefault();
+                    } else if (formulaBarWidget.isInlineEdit()) {
+                        formulaBarWidget.updateEditorCaretPos(true);
+                        // prevent scrolling
+                        int cursorPos = widget.getInlineEditor().getCursorPos();
+                        int length = widget.getInlineEditor().getValue().length();
+                        if (cursorPos == length) {
+                            event.preventDefault();
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
 
         } else {

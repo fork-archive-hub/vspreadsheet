@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import static com.vaadin.shared.ui.ContentMode.HTML;
 
 import java.io.Serializable;
@@ -34,10 +17,11 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 
 /**
- * SheetChartWrapper is an utility class of the Spreadsheet component. In
- * addition to the chart resource, this wrapper contains the chart's visibility
- * state, position and size.
- * 
+ * 图表包装器
+ * <p>
+ * SheetChartWrapper is an utility class of the Spreadsheet component.
+ * In addition to the chart resource, this wrapper contains the chart's visibility state, position and size.
+ *
  * @author Vaadin Ltd.
  */
 @SuppressWarnings("serial")
@@ -87,7 +71,7 @@ public class SheetChartWrapper extends SheetOverlayWrapper implements
     }
 
     public SheetChartWrapper(XSSFClientAnchor anchor, XSSFChart chartXml,
-            Spreadsheet spreadsheet) {
+                             Spreadsheet spreadsheet) {
         super(anchor);
 
         this.chartXml = chartXml;

@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -29,6 +29,7 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.TextArea;
 
 /**
+ * 复制粘贴文本框
  * TextArea that handles cut, copy and paste events inside the spreadsheet.
  * <p>
  * It works by intercepting the keyboard shortcuts for cut, copy and paste and
@@ -61,14 +62,13 @@ public class CopyPasteTextBox extends TextArea implements NativePreviewHandler {
         /**
          * Called when the user has performed a paste operation.
          *
-         * @param text
-         *            the pasted text
+         * @param text the pasted text
          */
         public void onPaste(String text);
 
         /**
          * @return Textual representation to be put on the systems text
-         *         clipboard.
+         * clipboard.
          */
         public String getClipboardText();
 
@@ -96,12 +96,12 @@ public class CopyPasteTextBox extends TextArea implements NativePreviewHandler {
     public void onPreviewNativeEvent(NativePreviewEvent event) {
         final NativeEvent nativeEvent = event.getNativeEvent();
         switch (Event.getTypeInt(nativeEvent.getType())) {
-        case Event.ONKEYDOWN:
-            onKeyDown(nativeEvent);
-            break;
+            case Event.ONKEYDOWN:
+                onKeyDown(nativeEvent);
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
     }
 

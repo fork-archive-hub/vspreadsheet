@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,6 +26,8 @@ import com.vaadin.addon.spreadsheet.client.SpreadsheetServerRpc;
 import com.vaadin.addon.spreadsheet.command.CellValueCommand;
 
 /**
+ * 工作表请求处理器
+ * <p>
  * Implementation of the Spreadsheet Server RPC interface.
  */
 @SuppressWarnings("serial")
@@ -55,34 +40,30 @@ public class SpreadsheetHandlerImpl implements SpreadsheetServerRpc {
     }
 
     @Override
-    public void onSheetScroll(int firstRow, int firstColumn, int lastRow,
-            int lastColumn) {
+    public void onSheetScroll(int firstRow, int firstColumn, int lastRow, int lastColumn) {
         spreadsheet.onSheetScroll(firstRow, firstColumn, lastRow, lastColumn);
     }
 
     @Override
-    public void cellSelected(int row, int column,
-            boolean discardOldRangeSelection) {
+    public void cellSelected(int row, int column, boolean discardOldRangeSelection) {
         spreadsheet.getCellSelectionManager().onCellSelected(row, column,
                 discardOldRangeSelection);
     }
 
     @Override
     public void sheetAddressChanged(String value) {
-        spreadsheet.getCellSelectionManager().onSheetAddressChanged(value,
-                false);
+        spreadsheet.getCellSelectionManager().onSheetAddressChanged(value, false);
     }
 
     @Override
     public void cellRangeSelected(int row1, int col1, int row2, int col2) {
-        spreadsheet.getCellSelectionManager().onCellRangeSelected(row1, col1,
-                row2, col2);
+        spreadsheet.getCellSelectionManager().onCellRangeSelected(row1, col1, row2, col2);
     }
 
     /* */
     @Override
     public void cellRangePainted(int selectedCellRow, int selectedCellColumn,
-            int row1, int col1, int row2, int col2) {
+                                 int row1, int col1, int row2, int col2) {
         spreadsheet.getCellSelectionManager().onCellRangePainted(
                 selectedCellRow, selectedCellColumn, row1, col1, row2, col2);
     }
@@ -95,7 +76,7 @@ public class SpreadsheetHandlerImpl implements SpreadsheetServerRpc {
 
     @Override
     public void cellsAddedToRangeSelection(int row1, int col1, int row2,
-            int col2) {
+                                           int col2) {
         spreadsheet.getCellSelectionManager().onCellsAddedToRangeSelection(
                 row1, col1, row2, col2);
     }
@@ -202,13 +183,13 @@ public class SpreadsheetHandlerImpl implements SpreadsheetServerRpc {
 
     @Override
     public void rowsResized(Map<Integer, Float> newRowSizes, int row1,
-            int col1, int row2, int col2) {
+                            int col1, int row2, int col2) {
         spreadsheet.onRowResized(newRowSizes, row1, col1, row2, col2);
     }
 
     @Override
     public void columnResized(Map<Integer, Integer> newColumnSizes, int row1,
-            int col1, int row2, int col2) {
+                              int col1, int row2, int col2) {
         spreadsheet.onColumnResized(newColumnSizes, row1, col1, row2, col2);
     }
 
@@ -358,9 +339,8 @@ public class SpreadsheetHandlerImpl implements SpreadsheetServerRpc {
      * E.g.<br/>
      * "1\t2" - {"1","2"}<br/>
      * "\t\t" - {"","",""}<br/>
-     * 
-     * @param line
-     *            input
+     *
+     * @param line input
      * @return output string parts split at tabs
      */
     private static String[] splitOnTab(String line) {
@@ -468,7 +448,7 @@ public class SpreadsheetHandlerImpl implements SpreadsheetServerRpc {
 
     @Override
     public void setGroupingCollapsed(boolean isCols, int colIndex,
-            boolean collapsed) {
+                                     boolean collapsed) {
         spreadsheet.setGroupingCollapsed(isCols, colIndex, collapsed);
     }
 

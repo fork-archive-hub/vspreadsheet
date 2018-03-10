@@ -6,6 +6,8 @@ import java.util.WeakHashMap;
 import org.apache.poi.ss.usermodel.Sheet;
 
 /**
+ * 工作表选择状态
+ * <p>
  * This Class keeps the last state of selected cell or selected range.
  * <p>
  * NOTICE 1: It ignores individualSelectedCells, moreover, just last range

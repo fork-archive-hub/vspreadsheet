@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -24,6 +24,9 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.vaadin.client.BrowserInfo;
 
+/**
+ * 工作表事件监听器
+ */
 public class SheetEventListener implements EventListener {
 
     private SheetWidget widget;
@@ -37,8 +40,10 @@ public class SheetEventListener implements EventListener {
         isMac = sheetWidget.isMac();
     }
 
-    public void setSheetPaneElement(Element topLeftPane, Element topRightPane,
-            Element bottomLeftPane, Element bottomRightPane) {
+    public void setSheetPaneElement(Element topLeftPane,
+                                    Element topRightPane,
+                                    Element bottomLeftPane,
+                                    Element bottomRightPane) {
         listenToEventsOnPane(topLeftPane);
         listenToEventsOnPane(topRightPane);
         listenToEventsOnPane(bottomLeftPane);
@@ -80,38 +85,38 @@ public class SheetEventListener implements EventListener {
             onSelectingCellsEvent(event);
         } else {
             switch (typeInt) {
-            case Event.ONSCROLL:
-                widget.onSheetScroll(event);
-                break;
-            case Event.ONKEYPRESS:
-                onKeyPress(event);
-                break;
-            case Event.ONKEYDOWN:
-                onKeyDown(event);
-                break;
-            case Event.ONMOUSEDOWN:
-                if (event.getButton() != NativeEvent.BUTTON_RIGHT) {
-                    widget.onSheetMouseDown(event);
-                }
-                break;
-            case Event.ONMOUSEUP:
-                if (event.getButton() == NativeEvent.BUTTON_RIGHT) {
-                    // Context menu is displayed on mouse up to prevent
-                    // contextmenu event on VContextMenu
-                    widget.onSheetMouseDown(event);
-                }
-                break;
-            case Event.ONDBLCLICK:
-                onSheetDoubleClick(event);
-                break;
-            case Event.ONMOUSEOUT:
-            case Event.ONMOUSEOVER:
-                widget.onSheetMouseOverOrOut(event);
-                break;
-            case Event.ONMOUSEMOVE:
-                widget.onSheetMouseMove(event);
-            default:
-                break;
+                case Event.ONSCROLL:
+                    widget.onSheetScroll(event);
+                    break;
+                case Event.ONKEYPRESS:
+                    onKeyPress(event);
+                    break;
+                case Event.ONKEYDOWN:
+                    onKeyDown(event);
+                    break;
+                case Event.ONMOUSEDOWN:
+                    if (event.getButton() != NativeEvent.BUTTON_RIGHT) {
+                        widget.onSheetMouseDown(event);
+                    }
+                    break;
+                case Event.ONMOUSEUP:
+                    if (event.getButton() == NativeEvent.BUTTON_RIGHT) {
+                        // Context menu is displayed on mouse up to prevent
+                        // contextmenu event on VContextMenu
+                        widget.onSheetMouseDown(event);
+                    }
+                    break;
+                case Event.ONDBLCLICK:
+                    onSheetDoubleClick(event);
+                    break;
+                case Event.ONMOUSEOUT:
+                case Event.ONMOUSEOVER:
+                    widget.onSheetMouseOverOrOut(event);
+                    break;
+                case Event.ONMOUSEMOVE:
+                    widget.onSheetMouseMove(event);
+                default:
+                    break;
             }
         }
     }
@@ -147,18 +152,18 @@ public class SheetEventListener implements EventListener {
 
     private void onSelectingCellsEvent(Event event) {
         switch (event.getTypeInt()) {
-        case Event.ONTOUCHEND:
-        case Event.ONTOUCHCANCEL:
-            widget.onSheetMouseDown(event);
-        case Event.ONMOUSEUP:
-        case Event.ONLOSECAPTURE:
-            widget.stoppedSelectingCellsWithDrag(event);
-            break;
-        case Event.ONMOUSEMOVE:
-            widget.onMouseMoveWhenSelectingCells(event);
-            break;
-        default:
-            break;
+            case Event.ONTOUCHEND:
+            case Event.ONTOUCHCANCEL:
+                widget.onSheetMouseDown(event);
+            case Event.ONMOUSEUP:
+            case Event.ONLOSECAPTURE:
+                widget.stoppedSelectingCellsWithDrag(event);
+                break;
+            case Event.ONMOUSEMOVE:
+                widget.onMouseMoveWhenSelectingCells(event);
+                break;
+            default:
+                break;
         }
     }
 
@@ -169,46 +174,46 @@ public class SheetEventListener implements EventListener {
             }
             final int keyCode = event.getKeyCode();
             switch (keyCode) {
-            case KeyCodes.KEY_BACKSPACE:
-            case KeyCodes.KEY_F2:
-            case KeyCodes.KEY_UP:
-            case KeyCodes.KEY_DOWN:
-            case KeyCodes.KEY_LEFT:
-            case KeyCodes.KEY_RIGHT:
-            case KeyCodes.KEY_TAB:
-            case KeyCodes.KEY_DELETE:
-            case KeyCodes.KEY_SPACE:
-                if (event.getCharCode() == 0) {
-                    widget.getSheetHandler().onSheetKeyPress(event, "");
-                    // prevent the default browser action (scroll to key
-                    // direction) or switch focus (tab)
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                break;
-            case 89: // y
-                if ((!isMac && event.getCtrlKey()) || event.getMetaKey()) {
-                    widget.getSheetHandler().onRedoPress();
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                break;
-            case 90: // z
-                if ((!isMac && event.getCtrlKey()) || event.getMetaKey()) {
-                    widget.getSheetHandler().onUndoPress();
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                break;
-            case 65: // a
-                if ((!isMac && event.getCtrlKey()) || event.getMetaKey()) {
-                    widget.getSheetHandler().selectAll();
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                break;
-            default:
-                break;
+                case KeyCodes.KEY_BACKSPACE:
+                case KeyCodes.KEY_F2:
+                case KeyCodes.KEY_UP:
+                case KeyCodes.KEY_DOWN:
+                case KeyCodes.KEY_LEFT:
+                case KeyCodes.KEY_RIGHT:
+                case KeyCodes.KEY_TAB:
+                case KeyCodes.KEY_DELETE:
+                case KeyCodes.KEY_SPACE:
+                    if (event.getCharCode() == 0) {
+                        widget.getSheetHandler().onSheetKeyPress(event, "");
+                        // prevent the default browser action (scroll to key
+                        // direction) or switch focus (tab)
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    break;
+                case 89: // y
+                    if ((!isMac && event.getCtrlKey()) || event.getMetaKey()) {
+                        widget.getSheetHandler().onRedoPress();
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    break;
+                case 90: // z
+                    if ((!isMac && event.getCtrlKey()) || event.getMetaKey()) {
+                        widget.getSheetHandler().onUndoPress();
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    break;
+                case 65: // a
+                    if ((!isMac && event.getCtrlKey()) || event.getMetaKey()) {
+                        widget.getSheetHandler().selectAll();
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -230,27 +235,27 @@ public class SheetEventListener implements EventListener {
             }
             if (charCode == 0) {
                 switch (keyCode) {
-                // these have been handled with onKeyDown (FF causes both
-                // for some reason!)
-                case KeyCodes.KEY_UP:
-                case KeyCodes.KEY_DOWN:
-                case KeyCodes.KEY_LEFT:
-                case KeyCodes.KEY_RIGHT:
-                case KeyCodes.KEY_TAB:
-                case KeyCodes.KEY_BACKSPACE:
-                case KeyCodes.KEY_DELETE:
-                case KeyCodes.KEY_SPACE:
-                    event.preventDefault();
-                    event.stopPropagation();
-                    break;
+                    // these have been handled with onKeyDown (FF causes both
+                    // for some reason!)
+                    case KeyCodes.KEY_UP:
+                    case KeyCodes.KEY_DOWN:
+                    case KeyCodes.KEY_LEFT:
+                    case KeyCodes.KEY_RIGHT:
+                    case KeyCodes.KEY_TAB:
+                    case KeyCodes.KEY_BACKSPACE:
+                    case KeyCodes.KEY_DELETE:
+                    case KeyCodes.KEY_SPACE:
+                        event.preventDefault();
+                        event.stopPropagation();
+                        break;
 
-                case KeyCodes.KEY_ENTER:
-                    // happens on FF (other browsers have charcode as 13)
-                    widget.getSheetHandler().onSheetKeyPress(
-                            event,
-                            widget.getSheetJsniUtil()
-                                    .convertUnicodeIntoCharacter(charCode));
-                    break;
+                    case KeyCodes.KEY_ENTER:
+                        // happens on FF (other browsers have charcode as 13)
+                        widget.getSheetHandler().onSheetKeyPress(
+                                event,
+                                widget.getSheetJsniUtil()
+                                        .convertUnicodeIntoCharacter(charCode));
+                        break;
                 }
             } else if (!event.getCtrlKey() && !event.getMetaKey()) {
                 widget.getSheetHandler().onSheetKeyPress(

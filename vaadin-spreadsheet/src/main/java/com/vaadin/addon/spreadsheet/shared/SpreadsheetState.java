@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet.shared;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +10,9 @@ import com.vaadin.addon.spreadsheet.client.OverlayInfo;
 import com.vaadin.shared.annotations.DelegateToWidget;
 import com.vaadin.shared.ui.TabIndexState;
 
+/**
+ * 工作表状态
+ */
 @SuppressWarnings("serial")
 public class SpreadsheetState extends TabIndexState {
 
@@ -67,10 +53,14 @@ public class SpreadsheetState extends TabIndexState {
     @DelegateToWidget
     public int[] colW;
 
-    /** should the sheet be reloaded on client side */
+    /**
+     * should the sheet be reloaded on client side
+     */
     public boolean reload;
 
-    /** 1-based */
+    /**
+     * 1-based
+     */
     public int sheetIndex = 1;
 
     public String[] sheetNames = null;
@@ -95,11 +85,15 @@ public class SpreadsheetState extends TabIndexState {
     @DelegateToWidget
     public HashMap<Integer, String> conditionalFormattingStyles = null;
 
-    /** 1-based */
+    /**
+     * 1-based
+     */
     @DelegateToWidget
     public ArrayList<Integer> hiddenColumnIndexes = null;
 
-    /** 1-based */
+    /**
+     * 1-based
+     */
     @DelegateToWidget
     public ArrayList<Integer> hiddenRowIndexes = null;
 

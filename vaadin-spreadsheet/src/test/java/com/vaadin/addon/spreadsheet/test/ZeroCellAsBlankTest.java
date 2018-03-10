@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * 单元格空值和0值测试
+ */
 public class ZeroCellAsBlankTest extends AbstractSpreadsheetTestCase {
 
     @Test

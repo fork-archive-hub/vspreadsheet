@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet.command;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,8 +23,9 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import com.vaadin.addon.spreadsheet.Spreadsheet;
 
 /**
- * This class is used to store the data of removed row so that it can be restored. This feature
- * is needed for example when user undoes the row deletion.
+ * 行数据
+ * This class is used to store the data of removed row so that it can be restored.
+ * This feature is needed for example when user undoes the row deletion.
  */
 class RowData implements Serializable {
 
@@ -71,7 +55,7 @@ class RowData implements Serializable {
         height = row == null ? null : row.getZeroHeight() ? 0.0F : row
                 .getHeightInPoints();
 
-        if(row != null) {
+        if (row != null) {
             copyCellsData(row);
         }
 
@@ -96,10 +80,10 @@ class RowData implements Serializable {
             }
         }
 
-        for(int i = 0; i < maxCol; ++i) {
+        for (int i = 0; i < maxCol; ++i) {
             Comment cellComment = row.getSheet().getCellComment(new CellAddress(row.getRowNum(), i));
             Cell cell = row.getCell(i);
-            if(cellComment != null && cell == null) {
+            if (cellComment != null && cell == null) {
                 CommentData commenData = new CommentData();
                 commenData.read(cellComment);
                 commentsWithoutCell.add(commenData);
@@ -112,28 +96,28 @@ class RowData implements Serializable {
     }
 
     public void writeTo(Row row) {
-        for(CellData cellData : cellsData) {
-            if(cellData == null) {
+        for (CellData cellData : cellsData) {
+            if (cellData == null) {
                 continue;
             }
             int col = cellData.getColumnIndex();
             Cell cell = row.getCell(col);
-            if(cell == null) { // Do real check
+            if (cell == null) { // Do real check
                 cell = row.createCell(col);
             }
             cellData.writeTo(cell);
         }
 
-        for(CommentData comment : commentsWithoutCell) {
+        for (CommentData comment : commentsWithoutCell) {
             Cell cell = row.createCell(comment.getColumn());
             comment.writeTo(cell);
         }
 
-        for(CellRangeAddress mergedRegion : mergedCells) {
+        for (CellRangeAddress mergedRegion : mergedCells) {
             spreadsheet.addMergedRegion(mergedRegion);
         }
 
-        if(height != null) {
+        if (height != null) {
             spreadsheet.setRowHeight(rowIndex, height);
         }
 
@@ -172,7 +156,7 @@ class RowData implements Serializable {
         public void read(Cell cell) {
             columnIndex = cell.getColumnIndex();
             rowIndex = cell.getRowIndex();
-            if(cell.getCellComment() != null) {
+            if (cell.getCellComment() != null) {
                 CommentData commenData = new CommentData();
                 commenData.read(cell.getCellComment());
                 cellComment = commenData;
@@ -182,7 +166,7 @@ class RowData implements Serializable {
             cellType = cell.getCellTypeEnum();
 
             switch (cellType) {
-            	case _NONE:
+                case _NONE:
                 case BLANK:
                     stringCellValue = cell.getStringCellValue();
                     break;
@@ -211,10 +195,10 @@ class RowData implements Serializable {
         }
 
         public void writeTo(Cell cell) {
-            if(cellComment != null) {
+            if (cellComment != null) {
                 cellComment.writeTo(cell);
             }
-            if(hyperlink != null) {
+            if (hyperlink != null) {
                 cell.setHyperlink(hyperlink);
             }
             cell.setCellStyle(cellStyle);
@@ -222,7 +206,7 @@ class RowData implements Serializable {
             cell.setCellType(cellType);
 
             switch (cellType) {
-            	case _NONE:
+                case _NONE:
                 case BLANK:
                     cell.setCellValue(stringCellValue);
                     break;
@@ -236,7 +220,7 @@ class RowData implements Serializable {
                     cell.setCellFormula(cellFormula);
                     break;
                 case NUMERIC:
-                    if(dateCellValue != null) {
+                    if (dateCellValue != null) {
                         cell.setCellValue(dateCellValue);
                     } else {
                         cell.setCellValue(numericCellValue);

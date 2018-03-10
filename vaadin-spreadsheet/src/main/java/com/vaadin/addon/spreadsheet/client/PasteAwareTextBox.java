@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -23,6 +23,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
+ * 可粘贴的文本框
  * {@link TextBox} that notices incoming paste events, and notifies SheetWidget.
  */
 public class PasteAwareTextBox extends TextBox {

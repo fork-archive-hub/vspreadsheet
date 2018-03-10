@@ -8,14 +8,15 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
  */
+
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -25,10 +26,10 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
+ * 分组 组件 抽象类
  * Class that represents a single column grouping indicator.
  *
  * @author Thomas Mattsson / Vaadin LTD
- *
  */
 public abstract class GroupingWidget extends FlowPanel {
 
@@ -60,11 +61,9 @@ public abstract class GroupingWidget extends FlowPanel {
     protected double height = -1;
 
     /**
-     * @param index
-     *            Unique index for the group, 0-based. This index is used on
-     *            server side when collapsing/expanding the group.
-     * @param handler
-     *            The gateway to the server side
+     * @param index   Unique index for the group, 0-based. This index is used on
+     *                server side when collapsing/expanding the group.
+     * @param handler The gateway to the server side
      */
     public GroupingWidget(final int index, final GroupingHandler handler) {
 
@@ -135,11 +134,9 @@ public abstract class GroupingWidget extends FlowPanel {
     /**
      * Where this marker should be positioned.
      *
-     * @param offset
-     *            The number of pixels from 0 (top or left) this group should be
-     *            positioned.
-     * @param level
-     *            The level of the group, 0-based.
+     * @param offset The number of pixels from 0 (top or left) this group should be
+     *               positioned.
+     * @param level  The level of the group, 0-based.
      */
     public abstract void setPos(int offset, int level);
 

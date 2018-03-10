@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -27,6 +27,9 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 
+/**
+ * 单元格定义
+ */
 public class Cell {
 
     public static final String CELL_COMMENT_TRIANGLE_CLASSNAME = "cell-comment-triangle";
@@ -109,7 +112,7 @@ public class Cell {
                 element.setInnerText(value);
             }
         }
-        
+
         appendOverlayElements();
     }
 
@@ -162,9 +165,9 @@ public class Cell {
 
             NodeList<Node> childNodes = element.getChildNodes();
             if (childNodes != null) {
-                for (int i = childNodes.getLength() -1; i >= 0 ; i--) {
+                for (int i = childNodes.getLength() - 1; i >= 0; i--) {
                     overflowDiv.appendChild(childNodes
-                        .getItem(i));
+                            .getItem(i));
                 }
             }
             element.setInnerHTML(null);
@@ -326,7 +329,7 @@ public class Cell {
         private int col;
 
         public CellValueStyleKey(String value, String cellStyle, int row,
-                int col) {
+                                 int col) {
             super();
             this.value = value;
             this.cellStyle = cellStyle;

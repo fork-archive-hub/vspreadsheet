@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -35,8 +18,9 @@ import com.vaadin.ui.HasComponents;
 import com.vaadin.util.ReflectTools;
 
 /**
- * A button component that when clicked opens a pop-up next to spreadsheet cell
- * containing the button.
+ * 弹出菜单触发按钮
+ * <p>
+ * A button component that when clicked opens a pop-up next to spreadsheet cell containing the button.
  * <p>
  * Vaadin components can be added inside the pop-up.
  * <p>
@@ -48,10 +32,10 @@ import com.vaadin.util.ReflectTools;
  * To add the pop-up button to a specific spreadsheet, call
  * {@link Spreadsheet#setPopup(CellReference, PopupButton)},
  * {@link Spreadsheet#setPopup(String, PopupButton)} or
- * {@link Spreadsheet#setPopup(int, int, PopupButton)}. The button can be
- * removed from the target cell by giving <code>null</code> as the PopupButton
- * parameter to one of the previously mentioned methods.
- * 
+ * {@link Spreadsheet#setPopup(int, int, PopupButton)}.
+ * The button can be removed from the target cell by giving <code>null</code>
+ * as the PopupButton parameter to one of the previously mentioned methods.
+ *
  * @author Vaadin Ltd.
  */
 @SuppressWarnings("serial")
@@ -85,9 +69,8 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Constructs a new PopupButton with the given content.
-     * 
-     * @param content
-     *            Content of the pop-up
+     *
+     * @param content Content of the pop-up
      */
     public PopupButton(Component content) {
         this();
@@ -96,12 +79,12 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Gets the cell reference for the cell that contains this pop-up button.
-     * 
+     *
      * @return Target cell reference
      */
     public CellReference getCellReference() {
         return new CellReference(getState(false).sheet, getState(false).row - 1,
-                getState(false).col - 1,false,false);
+                getState(false).col - 1, false, false);
     }
 
     void setCellReference(CellReference cellReference) {
@@ -112,7 +95,7 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Gets the column for this pop-up button.
-     * 
+     *
      * @return Column index, 0-based
      */
     public int getColumn() {
@@ -121,7 +104,7 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Gets the row for this pop-up button.
-     * 
+     *
      * @return Row index, 0-based
      */
     public int getRow() {
@@ -147,7 +130,7 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Tells if the pop-up header is currently hidden.
-     * 
+     *
      * @return true if header is hidden, false otherwise
      */
     public boolean isHeaderHidden() {
@@ -156,9 +139,8 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Sets the pop-up header visible or hidden.
-     * 
-     * @param headerHidden
-     *            <code>true</code> for hidden, <code>false</code> for visible.
+     *
+     * @param headerHidden <code>true</code> for hidden, <code>false</code> for visible.
      */
     public void setHeaderHidden(boolean headerHidden) {
         getState().headerHidden = headerHidden;
@@ -167,9 +149,8 @@ public class PopupButton extends AbstractComponent implements HasComponents {
     /**
      * Set the width for this pop-up button's pop-up. Can be null or empty for
      * undefined width.
-     * 
-     * @param width
-     *            New width for the pop-up
+     *
+     * @param width New width for the pop-up
      */
     public void setPopupWidth(String width) {
         getState().popupWidth = width;
@@ -177,7 +158,7 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Gets the width for this pop-up button's pop-up. Can be null or empty.
-     * 
+     *
      * @return Width of the pop-up
      */
     public String getPopupWidth() {
@@ -187,9 +168,8 @@ public class PopupButton extends AbstractComponent implements HasComponents {
     /**
      * Set the height for this pop-up button's pop-up. Can be null or empty for
      * undefined height.
-     * 
-     * @param height
-     *            New height for the pop-up
+     *
+     * @param height New height for the pop-up
      */
     public void setPopupHeight(String height) {
         getState().popupHeight = height;
@@ -197,7 +177,7 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Gets the height for this pop-up button's pop-up. Can be null or empty.
-     * 
+     *
      * @return Height of the pop-up
      */
     public String getPopupHeight() {
@@ -216,7 +196,6 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Set the contents of the popup.
-     *
      */
     public void setContent(Component content) {
         child = content;
@@ -234,30 +213,28 @@ public class PopupButton extends AbstractComponent implements HasComponents {
         if (child != null && popupVisible) {
             return Collections.singleton(child).iterator();
         } else {
-            return Collections.<Component> emptyList().iterator();
+            return Collections.<Component>emptyList().iterator();
         }
     }
 
     /**
      * Mark the button with "active" - style. See {@link PopupButtonWidget} for
      * the CSS class name.
-     * 
-     * @param active
-     *            true to add "active" style, false to remove it
+     *
+     * @param active true to add "active" style, false to remove it
      */
     public void markActive(boolean active) {
         getState().active = active;
     }
-    
+
     public boolean isActive() {
         return getState().active;
     }
 
     /**
      * Adds a {@link PopupOpenListener} to this pop-up button.
-     * 
-     * @param listener
-     *            The listener to add
+     *
+     * @param listener The listener to add
      */
     public void addPopupOpenListener(PopupOpenListener listener) {
         addListener(PopupOpenEvent.class, listener,
@@ -266,9 +243,8 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Removes the given {@link PopupOpenListener} from this pop-up button.
-     * 
-     * @param listener
-     *            The listener to remove
+     *
+     * @param listener The listener to remove
      */
     public void removePopupOpenListener(PopupOpenListener listener) {
         removeListener(PopupOpenEvent.class, listener,
@@ -277,7 +253,7 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Adds a {@link PopupCloseListener} to this pop-up button.
-     * 
+     *
      * @param listener
      */
     public void addPopupCloseListener(PopupCloseListener listener) {
@@ -287,7 +263,7 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
     /**
      * Removes the given {@link PopupCloseListener} from this pop-up button.
-     * 
+     *
      * @param listener
      */
     public void removePopupCloseListener(PopupCloseListener listener) {
@@ -322,9 +298,8 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
         /**
          * Constructs a new open event for the given PopupButton.
-         * 
-         * @param source
-         *            PopupButton component that has been opened.
+         *
+         * @param source PopupButton component that has been opened.
          */
         public PopupOpenEvent(Component source) {
             super(source);
@@ -332,7 +307,7 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
         /**
          * Gets the {@link PopupButton} where the event occurred.
-         * 
+         *
          * @return PopupButton component that has been opened.
          */
         public PopupButton getPopupButton() {
@@ -353,9 +328,8 @@ public class PopupButton extends AbstractComponent implements HasComponents {
          * Called when a {@link PopupButton} has been clicked and the pop-up has
          * been opened. A reference to the pop-up button is given by
          * {@link PopupOpenEvent#getPopupButton()}.
-         * 
-         * @param event
-         *            An event containing the opened pop-up button
+         *
+         * @param event An event containing the opened pop-up button
          */
         public void onPopupOpen(PopupOpenEvent event);
     }
@@ -367,9 +341,8 @@ public class PopupButton extends AbstractComponent implements HasComponents {
     public static class PopupCloseEvent extends Component.Event {
         /**
          * Constructs a new close event for the given PopupButton.
-         * 
-         * @param source
-         *            PopupButton component that has been closed.
+         *
+         * @param source PopupButton component that has been closed.
          */
         public PopupCloseEvent(Component source) {
             super(source);
@@ -377,7 +350,7 @@ public class PopupButton extends AbstractComponent implements HasComponents {
 
         /**
          * Gets the {@link PopupButton} where the event occurred.
-         * 
+         *
          * @return PopupButton component that has been closed.
          */
         public PopupButton getPopupButton() {
@@ -397,9 +370,8 @@ public class PopupButton extends AbstractComponent implements HasComponents {
         /**
          * Called when the pop-up for the {@link PopupButton} returned by
          * {@link PopupCloseEvent#getPopupButton()} has been closed.
-         * 
-         * @param event
-         *            An event containing the closed pop-up button
+         *
+         * @param event An event containing the closed pop-up button
          */
         public void onPopupClose(PopupCloseEvent event);
     }

@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -50,10 +50,12 @@ import com.vaadin.client.ui.layout.ElementResizeListener;
 import com.vaadin.shared.ui.Connect;
 import com.vaadin.shared.ui.Connect.LoadStyle;
 
+/**
+ * 工作表连接器
+ */
 @SuppressWarnings("serial")
 @Connect(value = Spreadsheet.class, loadStyle = LoadStyle.DEFERRED)
-public class SpreadsheetConnector extends AbstractHasComponentsConnector
-        implements PostLayoutListener {
+public class SpreadsheetConnector extends AbstractHasComponentsConnector        implements PostLayoutListener {
 
     SpreadsheetClientRpc clientRPC = new SpreadsheetClientRpc() {
 
@@ -64,7 +66,7 @@ public class SpreadsheetConnector extends AbstractHasComponentsConnector
 
         @Override
         public void showSelectedCell(String name, int col, int row, String value,
-                boolean formula, boolean locked, boolean initialSelection) {
+                                     boolean formula, boolean locked, boolean initialSelection) {
             getWidget().selectCell(name, col, row, value, formula, locked,
                     initialSelection);
         }
@@ -122,10 +124,10 @@ public class SpreadsheetConnector extends AbstractHasComponentsConnector
                 }
             }, left, top);
         }
-        
+
         @Override
         public void setSelectedCellAndRange(String name, int col, int row, int c1, int c2,
-                int r1, int r2, boolean scroll) {
+                                            int r1, int r2, boolean scroll) {
             getWidget().selectCellRange(name, col, row, c1, c2, r1, r2, scroll);
         }
 
@@ -212,7 +214,7 @@ public class SpreadsheetConnector extends AbstractHasComponentsConnector
 
             @Override
             public void rowHeaderContextMenu(NativeEvent nativeEvent,
-                    int rowIndex) {
+                                             int rowIndex) {
                 if (getState().hasActions) {
                     latestHeaderContextMenuEvent = nativeEvent;
                     latestCellContextMenuEvent = null;
@@ -223,7 +225,7 @@ public class SpreadsheetConnector extends AbstractHasComponentsConnector
 
             @Override
             public void columnHeaderContextMenu(NativeEvent nativeEvent,
-                    int columnIndex) {
+                                                int columnIndex) {
                 if (getState().hasActions) {
                     latestHeaderContextMenuEvent = nativeEvent;
                     latestCellContextMenuEvent = null;
@@ -308,9 +310,9 @@ public class SpreadsheetConnector extends AbstractHasComponentsConnector
                     || stateChangeEvent.hasPropertyChanged("rows")
                     || stateChangeEvent.hasPropertyChanged("cols")
                     || stateChangeEvent
-                            .hasPropertyChanged("verticalSplitPosition")
+                    .hasPropertyChanged("verticalSplitPosition")
                     || stateChangeEvent
-                            .hasPropertyChanged("horizontalSplitPosition")) {
+                    .hasPropertyChanged("horizontalSplitPosition")) {
                 widget.relayoutSheet();
                 getWidget().updateMergedRegions(getState().mergedRegions);
             } else if (stateChangeEvent.hasPropertyChanged("mergedRegions")) {
@@ -378,7 +380,7 @@ public class SpreadsheetConnector extends AbstractHasComponentsConnector
 
     private void overlaysChange() {
         Map<String, OverlayInfo> overlayInfos = getState().overlays == null ? Collections
-                .<String, OverlayInfo> emptyMap() : getState().overlays;
+                .<String, OverlayInfo>emptyMap() : getState().overlays;
 
         removeOldOverlays(overlayInfos.keySet());
 
@@ -399,16 +401,16 @@ public class SpreadsheetConnector extends AbstractHasComponentsConnector
 
     private void addOverlay(String id, OverlayInfo overlayInfo) {
         switch (overlayInfo.type) {
-        case IMAGE:
-            getWidget().addOverlay(id, new Image(getResourceUrl(id)), overlayInfo);
-            break;
-        case COMPONENT:
-            for (ComponentConnector c : getChildComponents()) {
-                if (c.getConnectorId().equals(id)) {
-                    getWidget().addOverlay(id, c.getWidget(), overlayInfo);
+            case IMAGE:
+                getWidget().addOverlay(id, new Image(getResourceUrl(id)), overlayInfo);
+                break;
+            case COMPONENT:
+                for (ComponentConnector c : getChildComponents()) {
+                    if (c.getConnectorId().equals(id)) {
+                        getWidget().addOverlay(id, c.getWidget(), overlayInfo);
+                    }
                 }
-            }
-            break;
+                break;
         }
     }
 

@@ -13,6 +13,9 @@ import com.vaadin.addon.spreadsheet.client.OverlayInfo;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 
+/**
+ * 工作表上覆盖物 抽象类
+ */
 @SuppressWarnings("serial")
 public abstract class SheetOverlayWrapper implements Serializable {
 
@@ -36,7 +39,7 @@ public abstract class SheetOverlayWrapper implements Serializable {
     /**
      * If this overlay's state can be dynamically changed (like minimizing),
      * this method can inform the spreadsheet.
-     * 
+     *
      * @param listener
      */
     public void setOverlayChangeListener(OverlayChangeListener listener) {
@@ -45,18 +48,13 @@ public abstract class SheetOverlayWrapper implements Serializable {
 
     /**
      * Determines if this image should be visible within the given visible area.
-     * 
-     * @param r1
-     *            Row index of topmost row, 1-based
-     * @param c1
-     *            Column index of leftmost column, 1-based
-     * @param r2
-     *            Row index of bottom-most row, 1-based
-     * @param c2
-     *            Column index of rightmost column, 1-based
-     * 
+     *
+     * @param r1 Row index of topmost row, 1-based
+     * @param c1 Column index of leftmost column, 1-based
+     * @param r2 Row index of bottom-most row, 1-based
+     * @param c2 Column index of rightmost column, 1-based
      * @return true if the image should be visible inside the range, false
-     *         otherwise
+     * otherwise
      */
     public boolean isVisible(int r1, int c1, int r2, int c2) {
         int col1 = anchor.getCol1() + 1;
@@ -87,9 +85,8 @@ public abstract class SheetOverlayWrapper implements Serializable {
     /**
      * Returns the coordinate of the left edge of the image inside the leftmost
      * column this image occupies. Value is converted to pixels.
-     * 
-     * @param sheet
-     *            The Sheet this image is in
+     *
+     * @param sheet The Sheet this image is in
      * @return coordinate of image's left edge in PX
      */
     float getDx1(Sheet sheet) {
@@ -104,9 +101,8 @@ public abstract class SheetOverlayWrapper implements Serializable {
     /**
      * Returns the coordinate of the right edge of the image inside the
      * rightmost column this image occupies. Value is converted to pixels.
-     * 
-     * @param sheet
-     *            The Sheet this image is in
+     *
+     * @param sheet The Sheet this image is in
      * @return coordinate of image's right edge in PX
      */
     private float getDx2(Sheet sheet) {
@@ -121,9 +117,8 @@ public abstract class SheetOverlayWrapper implements Serializable {
     /**
      * Returns the coordinate of the top edge of the image inside the topmost
      * row this image occupies. Value is converted to pixels.
-     * 
-     * @param sheet
-     *            The Sheet this image is in
+     *
+     * @param sheet The Sheet this image is in
      * @return coordinate of image's top edge in PX
      */
     float getDy1(Sheet sheet) {
@@ -139,9 +134,8 @@ public abstract class SheetOverlayWrapper implements Serializable {
     /**
      * Returns the coordinate of the bottom edge of the image inside the bottom
      * row this image occupies. Value is converted to pixels.
-     * 
-     * @param sheet
-     *            The Sheet this image is in
+     *
+     * @param sheet The Sheet this image is in
      * @return coordinate of image's bottom edge in PX
      */
     private float getDy2(Sheet sheet) {
@@ -160,15 +154,12 @@ public abstract class SheetOverlayWrapper implements Serializable {
      * <p>
      * If the image doesn't have a specified width and should be sized to image
      * file size, -1 is returned.
-     * 
-     * @param sheet
-     *            The sheet this image belongs to
-     * @param colW
-     *            Array of column widths in pixels
-     * @param defaultColumnWidthPX
-     *            Default column width in pixels
+     *
+     * @param sheet                The sheet this image belongs to
+     * @param colW                 Array of column widths in pixels
+     * @param defaultColumnWidthPX Default column width in pixels
      * @return Width of the image in pixels, or -1 if image file width should be
-     *         used
+     * used
      */
     public float getWidth(Sheet sheet, int colW[], int defaultColumnWidthPX) {
         float width;
@@ -199,13 +190,11 @@ public abstract class SheetOverlayWrapper implements Serializable {
      * <p>
      * If the image doesn't have a specified height and should be sized to image
      * file size, -1 is returned.
-     * 
-     * @param sheet
-     *            The sheet this image belongs to
-     * @param rowH
-     *            Array of row heights in points
+     *
+     * @param sheet The sheet this image belongs to
+     * @param rowH  Array of row heights in points
      * @return Image height in points, or -1 if image file height should be
-     *         used.
+     * used.
      */
     public float getHeight(Sheet sheet, float[] rowH) {
         float height;
@@ -242,7 +231,7 @@ public abstract class SheetOverlayWrapper implements Serializable {
     /**
      * Gets the visibility state of this overlay in the current spreadsheet
      * view.
-     * 
+     *
      * @return true if overlay is visible, false otherwise
      */
     public boolean isVisible() {
@@ -253,9 +242,8 @@ public abstract class SheetOverlayWrapper implements Serializable {
      * Marks this as image visible or hidden in the current spreadsheet view.
      * Only used for the spreadsheet to remember if data needs to be removed,
      * doesn't affect real visibility.
-     * 
-     * @param visible
-     *            true to set visible, false to set hidden
+     *
+     * @param visible true to set visible, false to set hidden
      */
     public void setVisible(boolean visible) {
         this.visible = visible;
@@ -263,7 +251,7 @@ public abstract class SheetOverlayWrapper implements Serializable {
 
     /**
      * Gets the anchor for this image within the sheet containing this image.
-     * 
+     *
      * @return Anchor for this image
      */
     public ClientAnchor getAnchor() {
@@ -276,10 +264,9 @@ public abstract class SheetOverlayWrapper implements Serializable {
 
     /**
      * Returns the component contained in this wrapper if there is one.
-     * 
-     * @param init
-     *            false if you don't want to initialize the component, calling
-     *            with true after the first time has no effect.
+     *
+     * @param init false if you don't want to initialize the component, calling
+     *             with true after the first time has no effect.
      */
     public Component getComponent(final boolean init) {
         return null;

@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,8 +23,10 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 
 /**
+ * 工作表操作 工具类
+ * <p>
  * Utility class for miscellaneous Spreadsheet operations.
- * 
+ *
  * @author Vaadin Ltd.
  * @since 1.0
  */
@@ -54,17 +39,15 @@ public class SpreadsheetUtil implements Serializable {
 
     private static final int UNIT_OFFSET_LENGTH = 7;
 
-    private static final int[] UNIT_OFFSET_MAP = new int[] { 0, 36, 73, 109,
-            146, 182, 219 };
+    private static final int[] UNIT_OFFSET_MAP = new int[]{0, 36, 73, 109,
+            146, 182, 219};
 
     /**
      * Translates cell coordinates to a cell key used to identify cells in the
      * server-client communication.
-     * 
-     * @param col
-     *            Column index, 1-based
-     * @param row
-     *            Row index 1-based
+     *
+     * @param col Column index, 1-based
+     * @param row Row index 1-based
      * @return Cell key
      */
     public static final String toKey(int col, int row) {
@@ -74,9 +57,8 @@ public class SpreadsheetUtil implements Serializable {
     /**
      * Translates cell coordinates from the given Cell object to a cell key used
      * to identify cells in the server-client communication.
-     * 
-     * @param cell
-     *            Cell to fetch the coordinates from
+     *
+     * @param cell Cell to fetch the coordinates from
      * @return Cell key
      */
     public static final String toKey(Cell cell) {
@@ -85,9 +67,8 @@ public class SpreadsheetUtil implements Serializable {
 
     /**
      * Determines whether the given cell contains a date or not.
-     * 
-     * @param cell
-     *            Cell to examine
+     *
+     * @param cell Cell to examine
      * @return true if the cell contains a date
      */
     public static boolean cellContainsDate(Cell cell) {
@@ -95,16 +76,16 @@ public class SpreadsheetUtil implements Serializable {
                 && DateUtil.isCellDateFormatted(cell);
     }
 
-    public static CellReference relativeToAbsolute(Spreadsheet sheet,CellReference cell) {
+    public static CellReference relativeToAbsolute(Spreadsheet sheet, CellReference cell) {
         String sheetName = sheet.getActiveSheet().getSheetName();
         return new CellReference(sheetName, cell.getRow(), cell
                 .getCol(), true, true);
     }
+
     /**
      * Generates the column header for column with the given index
-     * 
-     * @param columnIndex
-     *            Index of column, 1-based
+     *
+     * @param columnIndex Index of column, 1-based
      * @return Generated column header
      */
     public static String getColHeader(int columnIndex) {
@@ -118,9 +99,8 @@ public class SpreadsheetUtil implements Serializable {
 
     /**
      * Returns the column index for the column with the given header.
-     * 
-     * @param header
-     *            Column header
+     *
+     * @param header Column header
      * @return Index of column, 1-based
      */
     public static int getColHeaderIndex(String header) {
@@ -135,15 +115,13 @@ public class SpreadsheetUtil implements Serializable {
 
     /**
      * Determines whether the given cell is within the given range.
-     * 
-     * @param cellReference
-     *            Target cell reference
-     * @param cellRange
-     *            Cell range to check
+     *
+     * @param cellReference Target cell reference
+     * @param cellRange     Cell range to check
      * @return true if the cell is in the range
      */
     public static boolean isCellInRange(CellReference cellReference,
-            CellRangeAddress cellRange) {
+                                        CellRangeAddress cellRange) {
         return cellRange.isInRange(cellReference.getRow(),
                 cellReference.getCol());
     }
@@ -152,9 +130,8 @@ public class SpreadsheetUtil implements Serializable {
      * Returns the POI index of the first visible sheet (not hidden or very
      * hidden). If no sheets are visible, returns 0. This is not be possible at
      * least in Excel, but unfortunately POI allows it.
-     * 
-     * @param workbook
-     *            Workbook to get the sheets from
+     *
+     * @param workbook Workbook to get the sheets from
      * @return Index of the first visible sheet, 0-based
      */
     public static int getFirstVisibleSheetPOIIndex(Workbook workbook) {
@@ -169,9 +146,8 @@ public class SpreadsheetUtil implements Serializable {
     /**
      * Returns the number of visible sheets (not hidden or very hidden) in the
      * given Workbook.
-     * 
-     * @param workbook
-     *            Workbook to get the sheets from
+     *
+     * @param workbook Workbook to get the sheets from
      * @return Number of visible sheets
      */
     public static int getNumberOfVisibleSheets(Workbook workbook) {
@@ -186,9 +162,8 @@ public class SpreadsheetUtil implements Serializable {
 
     /**
      * Returns the column index for the given Cell key.
-     * 
-     * @param key
-     *            Cell key
+     *
+     * @param key Cell key
      * @return Column index of cell, 1-based
      */
     public static int getColumnIndexFromKey(String key) {
@@ -199,9 +174,8 @@ public class SpreadsheetUtil implements Serializable {
 
     /**
      * Returns the row index for the given Cell key.
-     * 
-     * @param key
-     *            Cell key
+     *
+     * @param key Cell key
      * @return Row index of cell, 1-based
      */
     public static int getRowFromKey(String key) {
@@ -214,9 +188,8 @@ public class SpreadsheetUtil implements Serializable {
     /**
      * Converts pixel units to Excel width units (one Excel width unit is
      * 1/256th of a character width)
-     * 
-     * @param pxs
-     *            Pixel value to convert
+     *
+     * @param pxs Pixel value to convert
      * @return Value in Excel width units
      */
     static short pixel2WidthUnits(int pxs) {
@@ -230,7 +203,7 @@ public class SpreadsheetUtil implements Serializable {
     /**
      * Gets the default column width for new sheets in pixels. The calculation
      * is done using POI.
-     * 
+     *
      * @return Default column width in PX
      */
     static int getDefaultColumnWidthInPx() {
@@ -244,14 +217,12 @@ public class SpreadsheetUtil implements Serializable {
      * the String ends with the '%' character, and the rest can be parsed to a
      * number.
      * <p>
-     * 
-     * @param cellContent
-     *            The string to be parsed
-     * @param locale
-     *            The current locale, used for number parsing.
+     *
+     * @param cellContent The string to be parsed
+     * @param locale      The current locale, used for number parsing.
      * @return the number as a decimal if it can be parsed; e.g. 42% returns
-     *         0.42 and 0.42% returns 0.0042. Returns <code>null</code> if the
-     *         number can't be parsed as a decimal.
+     * 0.42 and 0.42% returns 0.0042. Returns <code>null</code> if the
+     * number can't be parsed as a decimal.
      */
     public static Double parsePercentage(String cellContent, Locale locale) {
 
@@ -407,11 +378,10 @@ public class SpreadsheetUtil implements Serializable {
      * leading quote in both cell editor and formula bar
      * <p>
      *
-     * @param cell
-     *     The cell to be checked
+     * @param cell The cell to be checked
      * @return true if the cell contains a string with the "quotePrefix" style
-     *         set. Note that for Excel 97 file format, returns true for
-     *         every string.
+     * set. Note that for Excel 97 file format, returns true for
+     * every string.
      */
     public static boolean needsLeadingQuote(Cell cell) {
         if (cell.getCellTypeEnum() != CellType.STRING) {

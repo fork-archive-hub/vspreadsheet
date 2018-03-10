@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet.action;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.Row;
@@ -29,6 +12,7 @@ import com.vaadin.addon.spreadsheet.Spreadsheet;
 import com.vaadin.addon.spreadsheet.Spreadsheet.SelectionChangeEvent;
 
 /**
+ * 显示或隐藏单元格注释
  * Spreadsheet action for showing or hiding a cell comment.
  *
  * @author Vaadin Ltd.
@@ -74,7 +58,7 @@ public class ShowHideCellCommentAction extends SpreadsheetAction {
                                          SelectionChangeEvent event) {
         CellReference cr = event.getSelectedCellReference();
         Comment cellComment = spreadsheet.getActiveSheet().getCellComment(
-        		new CellAddress(cr.getRow(), cr.getCol()));
+                new CellAddress(cr.getRow(), cr.getCol()));
         cellComment.setVisible(!cellComment.isVisible());
         Sheet sheet = spreadsheet.getActiveSheet();
         Row row = sheet.getRow(cr.getRow());

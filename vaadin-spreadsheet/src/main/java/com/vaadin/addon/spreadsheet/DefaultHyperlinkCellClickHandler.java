@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,10 +11,11 @@ import org.apache.poi.ss.usermodel.Hyperlink;
 import com.vaadin.addon.spreadsheet.Spreadsheet.HyperlinkCellClickHandler;
 
 /**
+ * 默认的超链接处理器
+ * <p>
  * Default implementation of the {@link HyperlinkCellClickHandler} interface.
- * Handles links to cells in either the same or some other sheet, as well as
- * external URLs.
- * 
+ * Handles links to cells in either the same or some other sheet, as well as external URLs.
+ *
  * @author Vaadin Ltd.
  * @since 1.0
  */
@@ -47,7 +31,7 @@ public class DefaultHyperlinkCellClickHandler implements
     /**
      * Returns the static singleton instance of
      * DefaultHyperlinkCellClickHandler.
-     * 
+     *
      * @return singleton instance of the handler
      */
     public static DefaultHyperlinkCellClickHandler get() {
@@ -56,7 +40,7 @@ public class DefaultHyperlinkCellClickHandler implements
 
     @Override
     public void onHyperLinkCellClick(Cell cell, Hyperlink hyperlink,
-            Spreadsheet spreadsheet) {
+                                     Spreadsheet spreadsheet) {
         if (hyperlink != null && hyperlink.getAddress() != null) {
             if (hyperlink.getTypeEnum() == HyperlinkType.DOCUMENT) { // internal
                 navigateTo(cell, spreadsheet, hyperlink.getAddress());
@@ -119,14 +103,12 @@ public class DefaultHyperlinkCellClickHandler implements
      * or
      * <code>HYPERLINK(D5,"friendly name")</code>
      *
-     * @param cell
-     *            Target cell containing a hyperlink function
-     * @param spreadsheet
-     *            spreadsheet for evaluating the first argument (formula case) 
+     * @param cell        Target cell containing a hyperlink function
+     * @param spreadsheet spreadsheet for evaluating the first argument (formula case)
      * @return the address that the hyperlink function points to
      */
     public final static String getHyperlinkFunctionCellAddress(Cell cell,
-        Spreadsheet spreadsheet) {
+                                                               Spreadsheet spreadsheet) {
         String address = "";
         final String firstArg = getFirstArgumentFromFormula(cell.getCellFormula());
 
@@ -158,9 +140,8 @@ public class DefaultHyperlinkCellClickHandler implements
 
     /**
      * Returns true if the cell contains a hyperlink function.
-     * 
-     * @param cell
-     *            Cell to investigate
+     *
+     * @param cell Cell to investigate
      * @return True if hyperlink is found
      */
     public final static boolean isHyperlinkFormulaCell(Cell cell) {

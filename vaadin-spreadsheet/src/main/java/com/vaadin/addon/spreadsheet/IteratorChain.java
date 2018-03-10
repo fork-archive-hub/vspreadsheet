@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
+/**
+ * 链式迭代器
+ */
 @SuppressWarnings("serial")
 class IteratorChain<E> implements Iterator<E>, Serializable {
 
@@ -27,7 +30,7 @@ class IteratorChain<E> implements Iterator<E>, Serializable {
             throw new UnsupportedOperationException("remove");
         }
     }
-    
+
     private final Queue<Iterator<? extends E>> iteratorChain = new LinkedList<Iterator<? extends E>>();
     private Iterator<? extends E> currentIterator = null;
 

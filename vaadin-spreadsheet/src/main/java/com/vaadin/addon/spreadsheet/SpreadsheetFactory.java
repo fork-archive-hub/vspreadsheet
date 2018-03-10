@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -81,17 +64,17 @@ import com.vaadin.addon.spreadsheet.shared.GroupingData;
 import com.vaadin.addon.spreadsheet.shared.SpreadsheetState;
 
 /**
- * SpreadsheetFactory is an utility class of the Spreadsheet component. It is
- * used for operations related to loading and saving a workbook and related
- * data.
+ * 工作表工厂类
+ * <p>
+ * SpreadsheetFactory is an utility class of the Spreadsheet component.
+ * It's used for operations related to loading and saving a workbook and related data.
  *
  * @author Vaadin Ltd.
  */
 @SuppressWarnings("serial")
 public class SpreadsheetFactory implements Serializable {
 
-    private static final Logger LOGGER = Logger
-            .getLogger(SpreadsheetFactory.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SpreadsheetFactory.class.getName());
 
     /**
      * Default column width for new sheets in characters
@@ -121,20 +104,16 @@ public class SpreadsheetFactory implements Serializable {
     /**
      * Clears the given Spreadsheet and loads the given Workbook into it.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
-     * @param workbook
-     *            Workbook to load or null to generate a new workbook with one
-     *            sheet.
-     * @param rowCount
-     *            Number of rows to generate in the first sheet. Only applies
-     *            when the workbook parameter is null.
-     * @param columnCount
-     *            Number of columns to generate in the first sheet. Only applies
-     *            when the workbook parameter is null.
+     * @param spreadsheet Target Spreadsheet
+     * @param workbook    Workbook to load or null to generate a new workbook with one
+     *                    sheet.
+     * @param rowCount    Number of rows to generate in the first sheet. Only applies
+     *                    when the workbook parameter is null.
+     * @param columnCount Number of columns to generate in the first sheet. Only applies
+     *                    when the workbook parameter is null.
      */
     static void loadSpreadsheetWith(Spreadsheet spreadsheet, Workbook workbook,
-            int rowCount, int columnCount) {
+                                    int rowCount, int columnCount) {
         spreadsheet.clearSheetServerSide();
         final Sheet sheet;
         if (workbook == null) {
@@ -160,8 +139,7 @@ public class SpreadsheetFactory implements Serializable {
      * Clears the target Spreadsheet, creates a new XLSX Workbook and loads it
      * in the Spreadsheet.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
+     * @param spreadsheet Target Spreadsheet
      */
     static void loadNewXLSXSpreadsheet(Spreadsheet spreadsheet) {
         Workbook workbook = spreadsheet.getWorkbook();
@@ -181,20 +159,15 @@ public class SpreadsheetFactory implements Serializable {
     /**
      * Adds a new sheet to the given Spreadsheet and Workbook.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
-     * @param workbook
-     *            Target Workbook
-     * @param sheetName
-     *            Name of the new sheet
-     * @param rows
-     *            Row count for the new sheet
-     * @param columns
-     *            Column count for the new sheet
+     * @param spreadsheet Target Spreadsheet
+     * @param workbook    Target Workbook
+     * @param sheetName   Name of the new sheet
+     * @param rows        Row count for the new sheet
+     * @param columns     Column count for the new sheet
      */
     static void addNewSheet(final Spreadsheet spreadsheet,
-            final Workbook workbook, final String sheetName, int rows,
-            int columns) {
+                            final Workbook workbook, final String sheetName, int rows,
+                            int columns) {
         final Sheet sheet;
         if (sheetName == null) {
             sheet = createNewSheet(workbook);
@@ -218,15 +191,12 @@ public class SpreadsheetFactory implements Serializable {
     /**
      * Reloads the Spreadsheet component from the given file.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
-     * @param spreadsheetFile
-     *            Source file. Should be of XLS or XLSX format.
-     * @throws IOException
-     *             If file has invalid format
+     * @param spreadsheet     Target Spreadsheet
+     * @param spreadsheetFile Source file. Should be of XLS or XLSX format.
+     * @throws IOException If file has invalid format
      */
     static void reloadSpreadsheetComponent(Spreadsheet spreadsheet,
-            final File spreadsheetFile) throws IOException {
+                                           final File spreadsheetFile) throws IOException {
         try {
             Workbook workbook = WorkbookFactory.create(spreadsheetFile);
             reloadSpreadsheetComponent(spreadsheet, workbook);
@@ -240,15 +210,12 @@ public class SpreadsheetFactory implements Serializable {
     /**
      * Reloads the Spreadsheet component from the given InputStream.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
-     * @param inputStream
-     *            Source stream. Stream content be of XLS or XLSX format.
-     * @throws IOException
-     *             If data in the stream has invalid format
+     * @param spreadsheet Target Spreadsheet
+     * @param inputStream Source stream. Stream content be of XLS or XLSX format.
+     * @throws IOException If data in the stream has invalid format
      */
     static void reloadSpreadsheetComponent(Spreadsheet spreadsheet,
-            final InputStream inputStream) throws IOException {
+                                           final InputStream inputStream) throws IOException {
         try {
             reloadSpreadsheetComponent(spreadsheet,
                     WorkbookFactory.create(inputStream));
@@ -261,13 +228,11 @@ public class SpreadsheetFactory implements Serializable {
      * Reloads the Spreadsheet component using the given Workbook as data
      * source.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
-     * @param workbook
-     *            Source Workbook
+     * @param spreadsheet Target Spreadsheet
+     * @param workbook    Source Workbook
      */
     static void reloadSpreadsheetComponent(Spreadsheet spreadsheet,
-            final Workbook workbook) {
+                                           final Workbook workbook) {
         Workbook oldWorkbook = spreadsheet.getWorkbook();
         if (oldWorkbook != null) {
             spreadsheet.clearSheetServerSide();
@@ -285,15 +250,11 @@ public class SpreadsheetFactory implements Serializable {
      * Writes the current Workbook state from the given Spreadsheet to the given
      * file.
      *
-     * @param spreadsheet
-     *            Source Spreadsheet
-     * @param fileName
-     *            Target file name
+     * @param spreadsheet Source Spreadsheet
+     * @param fileName    Target file name
      * @return File handle to the written file
-     * @throws FileNotFoundException
-     *             If file was not found
-     * @throws IOException
-     *             If some other IO error happened
+     * @throws FileNotFoundException If file was not found
+     * @throws IOException           If some other IO error happened
      */
     static File write(Spreadsheet spreadsheet, String fileName)
             throws FileNotFoundException, IOException {
@@ -316,8 +277,7 @@ public class SpreadsheetFactory implements Serializable {
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
-        }
-        finally {
+        } finally {
             if (fos != null) {
                 fos.close();
             }
@@ -335,12 +295,9 @@ public class SpreadsheetFactory implements Serializable {
      * Writes the current Workbook state from the given Spreadsheet to the given
      * output stream. The stream will be closed after writing.
      *
-     * @param spreadsheet
-     *            Source Spreadsheet
-     * @param stream
-     *            Output stream to write to
-     * @throws IOException
-     *             If there was an error handling the stream.
+     * @param spreadsheet Source Spreadsheet
+     * @param stream      Output stream to write to
+     * @throws IOException If there was an error handling the stream.
      */
     static void write(Spreadsheet spreadsheet, OutputStream stream)
             throws IOException {
@@ -362,8 +319,7 @@ public class SpreadsheetFactory implements Serializable {
     /**
      * Loads styles for the Workbook and the currently active sheet.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
+     * @param spreadsheet Target Spreadsheet
      */
     static void loadWorkbookStyles(Spreadsheet spreadsheet) {
         spreadsheet.getSpreadsheetStyleFactory().reloadWorkbookStyles();
@@ -374,17 +330,13 @@ public class SpreadsheetFactory implements Serializable {
      * Sets the size, default row height and default column width for the given
      * new Sheet in the target Spreadsheet. Finally loads the sheet.
      *
-     * @param spreadsheet
-     *            Target spreadsheet
-     * @param sheet
-     *            Target sheet
-     * @param rows
-     *            Amount of rows
-     * @param columns
-     *            Amount of columns
+     * @param spreadsheet Target spreadsheet
+     * @param sheet       Target sheet
+     * @param rows        Amount of rows
+     * @param columns     Amount of columns
      */
     static void generateNewSpreadsheet(final Spreadsheet spreadsheet,
-            final Sheet sheet, int rows, int columns) {
+                                       final Sheet sheet, int rows, int columns) {
         sheet.createRow(rows - 1).createCell(columns - 1);
         setDefaultRowHeight(spreadsheet, sheet);
         // use excel default column width instead of Apache POI default (8)
@@ -395,13 +347,11 @@ public class SpreadsheetFactory implements Serializable {
     /**
      * Reloads all data for the given Sheet within the target Spreadsheet
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
-     * @param sheet
-     *            Target sheet within the Spreadsheet
+     * @param spreadsheet Target Spreadsheet
+     * @param sheet       Target sheet within the Spreadsheet
      */
     static void reloadSpreadsheetData(final Spreadsheet spreadsheet,
-            final Sheet sheet) {
+                                      final Sheet sheet) {
         logMemoryUsage();
         try {
             setDefaultRowHeight(spreadsheet, sheet);
@@ -421,8 +371,8 @@ public class SpreadsheetFactory implements Serializable {
 
     static void loadNamedRanges(Spreadsheet spreadsheet) {
         final List<? extends Name> namedRanges = spreadsheet.getWorkbook()
-            .getAllNames();
-        
+                .getAllNames();
+
         final List<String> names = new ArrayList<String>();
 
         for (Name name : namedRanges) {
@@ -432,8 +382,8 @@ public class SpreadsheetFactory implements Serializable {
 
             final int nameLocalTo = name.getSheetIndex();
             final int activeSheet = spreadsheet.getWorkbook()
-                .getActiveSheetIndex();
-            
+                    .getActiveSheetIndex();
+
             if (nameLocalTo == -1 || nameLocalTo == activeSheet) {
                 names.add(name.getNameName());
             }
@@ -463,39 +413,38 @@ public class SpreadsheetFactory implements Serializable {
     /**
      * Load the sheet filter and tables in the given sheet
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
+     * @param spreadsheet Target Spreadsheet
      */
     private static void loadSheetTables(Spreadsheet spreadsheet) {
-         if (spreadsheet.getActiveSheet() instanceof HSSFSheet)
-             return;
+        if (spreadsheet.getActiveSheet() instanceof HSSFSheet)
+            return;
 
-         XSSFSheet sheet = (XSSFSheet) spreadsheet.getActiveSheet();
-         CTAutoFilter autoFilter = sheet.getCTWorksheet().getAutoFilter();
+        XSSFSheet sheet = (XSSFSheet) spreadsheet.getActiveSheet();
+        CTAutoFilter autoFilter = sheet.getCTWorksheet().getAutoFilter();
 
-         if (autoFilter != null) {
-             SpreadsheetTable sheetFilterTable = new SpreadsheetFilterTable(
-                 spreadsheet, CellRangeAddress.valueOf(autoFilter.getRef()));
-             
-             spreadsheet.registerTable(sheetFilterTable);
+        if (autoFilter != null) {
+            SpreadsheetTable sheetFilterTable = new SpreadsheetFilterTable(
+                    spreadsheet, CellRangeAddress.valueOf(autoFilter.getRef()));
 
-             markActiveButtons(sheetFilterTable, autoFilter);             
-         }
+            spreadsheet.registerTable(sheetFilterTable);
 
-         for (XSSFTable table : sheet.getTables()) {
-             SpreadsheetTable spreadsheetTable = new SpreadsheetFilterTable(
-                 spreadsheet,
-                 CellRangeAddress.valueOf(table.getCTTable().getRef()));
+            markActiveButtons(sheetFilterTable, autoFilter);
+        }
 
-             spreadsheet.registerTable(spreadsheetTable);
-         }
+        for (XSSFTable table : sheet.getTables()) {
+            SpreadsheetTable spreadsheetTable = new SpreadsheetFilterTable(
+                    spreadsheet,
+                    CellRangeAddress.valueOf(table.getCTTable().getRef()));
+
+            spreadsheet.registerTable(spreadsheetTable);
+        }
     }
 
     private static void markActiveButtons(SpreadsheetTable sheetFilterTable,
-        CTAutoFilter autoFilter) {
+                                          CTAutoFilter autoFilter) {
 
         final int offset = sheetFilterTable.getFullTableRegion()
-            .getFirstColumn();
+                .getFirstColumn();
 
         for (CTFilterColumn column : autoFilter.getFilterColumnList()) {
             final int colId = offset + (int) column.getColId();
@@ -507,12 +456,12 @@ public class SpreadsheetFactory implements Serializable {
      * Calculate size-related values for the sheet. Includes row and column
      * counts, actual row heights and column widths, and hidden row and column
      * indexes.
-     * 
+     *
      * @param spreadsheet
      * @param sheet
      */
     static void calculateSheetSizes(final Spreadsheet spreadsheet,
-            final Sheet sheet) {
+                                    final Sheet sheet) {
         // Always have at least the default amount of rows
         int rows = sheet.getLastRowNum() + 1;
         if (rows < spreadsheet.getDefaultRowCount()) {
@@ -624,7 +573,7 @@ public class SpreadsheetFactory implements Serializable {
         /*
          * Columns are grouped so that columns that are beside each other and
          * share properties have a single CTCol with a min and max index.
-         * 
+         *
          * A column that is part of a group has an outline level. Each col also
          * has a property called 'collapsed', which doesn't appear to be used
          * for anything. If a group is collapsed, each col in the group has its
@@ -726,7 +675,7 @@ public class SpreadsheetFactory implements Serializable {
         /*
          * Each row that has data (or grouping props) exists separately, they
          * are not grouped like columns.
-         * 
+         *
          * Each row that is part of a group has a set outline level. Unlike
          * cols, the 'collapse' property is actually used for rows, in
          * conjuction with the 'hidden' prop. If a group is collapsed, each row
@@ -847,8 +796,7 @@ public class SpreadsheetFactory implements Serializable {
      * Loads overlays for the currently active sheet and adds them to the target
      * Spreadsheet.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
+     * @param spreadsheet Target Spreadsheet
      */
     static void loadSheetOverlays(Spreadsheet spreadsheet) {
         final Sheet sheet = spreadsheet.getActiveSheet();
@@ -860,8 +808,8 @@ public class SpreadsheetFactory implements Serializable {
 
                 if (spreadsheet.isChartsEnabled()
                         && shape instanceof XSSFGraphicFrame) {
-                        overlayWrapper = tryLoadChart(spreadsheet, drawing,
-                                (XSSFGraphicFrame) shape);
+                    overlayWrapper = tryLoadChart(spreadsheet, drawing,
+                            (XSSFGraphicFrame) shape);
                 }
                 if (shape instanceof XSSFPicture) {
                     overlayWrapper = loadXSSFPicture((XSSFPicture) shape);
@@ -966,14 +914,14 @@ public class SpreadsheetFactory implements Serializable {
                 CTTwoCellAnchor ct = (CTTwoCellAnchor) parentXbean;
                 anchor = new XSSFClientAnchor((int) ct.getFrom().getColOff(),
                         (int) ct.getFrom().getRowOff(), (int) ct.getTo()
-                                .getColOff(), (int) ct.getTo().getRowOff(), ct
-                                .getFrom().getCol(), ct.getFrom().getRow(), ct
-                                .getTo().getCol(), ct.getTo().getRow());
+                        .getColOff(), (int) ct.getTo().getRowOff(), ct
+                        .getFrom().getCol(), ct.getFrom().getRow(), ct
+                        .getTo().getCol(), ct.getTo().getRow());
             } else if (parentXbean instanceof CTOneCellAnchor) {
                 CTOneCellAnchor ct = (CTOneCellAnchor) parentXbean;
                 anchor = new XSSFClientAnchor((int) ct.getFrom().getColOff(),
                         (int) ct.getFrom().getRowOff(), 0, 0, ct.getFrom()
-                                .getCol(), ct.getFrom().getRow(), 0, 0);
+                        .getCol(), ct.getFrom().getRow(), 0, 0);
             }
         }
         return anchor;
@@ -983,7 +931,7 @@ public class SpreadsheetFactory implements Serializable {
      * Returns a chart or null if this frame doesn't have one.
      */
     private static XSSFChart getChartForFrame(XSSFDrawing drawing,
-            XSSFGraphicFrame frame) {
+                                              XSSFGraphicFrame frame) {
         // the chart is supposed to be there if an ID is found
         return (XSSFChart) drawing.getRelationById(getChartId(frame));
     }
@@ -1012,8 +960,7 @@ public class SpreadsheetFactory implements Serializable {
      * Loads merged region(s) configuration for the currently active sheet and
      * sets it into the shared state.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
+     * @param spreadsheet Target Spreadsheet
      */
     static void loadMergedRegions(Spreadsheet spreadsheet) {
         final Sheet sheet = spreadsheet.getActiveSheet();
@@ -1040,8 +987,7 @@ public class SpreadsheetFactory implements Serializable {
      * Loads freeze pane configuration for the currently active sheet and sets
      * it into the shared state.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
+     * @param spreadsheet Target Spreadsheet
      */
     static void loadFreezePane(Spreadsheet spreadsheet) {
         final Sheet sheet = spreadsheet.getActiveSheet();
@@ -1056,10 +1002,10 @@ public class SpreadsheetFactory implements Serializable {
              * In Spreadsheet the meaning is the opposite.
              */
             spreadsheet.getState().horizontalSplitPosition = paneInformation
-                .getVerticalSplitPosition() + sheet.getLeftCol();
+                    .getVerticalSplitPosition() + sheet.getLeftCol();
 
             spreadsheet.getState().verticalSplitPosition = paneInformation
-                .getHorizontalSplitPosition() + sheet.getTopRow();
+                    .getHorizontalSplitPosition() + sheet.getTopRow();
 
             /*
              * If the view was scrolled down / right when panes were frozen, the
@@ -1089,7 +1035,7 @@ public class SpreadsheetFactory implements Serializable {
     }
 
     private static void setDefaultRowHeight(Spreadsheet spreadsheet,
-            final Sheet sheet) {
+                                            final Sheet sheet) {
         float defaultRowHeightInPoints = sheet.getDefaultRowHeightInPoints();
         if (defaultRowHeightInPoints <= 0) {
             sheet.setDefaultRowHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
@@ -1100,7 +1046,7 @@ public class SpreadsheetFactory implements Serializable {
     }
 
     private static void setDefaultColumnWidth(Spreadsheet spreadsheet,
-            final Sheet sheet) {
+                                              final Sheet sheet) {
         int charactersToPixels = ExcelToHtmlUtils.getColumnWidthInPx(sheet
                 .getDefaultColumnWidth() * 256);
         if (charactersToPixels > 0) {

@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,9 +32,11 @@ import org.openxmlformats.schemas.spreadsheetml.x2006.main.STBorderStyle;
 import com.vaadin.addon.spreadsheet.client.MergedRegion;
 
 /**
+ * 工作表样式工厂类
+ * <p>
  * SpreadsheetStyleFactory is an utility class for the Spreadsheet component.
  * This class handles converting Apache POI CellStyles to CSS styles.
- * 
+ *
  * @author Vaadin Ltd.
  */
 @SuppressWarnings("serial")
@@ -62,7 +47,7 @@ public class SpreadsheetStyleFactory implements Serializable {
 
     /**
      * Styling for cell borders
-     * 
+     *
      * @author Vaadin Ltd.
      */
     public enum BorderStyle {
@@ -81,7 +66,7 @@ public class SpreadsheetStyleFactory implements Serializable {
 
         /**
          * Returns the CSS name of this border style
-         * 
+         *
          * @return CSS name of border style
          */
         public String getValue() {
@@ -90,7 +75,7 @@ public class SpreadsheetStyleFactory implements Serializable {
 
         /**
          * Returns the thickness of this border
-         * 
+         *
          * @return Border thickness in PT
          */
         public int getSize() {
@@ -99,7 +84,7 @@ public class SpreadsheetStyleFactory implements Serializable {
 
         /**
          * Returns the complete border attribute value for CSS
-         * 
+         *
          * @return Complete border attribute value
          */
         public String getBorderAttributeValue() {
@@ -109,33 +94,37 @@ public class SpreadsheetStyleFactory implements Serializable {
     }
 
     private static final Map<HorizontalAlignment, String> ALIGN = mapFor(HorizontalAlignment.LEFT, "left",
-    		HorizontalAlignment.CENTER, "center", HorizontalAlignment.RIGHT, "right", HorizontalAlignment.FILL, "left",
-    		HorizontalAlignment.JUSTIFY, "left", HorizontalAlignment.CENTER_SELECTION, "center");
+            HorizontalAlignment.CENTER, "center", HorizontalAlignment.RIGHT, "right", HorizontalAlignment.FILL, "left",
+            HorizontalAlignment.JUSTIFY, "left", HorizontalAlignment.CENTER_SELECTION, "center");
 
     private static final Map<VerticalAlignment, String> VERTICAL_ALIGN = mapFor(
-    		VerticalAlignment.BOTTOM, "flex-end", VerticalAlignment.CENTER, "center",
-    		VerticalAlignment.TOP, "flex-start");
+            VerticalAlignment.BOTTOM, "flex-end", VerticalAlignment.CENTER, "center",
+            VerticalAlignment.TOP, "flex-start");
 
     static final Map<org.apache.poi.ss.usermodel.BorderStyle, BorderStyle> BORDER = mapFor(
             org.apache.poi.ss.usermodel.BorderStyle.DASH_DOT, BorderStyle.DASHED_THIN,
             org.apache.poi.ss.usermodel.BorderStyle.DASH_DOT_DOT, BorderStyle.DASHED_THIN,
             org.apache.poi.ss.usermodel.BorderStyle.DASHED, BorderStyle.DASHED_THIN,
-            org.apache.poi.ss.usermodel.BorderStyle.DOTTED, BorderStyle.DOTTED_THIN, 
-            org.apache.poi.ss.usermodel.BorderStyle.DOUBLE, BorderStyle.DOUBLE, 
+            org.apache.poi.ss.usermodel.BorderStyle.DOTTED, BorderStyle.DOTTED_THIN,
+            org.apache.poi.ss.usermodel.BorderStyle.DOUBLE, BorderStyle.DOUBLE,
             org.apache.poi.ss.usermodel.BorderStyle.HAIR, BorderStyle.SOLID_THIN,
-            org.apache.poi.ss.usermodel.BorderStyle.MEDIUM, BorderStyle.SOLID_MEDIUM, 
-            org.apache.poi.ss.usermodel.BorderStyle.MEDIUM_DASH_DOT, BorderStyle.DASHED_MEDIUM, 
-            org.apache.poi.ss.usermodel.BorderStyle.MEDIUM_DASH_DOT_DOT, BorderStyle.DASHED_MEDIUM, 
-            org.apache.poi.ss.usermodel.BorderStyle.MEDIUM_DASHED, BorderStyle.DASHED_MEDIUM, 
+            org.apache.poi.ss.usermodel.BorderStyle.MEDIUM, BorderStyle.SOLID_MEDIUM,
+            org.apache.poi.ss.usermodel.BorderStyle.MEDIUM_DASH_DOT, BorderStyle.DASHED_MEDIUM,
+            org.apache.poi.ss.usermodel.BorderStyle.MEDIUM_DASH_DOT_DOT, BorderStyle.DASHED_MEDIUM,
+            org.apache.poi.ss.usermodel.BorderStyle.MEDIUM_DASHED, BorderStyle.DASHED_MEDIUM,
             org.apache.poi.ss.usermodel.BorderStyle.NONE, BorderStyle.NONE,
             null, BorderStyle.NONE,
-            org.apache.poi.ss.usermodel.BorderStyle.SLANTED_DASH_DOT, BorderStyle.DASHED_MEDIUM, 
-            org.apache.poi.ss.usermodel.BorderStyle.THICK, BorderStyle.SOLID_THICK, 
+            org.apache.poi.ss.usermodel.BorderStyle.SLANTED_DASH_DOT, BorderStyle.DASHED_MEDIUM,
+            org.apache.poi.ss.usermodel.BorderStyle.THICK, BorderStyle.SOLID_THICK,
             org.apache.poi.ss.usermodel.BorderStyle.THIN, BorderStyle.SOLID_THIN);
 
-    /** CellStyle index to selector + style map */
+    /**
+     * CellStyle index to selector + style map
+     */
     private final HashMap<Integer, String> shiftedBorderTopStyles = new HashMap<Integer, String>();
-    /** CellStyle index to selector + style map */
+    /**
+     * CellStyle index to selector + style map
+     */
     private final HashMap<Integer, String> shiftedBorderLeftStyles = new HashMap<Integer, String>();
     /** */
     private final HashMap<String, String> mergedCellBorders = new HashMap<String, String>();
@@ -166,9 +155,8 @@ public class SpreadsheetStyleFactory implements Serializable {
 
     /**
      * Constructs a new SpreadsheetStyleFactory for the given Spreadsheet
-     * 
-     * @param spreadsheet
-     *            Target Spreadsheet
+     *
+     * @param spreadsheet Target Spreadsheet
      */
     public SpreadsheetStyleFactory(Spreadsheet spreadsheet) {
         this.spreadsheet = spreadsheet;
@@ -268,7 +256,7 @@ public class SpreadsheetStyleFactory implements Serializable {
 
     /**
      * Creates a CellStyle to be used with hyperlinks
-     * 
+     *
      * @return A new hyperlink CellStyle
      */
     public CellStyle createHyperlinkCellStyle() {
@@ -286,11 +274,9 @@ public class SpreadsheetStyleFactory implements Serializable {
     /**
      * Clears all styles for the given cell. Should be used when i.e. a cell has
      * been shifted (the old location is cleared of all styles).
-     * 
-     * @param oldRowIndex
-     *            0-based
-     * @param oldColumnIndex
-     *            0-based
+     *
+     * @param oldRowIndex    0-based
+     * @param oldColumnIndex 0-based
      */
     public void clearCellStyle(int oldRowIndex, int oldColumnIndex) {
         final String cssSelector = ".col" + (oldColumnIndex + 1) + ".row"
@@ -382,11 +368,9 @@ public class SpreadsheetStyleFactory implements Serializable {
     /**
      * This should be called when a Cell's styling has been changed. This will
      * tell the Spreadsheet to send the change to the client side.
-     * 
-     * @param cell
-     *            Target cell
-     * @param updateCustomBorders
-     *            true to also update custom borders
+     *
+     * @param cell                Target cell
+     * @param updateCustomBorders true to also update custom borders
      */
     public void cellStyleUpdated(Cell cell, boolean updateCustomBorders) {
         final String cssSelector = ".col" + (cell.getColumnIndex() + 1)
@@ -555,7 +539,7 @@ public class SpreadsheetStyleFactory implements Serializable {
 
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({"unchecked"})
     private static <K, V> Map<K, V> mapFor(Object... mapping) {
         Map<K, V> map = new HashMap<K, V>();
         for (int i = 0; i < mapping.length; i += 2) {
@@ -630,7 +614,7 @@ public class SpreadsheetStyleFactory implements Serializable {
         final int rowIndex = cell.getRowIndex();
 
         if (spreadsheet.isColumnHidden(columnIndex) || spreadsheet
-            .isRowHidden(rowIndex)) {
+                .isRowHidden(rowIndex)) {
             return;
         }
 
@@ -656,13 +640,13 @@ public class SpreadsheetStyleFactory implements Serializable {
                 if (borderRight != null
                         && !borderRight.isEmpty()
                         && (currentBorders == null || !currentBorders
-                                .contains("border-right"))) {
+                        .contains("border-right"))) {
                     style.append(borderRight);
                 }
                 if (borderBottom != null
                         && !borderBottom.isEmpty()
                         && (currentBorders == null || !currentBorders
-                                .contains("border-bottom"))) {
+                        .contains("border-bottom"))) {
                     style.append(borderBottom);
                 }
                 final String newBorders = style.toString();
@@ -864,25 +848,25 @@ public class SpreadsheetStyleFactory implements Serializable {
             FontFamily family = FontFamily.valueOf(((XSSFFont) font)
                     .getFamily());
             switch (family) {
-            case ROMAN:
-                sb.append("roman,");
-                break;
-            case SWISS:
-                sb.append("swiss,");
-                break;
-            case MODERN:
-                sb.append("modern,");
-                break;
-            case SCRIPT:
-                sb.append("script,");
-                break;
-            case DECORATIVE:
-                sb.append("decorative,");
-                break;
-            case NOT_APPLICABLE:
-                break;
-            default:
-                break;
+                case ROMAN:
+                    sb.append("roman,");
+                    break;
+                case SWISS:
+                    sb.append("swiss,");
+                    break;
+                case MODERN:
+                    sb.append("modern,");
+                    break;
+                case SCRIPT:
+                    sb.append("script,");
+                    break;
+                case DECORATIVE:
+                    sb.append("decorative,");
+                    break;
+                case NOT_APPLICABLE:
+                    break;
+                default:
+                    break;
             }
         }
         sb.append("Helvetica,arial;");
@@ -1032,7 +1016,7 @@ public class SpreadsheetStyleFactory implements Serializable {
     }
 
     private <K> void styleOut(StringBuilder sb, String attr, K key,
-            Map<K, String> mapping) {
+                              Map<K, String> mapping) {
         String value = mapping.get(key);
         if (value != null) {
             sb.append(attr);

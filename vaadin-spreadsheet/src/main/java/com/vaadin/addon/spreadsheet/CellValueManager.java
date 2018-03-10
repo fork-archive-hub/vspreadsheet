@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -73,6 +56,7 @@ import com.vaadin.addon.spreadsheet.command.CellValueCommand;
 import com.vaadin.ui.UI;
 
 /**
+ * 单元格值 管理器
  * CellValueManager is an utility class of SpreadsheetClass, which handles
  * values and formatting for individual cells.
  *
@@ -99,10 +83,12 @@ public class CellValueManager implements Serializable {
 
     private CellValueHandler customCellValueHandler;
     private CellDeletionHandler customCellDeletionHandler;
- 
+
     private DataFormatter formatter;
 
-    /** Cell keys that have values sent to client side and are cached there. */
+    /**
+     * Cell keys that have values sent to client side and are cached there.
+     */
     private final HashSet<String> sentCells = new HashSet<String>();
     /**
      * Formula cell keys that have values sent to client side and are cached
@@ -131,8 +117,7 @@ public class CellValueManager implements Serializable {
     /**
      * Creates a new CellValueManager and ties it to the given Spreadsheet.
      *
-     * @param spreadsheet
-     *            Target Spreadsheet
+     * @param spreadsheet Target Spreadsheet
      */
     public CellValueManager(Spreadsheet spreadsheet) {
         this.spreadsheet = spreadsheet;
@@ -190,27 +175,27 @@ public class CellValueManager implements Serializable {
     private String getCachedFormulaCellValue(Cell formulaCell) {
         String result = null;
         switch (formulaCell.getCachedFormulaResultTypeEnum()) {
-        case BLANK:
-        case FORMULA:
-        case _NONE:
-        case STRING:
-            result = formulaCell.getStringCellValue();
-            break;
-        case BOOLEAN:
-            result = String.valueOf(formulaCell
-                    .getBooleanCellValue());
-            break;
-        case ERROR:
-            result = ErrorEval.getText(formulaCell
-                    .getErrorCellValue());
-            break;
-        case NUMERIC:
-            CellStyle style = formulaCell.getCellStyle();
-            result = formatter.formatRawCellContents(
-                    formulaCell.getNumericCellValue(),
-                    style.getDataFormat(),
-                    style.getDataFormatString());
-            break;
+            case BLANK:
+            case FORMULA:
+            case _NONE:
+            case STRING:
+                result = formulaCell.getStringCellValue();
+                break;
+            case BOOLEAN:
+                result = String.valueOf(formulaCell
+                        .getBooleanCellValue());
+                break;
+            case ERROR:
+                result = ErrorEval.getText(formulaCell
+                        .getErrorCellValue());
+                break;
+            case NUMERIC:
+                CellStyle style = formulaCell.getCellStyle();
+                result = formatter.formatRawCellContents(
+                        formulaCell.getNumericCellValue(),
+                        style.getDataFormat(),
+                        style.getDataFormatString());
+                break;
         }
         return result;
     }
@@ -288,10 +273,10 @@ public class CellValueManager implements Serializable {
                 cellData.needsMeasure = false;
                 if (!cellStyle.getWrapText()
                         && (!SpreadsheetUtil.cellContainsDate(cell)
-                                && cell.getCellTypeEnum() == CellType.NUMERIC
-                                || cell.getCellTypeEnum() == CellType.STRING || (cell
-                                .getCellTypeEnum() == CellType.FORMULA && !cell
-                                .getCellFormula().startsWith("HYPERLINK")))) {
+                        && cell.getCellTypeEnum() == CellType.NUMERIC
+                        || cell.getCellTypeEnum() == CellType.STRING || (cell
+                        .getCellTypeEnum() == CellType.FORMULA && !cell
+                        .getCellFormula().startsWith("HYPERLINK")))) {
                     if (!doesValueFit(cell, formattedCellValue)) {
                         if (valueContainsOnlyNumbers(formattedCellValue)
                                 && isGenerallCell(cell)) {
@@ -307,7 +292,7 @@ public class CellValueManager implements Serializable {
                                                     .getColumnIndex()] - 10);
                         } else if (cell.getCellTypeEnum() != CellType.STRING
                                 && (cell.getCellTypeEnum() == CellType.FORMULA
-                                        && cell.getCachedFormulaResultTypeEnum() != CellType.STRING)) {
+                                && cell.getCachedFormulaResultTypeEnum() != CellType.STRING)) {
                             cellData.needsMeasure = true;
                         }
                     }
@@ -319,9 +304,9 @@ public class CellValueManager implements Serializable {
                     if (SpreadsheetUtil.cellContainsDate(cell)
                             || cell.getCellTypeEnum() == CellType.NUMERIC
                             || (cell.getCellTypeEnum() == CellType.FORMULA
-                                    && !cell.getCellFormula().startsWith(
-                                            "HYPERLINK") && !(cell
-                                    .getCachedFormulaResultTypeEnum() == CellType.STRING))) {
+                            && !cell.getCellFormula().startsWith(
+                            "HYPERLINK") && !(cell
+                            .getCachedFormulaResultTypeEnum() == CellType.STRING))) {
                         cellData.cellStyle = cellData.cellStyle + " r";
                     }
                 }
@@ -359,7 +344,7 @@ public class CellValueManager implements Serializable {
     private void setLeadingQuoteStyle(Cell cell, boolean leadingQuote) {
         if (cell instanceof XSSFCell) {
             ((XSSFCell) cell).getCellStyle().getCoreXf()
-                .setQuotePrefix(leadingQuote);
+                    .setQuotePrefix(leadingQuote);
         }
     }
 
@@ -384,7 +369,7 @@ public class CellValueManager implements Serializable {
     private boolean isGenerallCell(Cell cell) {
         return cell.getCellTypeEnum() == CellType.NUMERIC
                 && cell.getCellStyle().getDataFormatString()
-                        .contains("General");
+                .contains("General");
     }
 
     public String getOriginalCellValue(Cell cell) {
@@ -394,32 +379,32 @@ public class CellValueManager implements Serializable {
 
         CellType cellType = cell.getCellTypeEnum();
         switch (cellType) {
-        case FORMULA:
-            return cell.getCellFormula();
-        case NUMERIC:
-            if (DateUtil.isCellDateFormatted(cell)) {
-                Date dateCellValue = cell.getDateCellValue();
-                if (dateCellValue != null) {
-                    return new SimpleDateFormat().format(dateCellValue);
+            case FORMULA:
+                return cell.getCellFormula();
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    Date dateCellValue = cell.getDateCellValue();
+                    if (dateCellValue != null) {
+                        return new SimpleDateFormat().format(dateCellValue);
+                    }
+                    return "";
                 }
+                return originalValueDecimalFormat
+                        .format(cell.getNumericCellValue());
+            case STRING:
+                String stringCellValue = cell.getStringCellValue();
+                if (SpreadsheetUtil.needsLeadingQuote(cell)) {
+                    return "'" + stringCellValue;
+                }
+                return stringCellValue;
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case BLANK:
                 return "";
-            }
-            return originalValueDecimalFormat
-                    .format(cell.getNumericCellValue());
-        case STRING:
-            String stringCellValue = cell.getStringCellValue();
-            if (SpreadsheetUtil.needsLeadingQuote(cell)) {
-                return "'" + stringCellValue;
-            }
-            return stringCellValue;
-        case BOOLEAN:
-            return String.valueOf(cell.getBooleanCellValue());
-        case BLANK:
-            return "";
-        case ERROR:
-            return String.valueOf(cell.getErrorCellValue());
-        default:
-        	return "";
+            case ERROR:
+                return String.valueOf(cell.getErrorCellValue());
+            default:
+                return "";
         }
     }
 
@@ -457,8 +442,7 @@ public class CellValueManager implements Serializable {
     /**
      * Sets the current CellValueHandler
      *
-     * @param customCellValueHandler
-     *            the customCellValueHandler to set
+     * @param customCellValueHandler the customCellValueHandler to set
      */
     public void setCustomCellValueHandler(
             CellValueHandler customCellValueHandler) {
@@ -477,8 +461,7 @@ public class CellValueManager implements Serializable {
     /**
      * Sets the current CellDeletionHandler
      *
-     * @param customCellDeletionHandler
-     *            the customCellDeletionHandler to set
+     * @param customCellDeletionHandler the customCellDeletionHandler to set
      */
     public void setCustomCellDeletionHandler(
             CellDeletionHandler customCellDeletionHandler) {
@@ -489,8 +472,7 @@ public class CellValueManager implements Serializable {
      * Notifies evaluator and marks cell for update on next call to
      * {@link #updateMarkedCellValues()}
      *
-     * @param cell
-     *            Cell to mark for updates
+     * @param cell Cell to mark for updates
      */
     protected void cellUpdated(Cell cell) {
         getFormulaEvaluator().notifyUpdateCell(cell);
@@ -500,8 +482,7 @@ public class CellValueManager implements Serializable {
     /**
      * Marks cell for update on next call to {@link #updateMarkedCellValues()}
      *
-     * @param cell
-     *            Cell to mark for updates
+     * @param cell Cell to mark for updates
      */
     protected void markCellForUpdate(Cell cell) {
         markedCells.add(SpreadsheetUtil.toKey(cell));
@@ -510,8 +491,7 @@ public class CellValueManager implements Serializable {
     /**
      * Marks the given cell as deleted and notifies the evaluator
      *
-     * @param cell
-     *            Deleted cell
+     * @param cell Deleted cell
      */
     protected void cellDeleted(Cell cell) {
         getFormulaEvaluator().notifyDeleteCell(cell);
@@ -523,8 +503,7 @@ public class CellValueManager implements Serializable {
     /**
      * Marks the given cell for removal.
      *
-     * @param cell
-     *            Cell to mark for removal
+     * @param cell Cell to mark for removal
      */
     protected void markCellForRemove(Cell cell) {
         String cellKey = SpreadsheetUtil.toKey(cell);
@@ -538,8 +517,7 @@ public class CellValueManager implements Serializable {
     /**
      * Clears the cell with the given key from the cache
      *
-     * @param cellKey
-     *            Key of target cell
+     * @param cellKey Key of target cell
      */
     protected void clearCellCache(String cellKey) {
         if (!sentCells.remove(cellKey)) {
@@ -550,30 +528,27 @@ public class CellValueManager implements Serializable {
     /**
      * Updates the cell value and type, causes a recalculation of all the values
      * in the cell.
-     *
+     * <p>
      * If there is a {@link CellValueHandler} defined, then it is used.
-     *
+     * <p>
      * Cells starting with "=" or "+" will be created/changed into FORMULA type.
-     *
+     * <p>
      * Cells that are existing and are NUMERIC type will be parsed according to
      * their existing format, or if that fails, as Double.
-     *
+     * <p>
      * Cells not containing any letters and containing at least one number will
      * be created/changed into NUMERIC type (formatting is not changed).
-     *
+     * <p>
      * Existing Boolean cells will be parsed as Boolean.
-     *
+     * <p>
      * For everything else and if any of the above fail, the cell will get the
      * STRING type and the value will just be a string, except empty values will
      * cause the cell type to be BLANK.
      *
-     * @param col
-     *            Column index of target cell, 1-based
-     * @param row
-     *            Row index of target cell, 1-based
-     * @param value
-     *            The new value to set to the target cell, formulas will start
-     *            with an extra "=" or "+"
+     * @param col   Column index of target cell, 1-based
+     * @param row   Row index of target cell, 1-based
+     * @param value The new value to set to the target cell, formulas will start
+     *              with an extra "=" or "+"
      */
     public void onCellValueChange(int col, int row, String value) {
         Workbook workbook = spreadsheet.getWorkbook();
@@ -587,7 +562,7 @@ public class CellValueManager implements Serializable {
         Cell cell = r.getCell(col - 1);
         String formattedCellValue = null;
         CellType oldCellType = CellType._NONE;
-        
+
         // capture cell value to history
         CellValueCommand command = new CellValueCommand(spreadsheet);
         command.captureCellValues(new CellReference(row - 1, col - 1));
@@ -597,8 +572,8 @@ public class CellValueManager implements Serializable {
 
         if (getCustomCellValueHandler() == null
                 || getCustomCellValueHandler().cellValueUpdated(cell,
-                        activeSheet, col - 1, row - 1, value,
-                        getFormulaEvaluator(), formatter)) {
+                activeSheet, col - 1, row - 1, value,
+                getFormulaEvaluator(), formatter)) {
             Exception exception = null;
             try {
                 // handle new cell creation
@@ -629,12 +604,12 @@ public class CellValueManager implements Serializable {
                         spreadsheet.removeInvalidFormulaMark(col, row);
                         getFormulaEvaluator().notifyUpdateCell(cell);
                         String newFormula = formulaFormatter
-                            .unFormatFormulaValue(value.substring(1),
-                                                  spreadsheetLocale);
+                                .unFormatFormulaValue(value.substring(1),
+                                        spreadsheetLocale);
 
                         formulaChanged =
-                            ((cell.getCellTypeEnum() == CellType.FORMULA)
-                                && !newFormula.equals(cell.getCellFormula()));
+                                ((cell.getCellTypeEnum() == CellType.FORMULA)
+                                        && !newFormula.equals(cell.getCellFormula()));
                         cell.setCellType(CellType.FORMULA);
                         cell.setCellFormula(newFormula);
                         getFormulaEvaluator().notifySetFormula(cell);
@@ -732,7 +707,7 @@ public class CellValueManager implements Serializable {
                 markCellForUpdate(cell);
                 if (formattedCellValue == null
                         || !formattedCellValue
-                                .equals(getFormattedCellValue(cell))
+                        .equals(getFormattedCellValue(cell))
                         || oldCellType != cell.getCellTypeEnum()
                         || formulaChanged) {
                     fireCellValueChangeEvent(cell);
@@ -756,8 +731,7 @@ public class CellValueManager implements Serializable {
     /**
      * Returns the formatted cell value or null if value could not be determined
      *
-     * @param cell
-     *            to get value from
+     * @param cell to get value from
      * @return formattedCellValue or null if could not format
      */
     private String getFormattedCellValue(Cell cell) {
@@ -796,7 +770,7 @@ public class CellValueManager implements Serializable {
             Row row = activeSheet.getRow(selectedCellReference.getRow());
             if (row != null
                     && spreadsheet.isCellLocked(row
-                            .getCell(selectedCellReference.getCol()))) {
+                    .getCell(selectedCellReference.getCol()))) {
                 return;
             }
         }
@@ -884,13 +858,13 @@ public class CellValueManager implements Serializable {
 
     /**
      * Checks whether the given cell belongs to any given range.
-     * 
+     *
      * @param cell
      * @param cellRangeAddresses
      * @return {@code true} if in range, {@code false} otherwise
      */
     private boolean selectedIsInRange(CellReference cell,
-            List<CellRangeAddress> cellRangeAddresses) {
+                                      List<CellRangeAddress> cellRangeAddresses) {
         for (CellRangeAddress range : cellRangeAddresses) {
             if (range.isInRange(cell.getRow(), cell.getCol())) {
                 return true;
@@ -903,10 +877,10 @@ public class CellValueManager implements Serializable {
      * Checks whether the default deletion handling should be performed for the
      * selected cell or whether a custom deletion handler takes care of
      * everything.
-     * 
+     *
      * @param selectedCellReference
      * @return {@code true} if the default handling should be performed,
-     *         {@code false} otherwise
+     * {@code false} otherwise
      */
     private boolean passesDeletionCheck(CellReference selectedCellReference) {
         if (selectedCellReference == null || customCellDeletionHandler == null) {
@@ -932,10 +906,10 @@ public class CellValueManager implements Serializable {
      * Checks whether the default deletion handling should be performed for the
      * individually selected cells or whether a custom deletion handler takes
      * care of everything.
-     * 
+     *
      * @param individualSelectedCells
      * @return {@code true} if the default handling should be performed,
-     *         {@code false} otherwise
+     * {@code false} otherwise
      */
     private boolean passesDeletionCheck(
             List<CellReference> individualSelectedCells) {
@@ -954,10 +928,10 @@ public class CellValueManager implements Serializable {
     /**
      * Checks whether the default deletion handling should be performed for the
      * cell range or whether a custom deletion handler takes care of everything.
-     * 
+     *
      * @param cellRangeAddresses
      * @return {@code true} if the default handling should be performed,
-     *         {@code false} otherwise
+     * {@code false} otherwise
      */
     private boolean passesRangeDeletionCheck(
             List<CellRangeAddress> cellRangeAddresses) {
@@ -975,10 +949,8 @@ public class CellValueManager implements Serializable {
      * Attempts to parse a numeric value from the given String and set it to the
      * given Cell.
      *
-     * @param cell
-     *            Target Cell
-     * @param value
-     *            Source for parsing the value
+     * @param cell  Target Cell
+     * @param value Source for parsing the value
      */
     protected void parseValueIntoNumericCell(final Cell cell, final String value) {
         // try to parse the string with the existing cell format
@@ -1021,17 +993,13 @@ public class CellValueManager implements Serializable {
      * Sends cell data to the client. Only the data within the given bounds will
      * be sent.
      *
-     * @param firstRow
-     *            Starting row index, 1-based
-     * @param firstColumn
-     *            Starting column index, 1-based
-     * @param lastRow
-     *            Ending row index, 1-based
-     * @param lastColumn
-     *            Ending column index, 1-based
+     * @param firstRow    Starting row index, 1-based
+     * @param firstColumn Starting column index, 1-based
+     * @param lastRow     Ending row index, 1-based
+     * @param lastColumn  Ending column index, 1-based
      */
     protected void loadCellData(int firstRow, int firstColumn, int lastRow,
-            int lastColumn) {
+                                int lastColumn) {
         try {
             int verticalSplitPosition = spreadsheet.getLastFrozenRow();
             int horizontalSplitPosition = spreadsheet.getLastFrozenColumn();
@@ -1077,14 +1045,10 @@ public class CellValueManager implements Serializable {
     /**
      * Gets cell data for cells within the given bounds.
      *
-     * @param firstRow
-     *            Starting row index, 1-based
-     * @param firstColumn
-     *            Starting column index, 1-based
-     * @param lastRow
-     *            Ending row index, 1-based
-     * @param lastColumn
-     *            Ending column index, 1-based
+     * @param firstRow    Starting row index, 1-based
+     * @param firstColumn Starting column index, 1-based
+     * @param lastRow     Ending row index, 1-based
+     * @param lastColumn  Ending column index, 1-based
      * @return A list of CellData for the cells in the given area.
      */
     protected ArrayList<CellData> loadCellDataForRowAndColumnRange(
@@ -1095,8 +1059,7 @@ public class CellValueManager implements Serializable {
                 .getActiveSheetIndex());
         Map<String, String> componentIDtoCellKeysMap = spreadsheet
                 .getState(false).componentIDtoCellKeysMap;
-        @SuppressWarnings("unchecked")
-        final Collection<String> customComponentCells = (Collection<String>) (componentIDtoCellKeysMap == null ? Collections
+        @SuppressWarnings("unchecked") final Collection<String> customComponentCells = (Collection<String>) (componentIDtoCellKeysMap == null ? Collections
                 .emptyList() : componentIDtoCellKeysMap.values());
 
         spreadsheet.getConditionalFormatter().evaluateBatch(formatter -> {
@@ -1141,11 +1104,10 @@ public class CellValueManager implements Serializable {
 
     /**
      * Method for updating cells that are marked for update and formula cells.
-     *
+     * <p>
      * Iterates over the whole sheet (existing rows and columns) and updates
      * client side cache for all sent formula cells, and cells that have been
      * marked for updating.
-     *
      */
     protected void updateMarkedCellValues() {
         final ArrayList<CellData> updatedCellData = new ArrayList<CellData>();
@@ -1213,16 +1175,14 @@ public class CellValueManager implements Serializable {
      * Makes sure the next {@link Spreadsheet#updateMarkedCells()} call will
      * clear all removed rows from client cache.
      *
-     * @param startRow
-     *            Index of the starting row, 1-based
-     * @param endRow
-     *            Index of the ending row, 1-based
+     * @param startRow Index of the starting row, 1-based
+     * @param endRow   Index of the ending row, 1-based
      */
     protected void updateDeletedRowsInClientCache(int startRow, int endRow) {
         for (int i = startRow; i <= endRow; i++) {
             String rowKey = "row" + i;
             for (Iterator<String> iterator = sentCells.iterator(); iterator
-                    .hasNext();) {
+                    .hasNext(); ) {
                 String key = iterator.next();
                 if (key.endsWith(rowKey)) {
                     iterator.remove();
@@ -1233,7 +1193,7 @@ public class CellValueManager implements Serializable {
                 }
             }
             for (Iterator<String> iterator = sentFormulaCells.iterator(); iterator
-                    .hasNext();) {
+                    .hasNext(); ) {
                 String key = iterator.next();
                 if (key.endsWith(rowKey)) {
                     iterator.remove();
@@ -1250,19 +1210,14 @@ public class CellValueManager implements Serializable {
      * Removes all the cells within the given bounds from the Spreadsheet and
      * the underlying POI model.
      *
-     * @param firstRow
-     *            Starting row index, 1-based
-     * @param firstColumn
-     *            Starting column index, 1-based
-     * @param lastRow
-     *            Ending row index, 1-based
-     * @param lastColumn
-     *            Ending column index, 1-based
-     * @param clearRemovedCellStyle
-     *            true to also clear styles from the removed cells
+     * @param firstRow              Starting row index, 1-based
+     * @param firstColumn           Starting column index, 1-based
+     * @param lastRow               Ending row index, 1-based
+     * @param lastColumn            Ending column index, 1-based
+     * @param clearRemovedCellStyle true to also clear styles from the removed cells
      */
     protected void removeCells(int firstRow, int firstColumn, int lastRow,
-            int lastColumn, boolean clearRemovedCellStyle) {
+                               int lastColumn, boolean clearRemovedCellStyle) {
         final Workbook workbook = spreadsheet.getWorkbook();
         final Sheet activeSheet = workbook.getSheetAt(workbook
                 .getActiveSheetIndex());
@@ -1311,15 +1266,12 @@ public class CellValueManager implements Serializable {
      * Removes an individual cell from the Spreadsheet and the underlying POI
      * model.
      *
-     * @param rowIndex
-     *            Row index of target cell, 1-based
-     * @param colIndex
-     *            Column index of target cell, 1-based
-     * @param clearRemovedCellStyle
-     *            true to also clear styles from the removed cell
+     * @param rowIndex              Row index of target cell, 1-based
+     * @param colIndex              Column index of target cell, 1-based
+     * @param clearRemovedCellStyle true to also clear styles from the removed cell
      */
     protected void removeCell(int rowIndex, int colIndex,
-            boolean clearRemovedCellStyle) {
+                              boolean clearRemovedCellStyle) {
         final Workbook workbook = spreadsheet.getWorkbook();
         final Sheet activeSheet = workbook.getSheetAt(workbook
                 .getActiveSheetIndex());
@@ -1361,10 +1313,8 @@ public class CellValueManager implements Serializable {
     /**
      * Removes hyperlink from the given cell
      *
-     * @param cell
-     *            Target cell
-     * @param sheet
-     *            Sheet the target cell belongs to
+     * @param cell  Target cell
+     * @param sheet Sheet the target cell belongs to
      */
     protected void removeHyperlink(Cell cell, Sheet sheet) {
         try {
@@ -1405,8 +1355,7 @@ public class CellValueManager implements Serializable {
     /**
      * Sets the cell style width ratio map
      *
-     * @param cellStyleWidthRatioMap
-     *            New map
+     * @param cellStyleWidthRatioMap New map
      */
     public void onCellStyleWidthRatioUpdate(
             HashMap<Integer, Float> cellStyleWidthRatioMap) {
@@ -1416,20 +1365,19 @@ public class CellValueManager implements Serializable {
     /**
      * Clears data cache for the column at the given index
      *
-     * @param indexColumn
-     *            Index of target column, 1-based
+     * @param indexColumn Index of target column, 1-based
      */
     public void clearCacheForColumn(int indexColumn) {
         final String columnKey = "col" + indexColumn + " r";
         for (Iterator<String> iterator = sentCells.iterator(); iterator
-                .hasNext();) {
+                .hasNext(); ) {
             String key = iterator.next();
             if (key.startsWith(columnKey)) {
                 iterator.remove();
             }
         }
         for (Iterator<String> iterator = sentFormulaCells.iterator(); iterator
-                .hasNext();) {
+                .hasNext(); ) {
             String key = iterator.next();
             if (key.startsWith(columnKey)) {
                 iterator.remove();

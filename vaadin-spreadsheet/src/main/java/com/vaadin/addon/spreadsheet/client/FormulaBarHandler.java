@@ -8,22 +8,27 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
  */
 
+/**
+ * 公式栏操作处理器
+ */
 public interface FormulaBarHandler {
 
     void onAddressEntered(String value);
 
     void onAddressFieldEsc();
 
-    /** Swap the cell data to the value if it is a formula. */
+    /**
+     * Swap the cell data to the value if it is a formula.
+     */
     void onFormulaFieldFocus(String value);
 
     void onFormulaFieldBlur(String value);

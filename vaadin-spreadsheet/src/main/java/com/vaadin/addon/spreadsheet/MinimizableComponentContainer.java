@@ -9,6 +9,9 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+/**
+ * 组件最小化的容器
+ */
 @SuppressWarnings("serial")
 class MinimizableComponentContainer extends CssLayout {
 

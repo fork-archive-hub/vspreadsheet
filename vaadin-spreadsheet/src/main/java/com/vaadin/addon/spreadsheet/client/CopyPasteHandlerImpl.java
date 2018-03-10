@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -20,13 +20,13 @@ package com.vaadin.addon.spreadsheet.client;
 import com.vaadin.addon.spreadsheet.client.CopyPasteTextBox.CopyPasteHandler;
 
 /**
+ * 复制粘贴处理器实现类
  * The class that binds the {@link CopyPasteTextBox} and
  * {@link SpreadsheetWidget} together; copy operations are put into this class,
  * because we have the necessary info available. paste is delegated to
  * server-side.
- * 
- * @author Thomas Mattsson / Vaadin Ltd.
  *
+ * @author Thomas Mattsson / Vaadin Ltd.
  */
 public class CopyPasteHandlerImpl implements CopyPasteHandler {
 

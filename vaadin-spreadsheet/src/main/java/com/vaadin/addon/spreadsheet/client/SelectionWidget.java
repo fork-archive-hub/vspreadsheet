@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -39,6 +39,9 @@ import com.vaadin.client.MeasuredSize;
 import com.vaadin.client.WidgetUtil;
 import com.vaadin.client.ui.VOverlay;
 
+/**
+ * 单元格选择组件
+ */
 public class SelectionWidget extends Composite {
 
     private class SelectionOutlineWidget extends Widget {
@@ -104,7 +107,7 @@ public class SelectionWidget extends Composite {
         }
 
         void setSquaresVisible(boolean top, boolean right, boolean bottom,
-                boolean left) {
+                               boolean left) {
             topSquareTouchArea.getStyle().setVisibility(
                     top && !topEdgeHidden ? Visibility.VISIBLE
                             : Visibility.HIDDEN);
@@ -250,7 +253,7 @@ public class SelectionWidget extends Composite {
                 row2 = maxRow;
                 setBottomEdgeHidden(true);
                 setCornerHidden(true); // paint is hidden if right edge is
-                                       // hidden
+                // hidden
             } else {
                 setBottomEdgeHidden(false);
                 setCornerHidden(false);
@@ -350,29 +353,29 @@ public class SelectionWidget extends Composite {
 
         private void onPaintEvent(Event event) {
             switch (DOM.eventGetType(event)) {
-            case Event.ONTOUCHSTART:
-                if (event.getTouches().length() > 1) {
-                    return;
-                }
-            case Event.ONMOUSEDOWN:
-                beginPaintingCells(event);
-                break;
-            case Event.ONMOUSEUP:
-            case Event.ONTOUCHEND:
-            case Event.ONTOUCHCANCEL:
-                DOM.releaseCapture(getElement());
-            case Event.ONLOSECAPTURE:
-                stopPaintingCells(event);
-                break;
-            case Event.ONMOUSEMOVE:
-                paintCells(event);
-                break;
-            case Event.ONTOUCHMOVE:
-                paintCells(event);
-                event.preventDefault();
-                break;
-            default:
-                break;
+                case Event.ONTOUCHSTART:
+                    if (event.getTouches().length() > 1) {
+                        return;
+                    }
+                case Event.ONMOUSEDOWN:
+                    beginPaintingCells(event);
+                    break;
+                case Event.ONMOUSEUP:
+                case Event.ONTOUCHEND:
+                case Event.ONTOUCHCANCEL:
+                    DOM.releaseCapture(getElement());
+                case Event.ONLOSECAPTURE:
+                    stopPaintingCells(event);
+                    break;
+                case Event.ONMOUSEMOVE:
+                    paintCells(event);
+                    break;
+                case Event.ONTOUCHMOVE:
+                    paintCells(event);
+                    event.preventDefault();
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -382,7 +385,7 @@ public class SelectionWidget extends Composite {
         }
 
         public void setLimits(int minRow, int maxRow, int minColumn,
-                int maxColumn) {
+                              int maxColumn) {
             this.minRow = minRow;
             this.maxRow = maxRow;
             this.minColumn = minColumn;
@@ -528,7 +531,7 @@ public class SelectionWidget extends Composite {
         }
 
         public void setLimits(int minRow, int maxRow, int minColumn,
-                int maxColumn) {
+                              int maxColumn) {
             this.minRow = minRow;
             this.maxRow = maxRow;
             this.minColumn = minColumn;
@@ -700,7 +703,7 @@ public class SelectionWidget extends Composite {
 
     private void updateLimits() {
         bottomRight.setLimits(verticalSplitPosition == 0 ? 0
-                : verticalSplitPosition + 1, 0,
+                        : verticalSplitPosition + 1, 0,
                 horizontalSplitPosition == 0 ? 0 : horizontalSplitPosition + 1,
                 0);
         if (bottomLeft != null) {
@@ -717,7 +720,7 @@ public class SelectionWidget extends Composite {
                     horizontalSplitPosition);
         }
         paintBottomRight.setLimits(verticalSplitPosition == 0 ? 0
-                : verticalSplitPosition + 1, 0,
+                        : verticalSplitPosition + 1, 0,
                 horizontalSplitPosition == 0 ? 0 : horizontalSplitPosition + 1,
                 0);
         if (paintBottomLeft != null) {
@@ -882,7 +885,7 @@ public class SelectionWidget extends Composite {
 
                                 @Override
                                 public void setPosition(int offsetWidth,
-                                        int offsetHeight) {
+                                                        int offsetHeight) {
                                     // above top border
                                     int top = 0;
                                     int left = 0;
@@ -1029,12 +1032,9 @@ public class SelectionWidget extends Composite {
     }
 
     /**
-     *
      * @param sizes
-     * @param beginIndex
-     *            1-based inclusive
-     * @param endIndex
-     *            1-based exclusive
+     * @param beginIndex 1-based inclusive
+     * @param endIndex   1-based exclusive
      * @return
      */
     public int countSum(int[] sizes, int beginIndex, int endIndex) {
@@ -1053,20 +1053,16 @@ public class SelectionWidget extends Composite {
      * cursor position. Used for determining how many rows/columns should be
      * painted when the mouse cursor is dragged somewhere.
      *
-     * @param cellSizes
-     *            the sizes used to calculate
-     * @param startIndex
-     *            1-based index where the cursorPosition refers to
-     * @param cursorPosition
-     *            the position of the cursor relative to startIndex. Can be
-     *            negative
-     * @param forSelection
-     *            true if the result is used for touch selection, false if it's
-     *            used for painting cells
+     * @param cellSizes      the sizes used to calculate
+     * @param startIndex     1-based index where the cursorPosition refers to
+     * @param cursorPosition the position of the cursor relative to startIndex. Can be
+     *                       negative
+     * @param forSelection   true if the result is used for touch selection, false if it's
+     *                       used for painting cells
      * @return
      */
     public int closestCellEdgeIndexToCursor(int cellSizes[], int startIndex,
-            int cursorPosition, boolean forSelection) {
+                                            int cursorPosition, boolean forSelection) {
         int result = 0;
         int pos = 0;
         if (cursorPosition < 0) {
@@ -1353,7 +1349,7 @@ public class SelectionWidget extends Composite {
     }
 
     private void handleCellShiftOnScroll(int selectionPointX,
-            int selectionPointY) {
+                                         int selectionPointY) {
         Element target = WidgetUtil.getElementFromPoint(selectionPointX,
                 selectionPointY);
         if (target != null) {
@@ -1476,7 +1472,7 @@ public class SelectionWidget extends Composite {
     }
 
     private void updatePaintRectangle(final int clientX, final int clientY,
-            int colIndex, int rowIndex) {
+                                      int colIndex, int rowIndex) {
         // TODO This might need to handle merged cells
         // See http://dev.vaadin.com/ticket/17134
         if ((colIndex >= col1 && colIndex <= col2)

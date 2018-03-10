@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -31,9 +14,10 @@ import org.apache.poi.ss.usermodel.PatternFormatting;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 
 /**
- * Color converter implementation for the older Excel file type (.xls or HSSF in
- * POI terms).
- * 
+ * xls颜色转换器
+ * <p>
+ * Color converter implementation for the older Excel file type (.xls or HSSF in POI terms).
+ *
  * @author Vaadin Ltd.
  * @since 1.0
  */
@@ -55,26 +39,26 @@ public class HSSFColorConverter implements ColorConverter {
 
     @Override
     public String getBorderColorCSS(BorderSide borderSide, String attr,
-            CellStyle cellStyle) {
+                                    CellStyle cellStyle) {
 
         StringBuilder sb = new StringBuilder();
 
         final HSSFCellStyle cs = (HSSFCellStyle) cellStyle;
         switch (borderSide) {
-        case BOTTOM:
-            styleBorderColor(sb, attr, cs.getBottomBorderColor());
-            break;
-        case LEFT:
-            styleBorderColor(sb, attr, cs.getLeftBorderColor());
-            break;
-        case RIGHT:
-            styleBorderColor(sb, attr, cs.getRightBorderColor());
-            break;
-        case TOP:
-            styleBorderColor(sb, attr, cs.getTopBorderColor());
-            break;
-        default:
-            break;
+            case BOTTOM:
+                styleBorderColor(sb, attr, cs.getBottomBorderColor());
+                break;
+            case LEFT:
+                styleBorderColor(sb, attr, cs.getLeftBorderColor());
+                break;
+            case RIGHT:
+                styleBorderColor(sb, attr, cs.getRightBorderColor());
+                break;
+            case TOP:
+                styleBorderColor(sb, attr, cs.getTopBorderColor());
+                break;
+            default:
+                break;
         }
 
         return sb.toString();
@@ -189,7 +173,7 @@ public class HSSFColorConverter implements ColorConverter {
 
     @Override
     public String getBorderColorCSS(BorderSide right, String attribute,
-            BorderFormatting borderFormatting) {
+                                    BorderFormatting borderFormatting) {
         // conditional formatting is not supported for HSSF
         return "";
     }
@@ -215,7 +199,7 @@ public class HSSFColorConverter implements ColorConverter {
     }
 
     private void styleBorderColor(final StringBuilder sb, String attr,
-            short index) {
+                                  short index) {
         HSSFColor color = colors.getColor(index);
         sb.append(attr);
         sb.append(":");

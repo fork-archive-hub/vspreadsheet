@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -26,6 +9,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
+ * 公式格式化
+ * <p>
  * Converts between a localized formula and a non-localized formula.
  * <p>
  * This is needed because internally POI only handles formulas with '.' as the
@@ -33,10 +18,11 @@ import java.util.Locale;
  */
 public class FormulaFormatter implements Serializable {
 
-    /*
+    /**
      * Classes for the intermediary token format
      */
     private class FormulaToken implements Serializable {
+
         private final String content;
 
         public FormulaToken(char charContent) {
@@ -71,10 +57,8 @@ public class FormulaFormatter implements Serializable {
     /**
      * Convert from a localized format to a non-localized.
      *
-     * @param formulaValue
-     *            the value that should be converted
-     * @param locale
-     *            the locale of the given value
+     * @param formulaValue the value that should be converted
+     * @param locale       the locale of the given value
      * @return the non-localized formula
      */
     public String unFormatFormulaValue(String formulaValue, Locale locale) {
@@ -91,10 +75,8 @@ public class FormulaFormatter implements Serializable {
     /**
      * Convert from a non-localized format to a localized.
      *
-     * @param formulaValue
-     *            the value that should be converted
-     * @param locale
-     *            the target locale
+     * @param formulaValue the value that should be converted
+     * @param locale       the target locale
      * @return the localized formula
      */
     public String reFormatFormulaValue(String formulaValue, Locale locale) {
@@ -114,10 +96,8 @@ public class FormulaFormatter implements Serializable {
     /**
      * Rudimentary checks if the given string could be a valid formula
      *
-     * @param value
-     *            whole formula as a string, must start with '=' or '+'
-     * @param locale
-     *            the current locale
+     * @param value  whole formula as a string, must start with '=' or '+'
+     * @param locale the current locale
      * @return true if the formula could be valid
      */
     public boolean isValidFormulaFormat(String value, Locale locale) {
@@ -153,7 +133,7 @@ public class FormulaFormatter implements Serializable {
      * Loop through tokens and localize them as needed.
      */
     private List<FormulaToken> localizeTokens(List<FormulaToken> tokens,
-            Locale locale) {
+                                              Locale locale) {
         List<FormulaToken> localizedTokens = new LinkedList<FormulaToken>();
 
         for (FormulaToken token : tokens) {
@@ -192,7 +172,7 @@ public class FormulaFormatter implements Serializable {
      * Loop through tokens and un-localize them as needed.
      */
     protected List<FormulaToken> unLocalizeTokens(List<FormulaToken> tokens,
-            Locale locale) {
+                                                  Locale locale) {
         List<FormulaToken> unlocalizedTokens = new LinkedList<FormulaToken>();
 
         for (FormulaToken token : tokens) {
@@ -223,7 +203,7 @@ public class FormulaFormatter implements Serializable {
      * argument separators.
      */
     protected List<FormulaToken> tokenizeFormula(String formulaValue,
-            Locale from) {
+                                                 Locale from) {
         boolean inString = false;
         StringBuilder numberBuilder = new StringBuilder();
         List<FormulaToken> tokens = new LinkedList<FormulaToken>();

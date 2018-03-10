@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -44,6 +44,9 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vaadin.addon.spreadsheet.client.SheetWidget.CellCoord;
 
+/**
+ * 公示栏组件
+ */
 public class FormulaBarWidget extends Composite {
 
     private static final List<String> formulaColors;
@@ -145,7 +148,7 @@ public class FormulaBarWidget extends Composite {
     private RegExp cachedRegex;
 
     public FormulaBarWidget(FormulaBarHandler selectionManager,
-            SheetWidget widget) {
+                            SheetWidget widget) {
         handler = selectionManager;
         this.widget = widget;
 
@@ -202,10 +205,10 @@ public class FormulaBarWidget extends Composite {
                 return;
             }
         }
-        
+
         namedRangeBox.setSelectedIndex(0);
     }
-    
+
     /**
      * Removes all keyboard selection variables, clears paint
      */
@@ -218,7 +221,7 @@ public class FormulaBarWidget extends Composite {
     }
 
     public void moveFormulaCellSelection(boolean shiftPressed, boolean up,
-            boolean right, boolean down) {
+                                         boolean right, boolean down) {
 
         if (!isEditingFormula()) {
             return;
@@ -316,47 +319,47 @@ public class FormulaBarWidget extends Composite {
             @Override
             public void onBrowserEvent(Event event) {
                 switch (event.getTypeInt()) {
-                case Event.ONFOCUS:
+                    case Event.ONFOCUS:
 
-                    // if we move focus from inline editor to here, swap the
-                    // editor
-                    if (editingFormula && currentEditor == inlineEditor) {
-                        editingFormula = false;
-                        checkFormulaEdit(formulaField);
+                        // if we move focus from inline editor to here, swap the
+                        // editor
+                        if (editingFormula && currentEditor == inlineEditor) {
+                            editingFormula = false;
+                            checkFormulaEdit(formulaField);
 
-                    } else {
-                        handler.setSheetFocused(true);
-                        cachedFunctionFieldValue = formulaField.getValue();
-                        handler.onFormulaFieldFocus(cachedFunctionFieldValue);
-                        checkFormulaEdit(formulaField);
-                    }
-                    break;
-                case Event.ONBLUR:
+                        } else {
+                            handler.setSheetFocused(true);
+                            cachedFunctionFieldValue = formulaField.getValue();
+                            handler.onFormulaFieldFocus(cachedFunctionFieldValue);
+                            checkFormulaEdit(formulaField);
+                        }
+                        break;
+                    case Event.ONBLUR:
 
-                    // temporary blur (cell selection)?
-                    if (!editingFormula) {
-                        handler.setSheetFocused(false);
-                        handler.onFormulaFieldBlur(formulaField.getValue());
-                    }
-                    break;
-                case Event.ONKEYDOWN:
-                    handleFunctionFieldKeyDown(event);
-                    break;
-                case Event.ONPASTE:
-                case Event.ONKEYPRESS:
+                        // temporary blur (cell selection)?
+                        if (!editingFormula) {
+                            handler.setSheetFocused(false);
+                            handler.onFormulaFieldBlur(formulaField.getValue());
+                        }
+                        break;
+                    case Event.ONKEYDOWN:
+                        handleFunctionFieldKeyDown(event);
+                        break;
+                    case Event.ONPASTE:
+                    case Event.ONKEYPRESS:
 
-                    checkKeyboardNavigation();
-                    updateEditorCaretPos(true);
-
-                    scheduleFormulaValueUpdate();
-
-                    break;
-                case Event.ONMOUSEUP:
-                    if (editingFormula) {
+                        checkKeyboardNavigation();
                         updateEditorCaretPos(true);
-                    }
-                default:
-                    break;
+
+                        scheduleFormulaValueUpdate();
+
+                        break;
+                    case Event.ONMOUSEUP:
+                        if (editingFormula) {
+                            updateEditorCaretPos(true);
+                        }
+                    default:
+                        break;
                 }
             }
 
@@ -422,7 +425,7 @@ public class FormulaBarWidget extends Composite {
      * last call, replace the value instead.
      */
     private void setFormulaCellRange(int col1, int row1, int col2, int row2,
-            boolean add) {
+                                     boolean add) {
 
         String cellRange;
         if (col1 == col2 && row1 == row2) {
@@ -510,13 +513,13 @@ public class FormulaBarWidget extends Composite {
     }
 
     private native void setSelectionRange(Element elem, int pos, int length)
-    /*-{
-        try {
-          elem.setSelectionRange(pos, pos + length);
-        } catch (e) {
-          // Firefox throws exception if TextBox is not visible, even if attached
-        }
-    }-*/;
+        /*-{
+            try {
+                elem.setSelectionRange(pos, pos + length);
+            } catch (e) {
+                // Firefox throws exception if TextBox is not visible, even if attached
+            }
+        }-*/;
 
     private void scheduleFormulaValueUpdate() {
 
@@ -568,63 +571,63 @@ public class FormulaBarWidget extends Composite {
 
     private void handleFunctionFieldKeyDown(Event event) {
         switch (event.getKeyCode()) {
-        case KeyCodes.KEY_BACKSPACE:
-        case KeyCodes.KEY_DELETE:
-            scheduleFormulaValueUpdate();
-            checkEmptyValue();
+            case KeyCodes.KEY_BACKSPACE:
+            case KeyCodes.KEY_DELETE:
+                scheduleFormulaValueUpdate();
+                checkEmptyValue();
 
-            break;
-        case KeyCodes.KEY_ESCAPE:
-            formulaField.setValue(cachedFunctionFieldValue);
-            handler.onFormulaEsc();
-            stopEditing();
-            event.stopPropagation();
-            event.preventDefault();
-            break;
-        case KeyCodes.KEY_ENTER:
-            handler.onFormulaEnter(formulaField.getValue());
-            stopEditing();
-            event.stopPropagation();
-            event.preventDefault();
-            break;
-        case KeyCodes.KEY_TAB:
-            handler.onFormulaTab(formulaField.getValue(), !event.getShiftKey());
-            stopEditing();
-            event.stopPropagation();
-            break;
+                break;
+            case KeyCodes.KEY_ESCAPE:
+                formulaField.setValue(cachedFunctionFieldValue);
+                handler.onFormulaEsc();
+                stopEditing();
+                event.stopPropagation();
+                event.preventDefault();
+                break;
+            case KeyCodes.KEY_ENTER:
+                handler.onFormulaEnter(formulaField.getValue());
+                stopEditing();
+                event.stopPropagation();
+                event.preventDefault();
+                break;
+            case KeyCodes.KEY_TAB:
+                handler.onFormulaTab(formulaField.getValue(), !event.getShiftKey());
+                stopEditing();
+                event.stopPropagation();
+                break;
 
-        case KeyCodes.KEY_UP:
-            if (enableKeyboardNavigation) {
-                moveFormulaCellSelection(event.getShiftKey(), true, false,
-                        false);
-                event.preventDefault();
-            }
-            break;
-        case KeyCodes.KEY_RIGHT:
-            if (enableKeyboardNavigation) {
-                moveFormulaCellSelection(event.getShiftKey(), false, true,
-                        false);
-                event.preventDefault();
-            }
-            break;
-        case KeyCodes.KEY_DOWN:
-            if (enableKeyboardNavigation) {
-                moveFormulaCellSelection(event.getShiftKey(), false, false,
-                        true);
-                event.preventDefault();
-            }
-            break;
-        case KeyCodes.KEY_LEFT:
-            if (enableKeyboardNavigation) {
-                moveFormulaCellSelection(event.getShiftKey(), false, false,
-                        false);
-                event.preventDefault();
-            }
-            break;
+            case KeyCodes.KEY_UP:
+                if (enableKeyboardNavigation) {
+                    moveFormulaCellSelection(event.getShiftKey(), true, false,
+                            false);
+                    event.preventDefault();
+                }
+                break;
+            case KeyCodes.KEY_RIGHT:
+                if (enableKeyboardNavigation) {
+                    moveFormulaCellSelection(event.getShiftKey(), false, true,
+                            false);
+                    event.preventDefault();
+                }
+                break;
+            case KeyCodes.KEY_DOWN:
+                if (enableKeyboardNavigation) {
+                    moveFormulaCellSelection(event.getShiftKey(), false, false,
+                            true);
+                    event.preventDefault();
+                }
+                break;
+            case KeyCodes.KEY_LEFT:
+                if (enableKeyboardNavigation) {
+                    moveFormulaCellSelection(event.getShiftKey(), false, false,
+                            false);
+                    event.preventDefault();
+                }
+                break;
 
-        default:
-            checkFormulaEdit(formulaField);
-            break;
+            default:
+                checkFormulaEdit(formulaField);
+                break;
         }
 
         if (currentEditor != null) {
@@ -1186,7 +1189,7 @@ public class FormulaBarWidget extends Composite {
             for (String name : namedRanges) {
                 namedRangeBox.addItem(name);
             }
-            
+
             trySelectNamedRangeBoxValue(addressField.getValue());
         } else {
             setNamedRangeBoxVisible(false);

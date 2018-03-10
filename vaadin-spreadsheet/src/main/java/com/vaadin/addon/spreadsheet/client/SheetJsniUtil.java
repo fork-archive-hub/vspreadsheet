@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -19,6 +19,9 @@ package com.vaadin.addon.spreadsheet.client;
 
 import com.google.gwt.dom.client.StyleElement;
 
+/**
+ * 工作表内js处理工具类
+ */
 public class SheetJsniUtil {
 
     private int parsedCol;
@@ -118,7 +121,7 @@ public class SheetJsniUtil {
     public native int replaceSelector(StyleElement stylesheet, String selector,
             int ruleindex)
     /*-{
-        var oldSelector = stylesheet.sheet.cssRules[ruleindex].selectorText;        
+        var oldSelector = stylesheet.sheet.cssRules[ruleindex].selectorText;
         var cssText = stylesheet.sheet.cssRules[ruleindex].cssText.replace(oldSelector, selector);
         stylesheet.sheet.deleteRule(ruleindex);
         return stylesheet.sheet.insertRule(cssText, ruleindex);
@@ -127,7 +130,7 @@ public class SheetJsniUtil {
     /** Clears the rules starting from the given index */
     public native void clearCSSRules(StyleElement stylesheet)
     /*-{
-        var rules = stylesheet.sheet.cssRules? stylesheet.sheet.cssRules : stylesheet.sheet.rules;        
+        var rules = stylesheet.sheet.cssRules? stylesheet.sheet.cssRules : stylesheet.sheet.rules;
         while ( rules.length > 0 ) {
             if (stylesheet.sheet.deleteRule) {
                 stylesheet.sheet.deleteRule(0);

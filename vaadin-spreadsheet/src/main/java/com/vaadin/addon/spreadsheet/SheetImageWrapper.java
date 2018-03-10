@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -30,10 +13,11 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 
 /**
- * SheetImageWrapper is an utility class of the Spreadsheet component. In
- * addition to the image resource, this wrapper contains the images visibility
- * state, position and size.
- * 
+ * 图片包装器
+ * <p>
+ * SheetImageWrapper is an utility class of the Spreadsheet component.
+ * In addition to the image resource, this wrapper contains the images visibility state, position and size.
+ *
  * @author Vaadin Ltd.
  */
 @SuppressWarnings("serial")
@@ -53,7 +37,7 @@ public class SheetImageWrapper extends SheetOverlayWrapper implements
 
     /**
      * Gets the resource containing this image
-     * 
+     *
      * @return Image resource
      */
     @Override

@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,6 +27,8 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
+ * 按条件格式化的工具类
+ * <p>
  * ConditionalFormatter is an utility class of Spreadsheet, which handles all
  * processing regarding Conditional Formatting rules.
  * <p>
@@ -262,9 +247,9 @@ public class ConditionalFormatter implements Serializable {
      */
     protected Set<Integer> getCellFormattingIndex(Cell cell, Set<CellReference> cellsEvaluatedInThisRun) {
         /*
-		 * Why use Integer CSS IDs?  Looking at uses, there is no reason they can't be String instead.
-		 * Or even an array of ints, so we can use sheet/row/column/border index arrays and return Set<int[]>
-		 */
+         * Why use Integer CSS IDs?  Looking at uses, there is no reason they can't be String instead.
+         * Or even an array of ints, so we can use sheet/row/column/border index arrays and return Set<int[]>
+         */
         if (cell == null) return Collections.emptySet();
 
         // calculate for cells to the right and below first, so this can have the proper border IDs if needed
@@ -375,9 +360,9 @@ public class ConditionalFormatter implements Serializable {
      * @param evaluator
      */
     public void evaluateBatch(ConditionalFormattingBatchEvaluator evaluator) {
-		/*
-		 *  {@link #startEvaluationRun()} first to reset and allow picking up changes to conditional formatting state based on formula value changes.
-		 */
+        /*
+         *  {@link #startEvaluationRun()} first to reset and allow picking up changes to conditional formatting state based on formula value changes.
+         */
         Set<CellReference> cellsEvaluatedInThisRun = new HashSet<>();
         evaluator.evaluate((cell) -> getCellFormattingIndex(cell, cellsEvaluatedInThisRun));
     }

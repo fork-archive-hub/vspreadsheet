@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -77,6 +77,9 @@ import com.vaadin.client.ui.VLabel;
 import com.vaadin.client.ui.VLazyExecutor;
 import com.vaadin.client.ui.VOverlay;
 
+/**
+ * 工作表组件
+ */
 public class SheetWidget extends Panel {
 
     private static final String SELECTED_COLUMN_HEADER_CLASSNAME = "selected-column-header";
@@ -130,26 +133,38 @@ public class SheetWidget extends Panel {
 
     private final VLabel resizeTooltipLabel;
 
-    /** Spreadsheet main (outmost) element */
+    /**
+     * Spreadsheet main (outmost) element
+     */
     DivElement spreadsheet = Document.get().createDivElement();
 
-    /** Sheet that will contain all the cells */
+    /**
+     * Sheet that will contain all the cells
+     */
     DivElement sheet = Document.get().createDivElement();
 
     private HandlerRegistration previewHandlerRegistration;
 
-    /** Header corner element that covers crossing headers */
+    /**
+     * Header corner element that covers crossing headers
+     */
     private DivElement corner = Document.get().createDivElement();
 
     private PasteAwareTextBox input;
 
-    /** Invisible element for adjusting the scrollbars */
+    /**
+     * Invisible element for adjusting the scrollbars
+     */
     private final DivElement floater = Document.get().createDivElement();
 
-    /** A line to show the right/bottom dnd-resize position */
+    /**
+     * A line to show the right/bottom dnd-resize position
+     */
     private final DivElement resizeLine = Document.get().createDivElement();
 
-    /** A line to show the left/top dnd-resize position */
+    /**
+     * A line to show the left/top dnd-resize position
+     */
     private final DivElement resizeLineStable = Document.get()
             .createDivElement();
 
@@ -177,13 +192,19 @@ public class SheetWidget extends Panel {
      */
     private ArrayList<ArrayList<Cell>> rows = new ArrayList<ArrayList<Cell>>();
 
-    /** Cells in the frozen top left pane, starting from top left cell */
+    /**
+     * Cells in the frozen top left pane, starting from top left cell
+     */
     private ArrayList<Cell> topLeftCells = new ArrayList<Cell>();
 
-    /** Rows in the frozen top right pane */
+    /**
+     * Rows in the frozen top right pane
+     */
     private ArrayList<ArrayList<Cell>> topRightRows = new ArrayList<ArrayList<Cell>>();
 
-    /** Rows in the frozen bottom left pane */
+    /**
+     * Rows in the frozen bottom left pane
+     */
     private ArrayList<ArrayList<Cell>> bottomLeftRows = new ArrayList<ArrayList<Cell>>();
 
     /**
@@ -193,10 +214,14 @@ public class SheetWidget extends Panel {
     private StyleElement cellSizeAndPositionStyle = Document.get()
             .createStyleElement();
 
-    /** Stylesheet element for holding the workbook defined styles */
+    /**
+     * Stylesheet element for holding the workbook defined styles
+     */
     private StyleElement sheetStyle = Document.get().createStyleElement();
 
-    /** Stylesheet element for holding custom cell sizes (because of borders) */
+    /**
+     * Stylesheet element for holding custom cell sizes (because of borders)
+     */
     private StyleElement shiftedBorderCellStyle = Document.get()
             .createStyleElement();
 
@@ -209,7 +234,9 @@ public class SheetWidget extends Panel {
     private StyleElement editedCellFreezeColumnStyle = Document.get()
             .createStyleElement();
 
-    /** Stylesheet for cursor: pointer for hyperlink cells. Created on-demand. */
+    /**
+     * Stylesheet for cursor: pointer for hyperlink cells. Created on-demand.
+     */
     private StyleElement hyperlinkStyle;
 
     /**
@@ -293,7 +320,9 @@ public class SheetWidget extends Panel {
 
     private HashMap<String, PopupButtonWidget> sheetPopupButtons;
 
-    /** region ID to cell map */
+    /**
+     * region ID to cell map
+     */
     private HashMap<Integer, MergedCell> mergedCells;
 
     private String cellCommentCellClassName;
@@ -313,13 +342,21 @@ public class SheetWidget extends Panel {
     private int firstColumnPosition;
     private int firstRowIndex;
     private int firstRowPosition;
-    /** index of the last rendered column */
+    /**
+     * index of the last rendered column
+     */
     private int lastColumnIndex;
-    /** right edge position of the last rendered column */
+    /**
+     * right edge position of the last rendered column
+     */
     private int lastColumnPosition;
-    /** index of the last rendered row */
+    /**
+     * index of the last rendered row
+     */
     private int lastRowIndex;
-    /** *bottom edge position of the last rendered row */
+    /**
+     * bottom edge position of the last rendered row
+     */
     private int lastRowPosition;
     private int previousScrollLeft;
     private int previousScrollTop;
@@ -331,9 +368,13 @@ public class SheetWidget extends Panel {
     private int topFrozenPanelHeight;
     private int leftFrozenPanelWidth;
 
-    /** 1-based. marks the last frozen row index */
+    /**
+     * 1-based. marks the last frozen row index
+     */
     int verticalSplitPosition;
-    /** 1-based. marks the last frozen column index */
+    /**
+     * 1-based. marks the last frozen column index
+     */
     private int horizontalSplitPosition;
 
     private int resizedRowIndex = -1;
@@ -415,15 +456,15 @@ public class SheetWidget extends Panel {
     private VLazyExecutor cellCommentHandler = new VLazyExecutor(
             CELL_COMMENT_OVERLAY_DELAY, new ScheduledCommand() {
 
-                @Override
-                public void execute() {
-                    if (cellCommentCellColumn != -1 && cellCommentCellRow != -1) {
-                        showCellComment(cellCommentCellColumn,
-                                cellCommentCellRow);
-                    }
+        @Override
+        public void execute() {
+            if (cellCommentCellColumn != -1 && cellCommentCellRow != -1) {
+                showCellComment(cellCommentCellColumn,
+                        cellCommentCellRow);
+            }
 
-                }
-            });
+        }
+    });
 
     private VLazyExecutor onMouseOverOrOutHandler = new VLazyExecutor(100,
             new ScheduledCommand() {
@@ -524,10 +565,14 @@ public class SheetWidget extends Panel {
                 || className.equals(Cell.CELL_INVALID_FORMULA_CLASSNAME);
     }
 
-    /** Height of the formula bar and column headers */
+    /**
+     * Height of the formula bar and column headers
+     */
     private int topOffset;
 
-    /** Width of the row headers */
+    /**
+     * Width of the row headers
+     */
     private int leftOffset;
 
     private boolean cellCommentEditMode;
@@ -836,7 +881,9 @@ public class SheetWidget extends Panel {
         }
     }
 
-    /** Build DOM elements for this spreadsheet */
+    /**
+     * Build DOM elements for this spreadsheet
+     */
     private void initDOM() {
 
         // Spreadsheet main element that acts as a viewport containing all the
@@ -992,7 +1039,9 @@ public class SheetWidget extends Panel {
         rows.clear();
     }
 
-    /** For internal use. May be removed at a later time. */
+    /**
+     * For internal use. May be removed at a later time.
+     */
     public void removeStyles() {
         // Remove style tags
         cellSizeAndPositionStyle.removeFromParent();
@@ -1041,13 +1090,13 @@ public class SheetWidget extends Panel {
             return (customWidgetElement.isOrHasChild(target) || customWidgetElement
                     .getParentElement() != null
                     && customWidgetElement.getParentElement().isOrHasChild(
-                            target));
+                    target));
         }
         return false;
     }
 
     protected Cell getRealEventTargetCell(final int clientX, final int clientY,
-            final Cell cell) {
+                                          final Cell cell) {
         Cell mergedCell = getMergedCell(toKey(cell.getCol(), cell.getRow()));
         if (mergedCell == null) {
             Element target = cell.getElement();
@@ -1103,9 +1152,7 @@ public class SheetWidget extends Panel {
     }
 
     /**
-     *
-     * @param event
-     *            The original event (that can be onClick or onTouchStart)
+     * @param event The original event (that can be onClick or onTouchStart)
      */
     protected void onSheetMouseDown(Event event) {
         Element target = event.getEventTarget().cast();
@@ -1205,8 +1252,8 @@ public class SheetWidget extends Panel {
                     // clicking on hyperlink cells that overflow to next cells
                     if (cellLinksMap != null
                             && cellLinksMap.containsKey(toKey(
-                                    jsniUtil.getParsedCol(),
-                                    jsniUtil.getParsedRow()))) {
+                            jsniUtil.getParsedCol(),
+                            jsniUtil.getParsedRow()))) {
                         actionHandler.onLinkCellClick(targetCol, targetRow);
                     } else { // otherwise selecting starts
                         actionHandler
@@ -1244,7 +1291,7 @@ public class SheetWidget extends Panel {
          * Touch.getTarget() is the equivalent of event.getTarget(). Of course,
          * Safari doesn't follow the specifications; all target references are
          * to the element where we started the drag.
-         * 
+         *
          * We need to manually parse x/y coords in #getRealEventTargetCell() to
          * find the correct cell.
          */
@@ -1276,7 +1323,7 @@ public class SheetWidget extends Panel {
              * Parse according to classname of target element. As said above,
              * Safari gives us the wrong target and hence we have the wrong
              * style name here.
-             * 
+             *
              * This also means that if we move outside the sheet, we continue
              * execution past this check.
              */
@@ -1400,8 +1447,8 @@ public class SheetWidget extends Panel {
                     tempCol, selectedCellRow, tempRow);
         } else {
             actionHandler.onCellClick(tempCol, tempRow, ((Element) event
-                    .getEventTarget().cast()).getInnerText(), event
-                    .getShiftKey(), event.getMetaKey() || event.getCtrlKey(),
+                            .getEventTarget().cast()).getInnerText(), event
+                            .getShiftKey(), event.getMetaKey() || event.getCtrlKey(),
                     true);
         }
         selectingCells = false;
@@ -1475,7 +1522,7 @@ public class SheetWidget extends Panel {
     };
 
     private void handleSelectionOnScroll(int selectionPointX,
-            int selectionPointY) {
+                                         int selectionPointY) {
         Element target = WidgetUtil.getElementFromPoint(selectionPointX,
                 selectionPointY);
         if (target != null) {
@@ -1563,9 +1610,9 @@ public class SheetWidget extends Panel {
                             if (resizingColumn
                                     || resizingRow
                                     || className
-                                            .equals(HEADER_RESIZE_DND_FIRST_CLASSNAME)
+                                    .equals(HEADER_RESIZE_DND_FIRST_CLASSNAME)
                                     || className
-                                            .equals(HEADER_RESIZE_DND_SECOND_CLASSNAME)) {
+                                    .equals(HEADER_RESIZE_DND_SECOND_CLASSNAME)) {
                                 columnResizeCancelled = true;
                                 rowResizeCancelled = true;
                                 resizingColumn = false;
@@ -1601,14 +1648,14 @@ public class SheetWidget extends Panel {
                                                     nativeEvent.getShiftKey(),
                                                     nativeEvent.getMetaKey()
                                                             || nativeEvent
-                                                                    .getCtrlKey());
+                                                            .getCtrlKey());
                                         } else {
                                             actionHandler.onColumnHeaderClick(
                                                     index,
                                                     nativeEvent.getShiftKey(),
                                                     nativeEvent.getMetaKey()
                                                             || nativeEvent
-                                                                    .getCtrlKey());
+                                                            .getCtrlKey());
                                         }
                                         event.cancel();
                                         sheet.focus();
@@ -1679,14 +1726,14 @@ public class SheetWidget extends Panel {
                                         int i = jsniUtil.isHeader(className);
                                         if (i == 1) { // row
                                             i = jsniUtil
-                                                .parseHeaderIndex(className) - 1;
+                                                    .parseHeaderIndex(className) - 1;
                                             while (actionHandler
-                                                .isRowHidden(i) && i > 0) {
+                                                    .isRowHidden(i) && i > 0) {
                                                 i--;
                                             }
                                             if (i > 0) {
                                                 actionHandler
-                                                    .onRowHeaderDoubleClick(i);
+                                                        .onRowHeaderDoubleClick(i);
                                             }
                                         } else if (i == 2) { // col
                                             i = jsniUtil
@@ -1708,14 +1755,14 @@ public class SheetWidget extends Panel {
                                         int i = jsniUtil.isHeader(className);
                                         if (i == 1) { // row
                                             i = jsniUtil
-                                                .parseHeaderIndex(className);
+                                                    .parseHeaderIndex(className);
                                             while (actionHandler
-                                                .isRowHidden(i) && i > 0) {
+                                                    .isRowHidden(i) && i > 0) {
                                                 i--;
                                             }
                                             if (i > 0) {
                                                 actionHandler
-                                                    .onRowHeaderDoubleClick(i);
+                                                        .onRowHeaderDoubleClick(i);
                                             }
                                         } else if (i == 2) { // col
                                             i = jsniUtil
@@ -1748,7 +1795,7 @@ public class SheetWidget extends Panel {
 
                     /**
                      * returns 1 for row 2 for column 0 for not header
-                     * 
+                     *
                      * @see {@link SheetJsniUtil.isHeader(String)}
                      */
                     private int isHeader(Element target) {
@@ -1826,7 +1873,7 @@ public class SheetWidget extends Panel {
                 resizeLastEdgePos = header.getAbsoluteBottom();
                 if (actionHandler.getRowHeight(tempRowIndex) > 0) {
                     resizeTooltipLabel.setText(
-                        "Height: " + actionHandler.getRowHeight(tempRowIndex) + "pt");
+                            "Height: " + actionHandler.getRowHeight(tempRowIndex) + "pt");
                 } else {
                     resizeTooltipLabel.setText("Hide row");
                 }
@@ -1846,7 +1893,7 @@ public class SheetWidget extends Panel {
     }
 
     private void startColumnResizeDrag(final int columnIndex,
-            final int clientX, final int clientY) {
+                                       final int clientX, final int clientY) {
         resized = false;
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -2132,9 +2179,11 @@ public class SheetWidget extends Panel {
         resizeTooltip.setPopupPosition(left, top);
     }
 
-    /** Replace stylesheet with the array of rules given */
+    /**
+     * Replace stylesheet with the array of rules given
+     */
     private void resetStyleSheetRules(StyleElement stylesheet,
-            List<String> rules) {
+                                      List<String> rules) {
         jsniUtil.clearCSSRules(stylesheet);
         for (int i = 0; i < rules.size(); i++) {
             jsniUtil.insertRule(stylesheet, rules.get(i));
@@ -2276,7 +2325,7 @@ public class SheetWidget extends Panel {
     }
 
     private void createRowStyles(List<String> rules, int startIndex,
-            int endIndex, int initialTop) {
+                                 int endIndex, int initialTop) {
         int top = initialTop;
 
         Map<Integer, Integer> topMap = new HashMap<Integer, Integer>();
@@ -2308,7 +2357,7 @@ public class SheetWidget extends Panel {
     }
 
     private void createColumnStyles(List<String> rules, int startIndex,
-            int endIndex, int initialLeft) {
+                                    int endIndex, int initialLeft) {
         int left = initialLeft;
 
         Map<Integer, Integer> leftMap = new HashMap<Integer, Integer>();
@@ -2498,15 +2547,17 @@ public class SheetWidget extends Panel {
         }
     }
 
-    /** Clears the rules starting from the given index */
+    /**
+     * Clears the rules starting from the given index
+     */
     public native String getRules(StyleElement stylesheet)
     /*-{
-        var cssRules = stylesheet.sheet.cssRules? stylesheet.sheet.cssRules : stylesheet.sheet.rules;
+        var cssRules = stylesheet.sheet.cssRules ? stylesheet.sheet.cssRules : stylesheet.sheet.rules;
         var rules = [];
-    	for (i=0; i<cssRules.length; i++){
-    		rules.push(cssRules[i].cssText);
-    	}
-    	return rules.join(' ');
+        for (i = 0; i < cssRules.length; i++) {
+            rules.push(cssRules[i].cssText);
+        }
+        return rules.join(' ');
     }-*/;
 
     private void updateCellStyles() {
@@ -2552,8 +2603,8 @@ public class SheetWidget extends Panel {
     }
 
     private String getSelectorsForStyle(Integer index,
-            Map<Integer, Integer> rowIndexToStyleIndex,
-            Map<Integer, Integer> columnIndexToStyleIndex) {
+                                        Map<Integer, Integer> rowIndexToStyleIndex,
+                                        Map<Integer, Integer> columnIndexToStyleIndex) {
         StringBuilder sb = new StringBuilder(".v-spreadsheet.");
         sb.append(sheetId).append(" .sheet .cell.cs").append(index);
 
@@ -2996,7 +3047,7 @@ public class SheetWidget extends Panel {
     }
 
     private void runEscalatorOnAllCells(int r1, int r2, int c1, int c2,
-            ArrayList<ArrayList<Cell>> rows, Element paneElement) {
+                                        ArrayList<ArrayList<Cell>> rows, Element paneElement) {
         // run escalator on all rows&columns, remove if necessary
         for (int r = r1; r <= r2; r++) {
             final ArrayList<Cell> row;
@@ -3033,8 +3084,8 @@ public class SheetWidget extends Panel {
     }
 
     private void runEscalatorPartially(int vScrollDiff, int hScrollDiff,
-            int r1, int r2, int c1, int c2, ArrayList<ArrayList<Cell>> rows,
-            Element paneElement) {
+                                       int r1, int r2, int c1, int c2, ArrayList<ArrayList<Cell>> rows,
+                                       Element paneElement) {
         int firstR = rows.get(0).get(0).getRow();
         int lastR = rows.get(rows.size() - 1).get(0).getRow();
         int firstC = rows.get(0).get(0).getCol();
@@ -3042,7 +3093,7 @@ public class SheetWidget extends Panel {
         // run escalator on some rows/cells
         ArrayList<ArrayList<Cell>> tempRows = new ArrayList<ArrayList<Cell>>();
         for (Iterator<ArrayList<Cell>> iterator = rows.iterator(); iterator
-                .hasNext();) {
+                .hasNext(); ) {
             final ArrayList<Cell> row = iterator.next();
             int rIndex = row.get(0).getRow();
             // FIND OUT IF ROW INDEX HAS CHANGED FOR THE ROW (swap/remove)
@@ -3086,7 +3137,7 @@ public class SheetWidget extends Panel {
             firstC = row.get(0).getCol();
             lastC = row.get(row.size() - 1).getCol();
             final ArrayList<Cell> tempCols = new ArrayList<Cell>();
-            for (Iterator<Cell> cells = row.iterator(); cells.hasNext();) {
+            for (Iterator<Cell> cells = row.iterator(); cells.hasNext(); ) {
                 Cell cell = cells.next();
                 int cIndex = cell.getCol();
                 // scroll right
@@ -3196,7 +3247,9 @@ public class SheetWidget extends Panel {
         updateOverflows(false);
     }
 
-    /** push the cells to the escalator */
+    /**
+     * push the cells to the escalator
+     */
     private void updateCells(int vScrollDiff, int hScrollDiff) {
         Cell firstCell = rows.get(0).get(0);
         ArrayList<Cell> lastRow = rows.get(rows.size() - 1);
@@ -3419,7 +3472,7 @@ public class SheetWidget extends Panel {
     }
 
     private void showRegionWidgets(HashMap<String, Widget> newWidgets,
-            int col1, int col2, int row1, int row2) {
+                                   int col1, int col2, int row1, int row2) {
         for (int r = row1; r <= row2; r++) {
             for (int c = col1; c <= col2; c++) {
                 final String key = toKey(c, r);
@@ -3555,7 +3608,7 @@ public class SheetWidget extends Panel {
     }
 
     private void recalculateOverflownMergedCellWidth(MergedRegion region,
-            Cell cell) {
+                                                     Cell cell) {
         if (region.col1 <= horizontalSplitPosition
                 && region.col2 > horizontalSplitPosition) {
             int[] colWidths = actionHandler.getColWidths();
@@ -3575,7 +3628,7 @@ public class SheetWidget extends Panel {
     }
 
     private void recalculateOverflownMergedCellHeight(MergedRegion region,
-            Cell cell) {
+                                                      Cell cell) {
         if (region.row1 <= verticalSplitPosition
                 && region.row2 > verticalSplitPosition) {
             int[] rowHeights = actionHandler.getRowHeightsPX();
@@ -3614,7 +3667,7 @@ public class SheetWidget extends Panel {
     }
 
     private void updateMergedRegionRegionSize(MergedRegion region,
-            Cell mergedCell) {
+                                              Cell mergedCell) {
         int width = 0;
         int height = 0;
         DivElement element = mergedCell.getElement();
@@ -3746,7 +3799,7 @@ public class SheetWidget extends Panel {
         if (cellLinksMap != null && !cellLinksMap.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             for (Iterator<String> i = cellLinksMap.keySet().iterator(); i
-                    .hasNext();) {
+                    .hasNext(); ) {
                 String cssKey = i.next().replace("col", ".col")
                         .replace(" r", ".r");
                 sb.append(cssKey);
@@ -3774,11 +3827,10 @@ public class SheetWidget extends Panel {
 
     /**
      * NOTE: FOR INTERNAL USE ONLY, may be removed or changed in the future.
-     * 
-     * @param key
-     *            key that identifies the cell position by column and row
+     *
+     * @param key key that identifies the cell position by column and row
      * @return {@code true} if cell belongs to a merged region, {@code false}
-     *         otherwise
+     * otherwise
      * @see #toKey(int, int)
      */
     boolean isMergedCell(String key) {
@@ -3831,7 +3883,7 @@ public class SheetWidget extends Panel {
     }
 
     private void udpateInvalidFormulaCells(Collection<Cell> allCells,
-            Collection<String> newInvalidFormulaCells) {
+                                           Collection<String> newInvalidFormulaCells) {
         for (Cell cell : allCells) {
             String key = toKey(cell.getCol(), cell.getRow());
             if (newInvalidFormulaCells != null
@@ -3846,7 +3898,7 @@ public class SheetWidget extends Panel {
     }
 
     public void setCellComments(HashMap<String, String> newCellCommentsMap,
-            HashMap<String, String> newCellCommentAuthorsMap) {
+                                HashMap<String, String> newCellCommentAuthorsMap) {
         updateRowCellComments(getAllCells(), newCellCommentsMap);
         updateMergedCellCommentsMap(newCellCommentsMap);
 
@@ -3871,7 +3923,7 @@ public class SheetWidget extends Panel {
     }
 
     private void updateRowCellComments(List<Cell> row,
-            HashMap<String, String> newCellCommentsMap) {
+                                       HashMap<String, String> newCellCommentsMap) {
         for (Cell cell : row) {
             String key = toKey(cell.getCol(), cell.getRow());
             if (newCellCommentsMap != null
@@ -4112,7 +4164,7 @@ public class SheetWidget extends Panel {
     }
 
     private void updateCellLinkTooltip(int eventTypeInt, int col, int row,
-            String tooltip) {
+                                       String tooltip) {
         if (eventTypeInt == Event.ONMOUSEOVER) {
             hyperlinkTooltipLabel.setText(tooltip);
             final DivElement element;
@@ -4176,7 +4228,7 @@ public class SheetWidget extends Panel {
     }
 
     private void updateCellData(int r1, int r2, int c1, int c2,
-            ArrayList<ArrayList<Cell>> rows, List<CellData> cellData2) {
+                                ArrayList<ArrayList<Cell>> rows, List<CellData> cellData2) {
         if (rows == null || rows.isEmpty()) {
             return;
         }
@@ -4256,9 +4308,7 @@ public class SheetWidget extends Panel {
     }
 
     /**
-     *
-     * @param row
-     *            1-based row index
+     * @param row 1-based row index
      * @return height in pixels
      */
     private int getRowHeight(int row) {
@@ -4276,7 +4326,6 @@ public class SheetWidget extends Panel {
     }
 
     /**
-     *
      * @return sheet default row height in pixels, converted from points
      */
     private int getDefaultRowHeight() {
@@ -4297,8 +4346,7 @@ public class SheetWidget extends Panel {
     /**
      * Converts the point value to pixels using the ppi for this client
      *
-     * @param points
-     *            to convert
+     * @param points to convert
      * @return pixels
      */
     private int convertPointsToPixel(float points) {
@@ -4357,11 +4405,8 @@ public class SheetWidget extends Panel {
     }
 
     /**
-     *
-     * @param col
-     *            1 based
-     * @param row
-     *            1 based
+     * @param col 1 based
+     * @param row 1 based
      * @return
      */
     public final static String toKey(int col, int row) {
@@ -4375,8 +4420,7 @@ public class SheetWidget extends Panel {
     /**
      * Clears the sheet. After this no headers or cells are visible.
      *
-     * @param removed
-     *            if the widget is completely removed from DOM after this
+     * @param removed if the widget is completely removed from DOM after this
      */
     public void clearAll(boolean removed) {
         loaded = false;
@@ -4481,7 +4525,7 @@ public class SheetWidget extends Panel {
     }
 
     public void updateSelectedCellStyles(int col1, int col2, int row1,
-            int row2, boolean replace) {
+                                         int row2, boolean replace) {
         cellRangeStylesCleared = false;
         // cells
         if (replace) {
@@ -4645,10 +4689,10 @@ public class SheetWidget extends Panel {
     /**
      * swaps the selected cell to the new one, which is the selected cell after
      * this call.
-     *
+     * <p>
      * the old cell is "highlighted" and the new one gets the selected cell
      * outline (when selection range outline is hidden).
-     *
+     * <p>
      * takes care of swapping into a merged cell (highlights correct all cell
      * headers).
      *
@@ -4735,7 +4779,7 @@ public class SheetWidget extends Panel {
     /**
      * Swaps the selected cell to the new one, which is the selected cell after
      * this call.
-     *
+     * <p>
      * The old cell is "highlighted" and the new selected cell will be marked as
      * selected. This method is different to
      * {@link #swapCellSelection(int, int)} because the selected cell should be
@@ -4833,8 +4877,8 @@ public class SheetWidget extends Panel {
     }
 
     public int[] getSheetDisplayRange() {
-        return new int[] { firstRowIndex, firstColumnIndex, lastRowIndex,
-                lastColumnIndex };
+        return new int[]{firstRowIndex, firstColumnIndex, lastRowIndex,
+                lastColumnIndex};
     }
 
     public boolean hasFrozenColumns() {
@@ -4846,7 +4890,6 @@ public class SheetWidget extends Panel {
     }
 
     /**
-     *
      * @return the first column index that is completely visible on the left
      */
     public int getLeftVisibleColumnIndex() {
@@ -4873,9 +4916,9 @@ public class SheetWidget extends Panel {
         if (rows.size() == 0) {
             return lastColumnIndex;
         }
-        
+
         int index = lastColumnIndex;
-            
+
         final List<Cell> cells = rows.get(0);
         int size = cells.size();
         for (int i = size - 1; i > 0; i--) {
@@ -4901,7 +4944,6 @@ public class SheetWidget extends Panel {
     }
 
     /**
-     *
      * @return the first row index that is completely visible on the top
      */
     public int getTopVisibleRowIndex() {
@@ -4987,7 +5029,7 @@ public class SheetWidget extends Panel {
         return (row <= verticalSplitPosition && (col >= firstColumnIndex
                 && col <= lastColumnIndex || col <= horizontalSplitPosition))
                 || (col <= horizontalSplitPosition && (row >= firstRowIndex
-                        && row <= lastRowIndex || row <= verticalSplitPosition));
+                && row <= lastRowIndex || row <= verticalSplitPosition));
     }
 
     boolean isColumnFrozen(int col) {
@@ -5073,7 +5115,7 @@ public class SheetWidget extends Panel {
     }
 
     public void startEditingCell(boolean focus, boolean recalculate,
-            final String value) {
+                                 final String value) {
         editingCell = true;
         jsniUtil.replaceSelector(editedCellFreezeColumnStyle, "." + sheetId
                 + " .sheet div" + toCssKey(selectedCellCol, selectedCellRow), 0);
@@ -5094,17 +5136,17 @@ public class SheetWidget extends Panel {
         }
         if (focus) {
             Scheduler.get().scheduleDeferred(new ScheduledCommand() { //
-                        @Override
-                        public void execute() {
-                            input.setFocus(true);
-                            if (value.endsWith("%")) {
-                                input.setCursorPos(value.length() - 1);
-                            } else {
-                                // continue editing at end pos
-                                input.setCursorPos(value.length());
-                            }
-                        }
-                    });
+                @Override
+                public void execute() {
+                    input.setFocus(true);
+                    if (value.endsWith("%")) {
+                        input.setCursorPos(value.length() - 1);
+                    } else {
+                        // continue editing at end pos
+                        input.setCursorPos(value.length());
+                    }
+                }
+            });
         }
         input.setValue(value);
     }
@@ -5367,11 +5409,11 @@ public class SheetWidget extends Panel {
         return (col <= horizontalSplitPosition || col >= getLeftVisibleColumnIndex()
                 && col <= getRightVisibleColumnIndex())
                 && (row <= verticalSplitPosition || row <= getTopVisibleRowIndex()
-                        && row >= getBottomVisibleRowIndex());
+                && row >= getBottomVisibleRowIndex());
     }
 
     public boolean isAreaCompletelyVisible(int col1, int col2, int row1,
-            int row2) {
+                                           int row2) {
         return isCellCompletelyVisible(col1, row1)
                 && isCellRendered(col1, row2) && isCellRendered(col2, row1)
                 && isCellRendered(col2, row2);
@@ -5384,18 +5426,16 @@ public class SheetWidget extends Panel {
     /**
      * Scrolls the sheet to show the given cell, then triggers escalator for
      * updating cells if necessary.
-     *
+     * <p>
      * This method does the {@link #isCellRenderedInScrollPane(int, int)} in
      * itself, so no need to do the check before calling this. Nothing is done
      * if the cell is already visible.
-     *
+     * <p>
      * Scrolls one cell extra to all directions to cut the scrolls to half when
      * using keyboard navigation.
      *
-     * @param col
-     *            1-based
-     * @param row
-     *            1-based
+     * @param col 1-based
+     * @param row 1-based
      */
     public void scrollCellIntoView(int col, int row) {
         boolean scrolled = false;
@@ -5479,7 +5519,7 @@ public class SheetWidget extends Panel {
     }
 
     boolean scrollAreaIntoViewHorizontally(int col1, int col2,
-            boolean actOnLeftEdge) {
+                                           boolean actOnLeftEdge) {
         boolean scrolled = false;
         // horizontal:
         if (col1 <= horizontalSplitPosition) {
@@ -5545,7 +5585,7 @@ public class SheetWidget extends Panel {
     }
 
     boolean scrollAreaIntoViewVertically(int row1, int row2,
-            boolean actOnTopEdge) {
+                                         boolean actOnTopEdge) {
         boolean scrolled = false;
         // vertical:
         if (row1 <= verticalSplitPosition) {
@@ -5623,14 +5663,10 @@ public class SheetWidget extends Panel {
      * Scrolls the sheet to show the given area, or as much of it as fits into
      * the view.
      *
-     * @param col1
-     *            1-based
-     * @param col2
-     *            1-based
-     * @param row1
-     *            1-based
-     * @param row2
-     *            1-based
+     * @param col1 1-based
+     * @param col2 1-based
+     * @param row1 1-based
+     * @param row2 1-based
      */
     public void scrollAreaIntoView(int col1, int col2, int row1, int row2) {
         boolean scrolled = scrollAreaIntoViewHorizontally(col1, col2, true);
@@ -5732,7 +5768,7 @@ public class SheetWidget extends Panel {
      * and row values come after the popupButton has actually been added.
      */
     public void updatePopupButtonPosition(PopupButtonWidget popupButton,
-            int oldRow, int oldCol, int newRow, int newCol) {
+                                          int oldRow, int oldCol, int newRow, int newCol) {
         sheetPopupButtons.remove(toKey(oldCol, oldRow));
         sheetPopupButtons.put(toKey(newCol, newRow), popupButton);
         Widget parent = popupButton.getParent();
@@ -5800,8 +5836,8 @@ public class SheetWidget extends Panel {
             if (isAttachedToPanes
                     || child.equals(customEditorWidget)
                     || (parentElement != null
-                            && parentElement.getParentNode() != null && sheet
-                                .isOrHasChild(parentElement.getParentNode()))) {
+                    && parentElement.getParentNode() != null && sheet
+                    .isOrHasChild(parentElement.getParentNode()))) {
                 orphan(child);
                 element.removeFromParent();
                 return true;
@@ -5819,7 +5855,7 @@ public class SheetWidget extends Panel {
     }
 
     private void setHyperlinkTooltipPosition(int offsetWidth, int offsetHeight,
-            DivElement element) {
+                                             DivElement element) {
         // Calculate left position for the popup. The computation for
         // the left position is bidi-sensitive.
 
@@ -6193,8 +6229,8 @@ public class SheetWidget extends Panel {
     }
 
     private void updateGrouping(DivElement groupPane,
-            DivElement groupFreezePane, List<GroupingData> groupingDatas,
-            ArrayList<DivElement> freezeHeaders, boolean useCol, int maxGrouping) {
+                                DivElement groupFreezePane, List<GroupingData> groupingDatas,
+                                ArrayList<DivElement> freezeHeaders, boolean useCol, int maxGrouping) {
 
         // remove old
         Iterator<Widget> iterator = iterator();
@@ -6225,7 +6261,7 @@ public class SheetWidget extends Panel {
              * (few pixels) in the start for visual purposes; it doesn't start
              * exactly between 'startindex-1' and 'startindex', but a couple of
              * pixels after.
-             * 
+             *
              * Inversed grouping do the same thing, but in reverse; the button
              * is in the middle of the cell BEFORE 'startIndex', from where the
              * grouping continues to 'endIndex', stopping a few pixels short of
@@ -6346,9 +6382,7 @@ public class SheetWidget extends Panel {
     }
 
     /**
-     *
-     * @param index
-     *            1 based column index
+     * @param index 1 based column index
      * @return
      */
     private int getColumnWidth(int index) {
@@ -6356,7 +6390,7 @@ public class SheetWidget extends Panel {
     }
 
     private void updateExtraCornerElements(int formulaBarHeight,
-            int colGroupHeight, int rowGroupWidth) {
+                                           int colGroupHeight, int rowGroupWidth) {
 
         groupingCorner.getStyle().setTop(formulaBarHeight, Unit.PX);
 

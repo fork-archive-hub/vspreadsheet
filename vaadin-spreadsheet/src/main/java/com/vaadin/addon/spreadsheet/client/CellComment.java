@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -30,6 +30,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.vaadin.client.ui.VLabel;
 import com.vaadin.client.ui.VOverlay;
 
+/**
+ * 单元格注释
+ */
 public class CellComment extends VOverlay {
 
     protected static final String COMMENT_OVERLAY_LINE_CLASSNAME = "comment-overlay-line";

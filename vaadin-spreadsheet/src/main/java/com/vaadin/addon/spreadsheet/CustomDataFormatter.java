@@ -11,12 +11,12 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 
 /**
+ * 自定义格式化
  * TODO: to be removed when the bug (https://bz.apache.org/bugzilla/show_bug.cgi?id=60040) is resolved
  * <p>
  * POI library has two classes {@link org.apache.poi.ss.format.CellFormat} and
  * {@link org.apache.poi.ss.usermodel.DataFormatter} to deal with custom formatting.
  * The implementation is very buggy!
- * <p>
  * This class work around the following bugs:
  * <p>
  * 1) {@link org.apache.poi.ss.format.CellFormat} does not use the Locale info.
@@ -32,8 +32,7 @@ import org.apache.poi.ss.usermodel.FormulaEvaluator;
  * CellFormat does okay job for text formatting and literals, but for numbers it
  * fails to consider the locale.
  * <p>
- * DataFormatter can correctly format numbers using the locale, but cannot format
- * text or literals.
+ * DataFormatter can correctly format numbers using the locale, but cannot format text or literals.
  * <p>
  * This class tries to work around the most use cases by delegating a certain case to
  * one parser or another and changing the format string to be compatible with

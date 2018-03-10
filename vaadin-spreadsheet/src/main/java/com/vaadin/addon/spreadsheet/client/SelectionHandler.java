@@ -8,10 +8,10 @@ package com.vaadin.addon.spreadsheet.client;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
@@ -20,8 +20,9 @@ package com.vaadin.addon.spreadsheet.client;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * 单元格选择处理器
  * Class that handles finer details of cell selection inside the Spreadsheet.
- * 
+ *
  * @author Thomas Mattsson / Vaadin Ltd.
  */
 public class SelectionHandler {
@@ -62,8 +63,8 @@ public class SelectionHandler {
         if (!discardSelection
                 && (leftCol != rightCol || topRow != bottomRow)
                 && (oldRegion == null || leftCol != oldRegion.col1
-                        || rightCol != oldRegion.col2
-                        || topRow != oldRegion.row1 || bottomRow != oldRegion.row2)) {
+                || rightCol != oldRegion.col2
+                || topRow != oldRegion.row1 || bottomRow != oldRegion.row2)) {
             // move the selected cell inside the selection
             if (row > bottomRow) {
                 // move highest and right
@@ -101,7 +102,7 @@ public class SelectionHandler {
     }
 
     public void selectCellRange(String name, int selectedCellColumn, int selectedCellRow,
-            int firstColumn, int lastColumn, int firstRow, int lastRow, boolean scroll) {
+                                int firstColumn, int lastColumn, int firstRow, int lastRow, boolean scroll) {
         spreadsheet.updateSelectedCellValues(selectedCellColumn,
                 selectedCellRow, name);
         if (!sheetWidget.isCoherentSelection()) {
@@ -124,7 +125,7 @@ public class SelectionHandler {
                 lastRow, true);
         if (scroll
                 && !sheetWidget.isAreaCompletelyVisible(firstColumn,
-                        lastColumn, firstRow, lastRow)) {
+                lastColumn, firstRow, lastRow)) {
             sheetWidget.scrollAreaIntoView(firstColumn, lastColumn, firstRow,
                     lastRow);
         }
@@ -133,7 +134,7 @@ public class SelectionHandler {
     }
 
     public void selectCell(String name, int col, int row, String value, boolean formula,
-            boolean locked, boolean initialSelection) {
+                           boolean locked, boolean initialSelection) {
         if (spreadsheet.customCellEditorDisplayed) {
             spreadsheet.customCellEditorDisplayed = false;
             sheetWidget.removeCustomCellEditor();
@@ -161,7 +162,7 @@ public class SelectionHandler {
             spreadsheet.formulaBarWidget.setSelectedCellAddress(name);
         } else {
             spreadsheet.formulaBarWidget
-                .setSelectedCellAddress(spreadsheet.createCellAddress(col, row));
+                    .setSelectedCellAddress(spreadsheet.createCellAddress(col, row));
         }
 
         // scroll the cell into view
@@ -183,7 +184,7 @@ public class SelectionHandler {
                 && !spreadsheet.cellLocked
                 && spreadsheet.customEditorFactory != null
                 && spreadsheet.customEditorFactory.hasCustomEditor(sheetWidget
-                        .getSelectedCellKey())) {
+                .getSelectedCellKey())) {
             Widget customEditor = spreadsheet.customEditorFactory
                     .getCustomEditor(sheetWidget.getSelectedCellKey());
             if (customEditor != null) {
@@ -217,8 +218,8 @@ public class SelectionHandler {
         if (!discardSelection
                 && (leftCol != rightCol || topRow != bottomRow)
                 && (oldRegion == null || leftCol != oldRegion.col1
-                        || rightCol != oldRegion.col2
-                        || topRow != oldRegion.row1 || bottomRow != oldRegion.row2)) {
+                || rightCol != oldRegion.col2
+                || topRow != oldRegion.row1 || bottomRow != oldRegion.row2)) {
             // move the selected cell inside the selection
             if (row < topRow) {
                 // go to bottom and left
@@ -254,7 +255,7 @@ public class SelectionHandler {
     }
 
     protected void onCellSelectedWithKeyboard(int column, int row,
-            String value, MergedRegion region) {
+                                              String value, MergedRegion region) {
         spreadsheet.doCommitIfEditing();
         if (!sheetWidget.isCoherentSelection()) {
             sheetWidget.setCoherentSelection(true);
@@ -302,7 +303,7 @@ public class SelectionHandler {
             // edge into account.
             if (region != null
                     && (right && region.col1 != leftCol || !right
-                            && region.col2 == rightCol)) {
+                    && region.col2 == rightCol)) {
                 selectedCellColumn = region.col2;
             }
             MergedRegion selection = null;
@@ -312,7 +313,7 @@ public class SelectionHandler {
                     rightCol++;
                     while (spreadsheet.hiddenColumnIndexes != null
                             && spreadsheet.hiddenColumnIndexes
-                                    .contains(rightCol)
+                            .contains(rightCol)
                             && rightCol < spreadsheet.getMaxColumns()) {
                         rightCol++;
                     }
@@ -325,7 +326,7 @@ public class SelectionHandler {
                         rightCol--;
                         while (spreadsheet.hiddenColumnIndexes != null
                                 && spreadsheet.hiddenColumnIndexes
-                                        .contains(rightCol)
+                                .contains(rightCol)
                                 && (rightCol) > leftCol) {
                             rightCol--;
                         }
@@ -337,7 +338,7 @@ public class SelectionHandler {
                         leftCol--;
                         while (spreadsheet.hiddenColumnIndexes != null
                                 && spreadsheet.hiddenColumnIndexes
-                                        .contains(leftCol) && leftCol > 1) {
+                                .contains(leftCol) && leftCol > 1) {
                             leftCol--;
                         }
                         selection = MergedRegionUtil.findIncreasingSelection(
@@ -353,7 +354,7 @@ public class SelectionHandler {
                         leftCol++;
                         while (spreadsheet.hiddenColumnIndexes != null
                                 && spreadsheet.hiddenColumnIndexes
-                                        .contains(leftCol)
+                                .contains(leftCol)
                                 && leftCol < rightCol) {
                             leftCol++;
                         }
@@ -364,7 +365,7 @@ public class SelectionHandler {
                         rightCol++;
                         while (spreadsheet.hiddenColumnIndexes != null
                                 && spreadsheet.hiddenColumnIndexes
-                                        .contains(rightCol)
+                                .contains(rightCol)
                                 && rightCol < spreadsheet.getMaxColumns()) {
                             rightCol++;
                         }
@@ -378,7 +379,7 @@ public class SelectionHandler {
                     leftCol--;
                     while (spreadsheet.hiddenColumnIndexes != null
                             && spreadsheet.hiddenColumnIndexes
-                                    .contains(leftCol) && leftCol > 1) {
+                            .contains(leftCol) && leftCol > 1) {
                         leftCol--;
                     }
                     selection = MergedRegionUtil.findIncreasingSelection(
@@ -392,7 +393,7 @@ public class SelectionHandler {
                         rightCol++;
                         while (spreadsheet.hiddenColumnIndexes != null
                                 && spreadsheet.hiddenColumnIndexes
-                                        .contains(rightCol)
+                                .contains(rightCol)
                                 && rightCol < spreadsheet.getMaxColumns()) {
                             rightCol++;
                         }
@@ -407,7 +408,7 @@ public class SelectionHandler {
                         leftCol--;
                         while (spreadsheet.hiddenColumnIndexes != null
                                 && spreadsheet.hiddenColumnIndexes
-                                        .contains(leftCol) && leftCol > 1) {
+                                .contains(leftCol) && leftCol > 1) {
                             leftCol--;
                         }
                         selection = MergedRegionUtil.findIncreasingSelection(
@@ -449,7 +450,7 @@ public class SelectionHandler {
                 selectedCellColumn--;
                 while (spreadsheet.hiddenColumnIndexes != null
                         && spreadsheet.hiddenColumnIndexes
-                                .contains(selectedCellColumn)
+                        .contains(selectedCellColumn)
                         && selectedCellColumn > 1) {
                     selectedCellColumn--;
                 }
@@ -494,9 +495,9 @@ public class SelectionHandler {
      * of the selection are not in "the beginning / middle / end" of a merged
      * cell. Returns the correct decreased selection, after taking the merged
      * cells into account.
-     * 
+     * <p>
      * Parameters 1-based.
-     * 
+     *
      * @param topRow
      * @param bottomRow
      * @param leftColumn
@@ -504,7 +505,7 @@ public class SelectionHandler {
      * @return
      */
     protected MergedRegion findDecreasingSelection(int topRow, int bottomRow,
-            int leftColumn, int rightColumn) {
+                                                   int leftColumn, int rightColumn) {
         if (topRow == bottomRow && leftColumn == rightColumn) {
             MergedRegion mergedRegion = spreadsheet.getMergedRegion(leftColumn,
                     topRow);
@@ -722,7 +723,7 @@ public class SelectionHandler {
         if (sheetWidget.isCoherentSelection()) {
             if (region != null
                     && (down && region.row1 != topRow || !down
-                            && region.row2 == bottomRow)) {
+                    && region.row2 == bottomRow)) {
                 selectedCellRow = region.row2;
             }
             MergedRegion selection = null;
@@ -744,7 +745,7 @@ public class SelectionHandler {
                         bottomRow--;
                         while (spreadsheet.hiddenRowIndexes != null
                                 && spreadsheet.hiddenRowIndexes
-                                        .contains(bottomRow)
+                                .contains(bottomRow)
                                 && bottomRow > topRow) {
                             bottomRow--;
                         }
@@ -756,7 +757,7 @@ public class SelectionHandler {
                         topRow--;
                         while (spreadsheet.hiddenRowIndexes != null
                                 && spreadsheet.hiddenRowIndexes
-                                        .contains(topRow) && topRow > 1) {
+                                .contains(topRow) && topRow > 1) {
                             topRow--;
                         }
                         selection = MergedRegionUtil.findIncreasingSelection(
@@ -772,7 +773,7 @@ public class SelectionHandler {
                         topRow++;
                         while (spreadsheet.hiddenRowIndexes != null
                                 && spreadsheet.hiddenRowIndexes
-                                        .contains(topRow) && topRow < bottomRow) {
+                                .contains(topRow) && topRow < bottomRow) {
                             topRow++;
                         }
                         selection = findDecreasingSelection(topRow, bottomRow,
@@ -782,7 +783,7 @@ public class SelectionHandler {
                         bottomRow++;
                         while (spreadsheet.hiddenRowIndexes != null
                                 && spreadsheet.hiddenRowIndexes
-                                        .contains(bottomRow)
+                                .contains(bottomRow)
                                 && bottomRow < spreadsheet.getMaxRows()) {
                             bottomRow++;
                         }
@@ -810,7 +811,7 @@ public class SelectionHandler {
                         bottomRow++;
                         while (spreadsheet.hiddenRowIndexes != null
                                 && spreadsheet.hiddenRowIndexes
-                                        .contains(bottomRow)
+                                .contains(bottomRow)
                                 && bottomRow < spreadsheet.getMaxRows()) {
                             bottomRow++;
                         }
@@ -824,7 +825,7 @@ public class SelectionHandler {
                         topRow--;
                         while (spreadsheet.hiddenRowIndexes != null
                                 && spreadsheet.hiddenRowIndexes
-                                        .contains(topRow) && topRow > 1) {
+                                .contains(topRow) && topRow > 1) {
                             topRow--;
                         }
                         selection = MergedRegionUtil.findIncreasingSelection(
@@ -867,7 +868,7 @@ public class SelectionHandler {
                 selectedCellRow--;
                 while (spreadsheet.hiddenRowIndexes != null
                         && spreadsheet.hiddenRowIndexes
-                                .contains(selectedCellRow)
+                        .contains(selectedCellRow)
                         && selectedCellRow > 1) {
                     selectedCellRow--;
                 }
@@ -929,15 +930,15 @@ public class SelectionHandler {
         if (!discardSelection
                 && (leftCol != rightCol || topRow != bottomRow)
                 && (oldRegion == null || leftCol != oldRegion.col1
-                        || rightCol != oldRegion.col2
-                        || topRow != oldRegion.row1 || bottomRow != oldRegion.row2)) {
+                || rightCol != oldRegion.col2
+                || topRow != oldRegion.row1 || bottomRow != oldRegion.row2)) {
             // move the selected cell inside the selection
             if (col > rightCol) {
                 // move to leftmost and down
                 col = leftCol;
                 while (spreadsheet.hiddenColumnIndexes != null
                         && spreadsheet.hiddenColumnIndexes
-                                .contains(new Integer(col)) && col <= rightCol) {
+                        .contains(new Integer(col)) && col <= rightCol) {
                     col++;
                 }
                 row++;
@@ -987,8 +988,8 @@ public class SelectionHandler {
         if (!discardSelection
                 && (leftCol != rightCol || topRow != bottomRow)
                 && (oldRegion == null || leftCol != oldRegion.col1
-                        || rightCol != oldRegion.col2
-                        || topRow != oldRegion.row1 || bottomRow != oldRegion.row2)) {
+                || rightCol != oldRegion.col2
+                || topRow != oldRegion.row1 || bottomRow != oldRegion.row2)) {
             // move the selected cell inside the selection
             if (col < leftCol) {
                 // move to right most and up

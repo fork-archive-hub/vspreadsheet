@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -30,6 +13,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 
 /**
+ * 样式增量构建
+ * <p>
  * IncrementalStyleBuilder converts a POI {@link DifferentialStyleProvider} (conditional format rule or table style element) to CSS.
  * note: Create a new instance if the workbook changes, since the colorConverter field relies on the workbook theme
  */

@@ -10,21 +10,24 @@ import java.io.Serializable;
  * %%
  * This program is available under Commercial Vaadin Add-On License 3.0
  * (CVALv3).
- * 
+ *
  * See the file license.html distributed with this software for more
  * information about licensing.
- * 
+ *
  * You should have received a copy of the CVALv3 along with this program.
  * If not, see <http://vaadin.com/license/cval-3>.
  * #L%
  */
 
+/**
+ * 区域合并工具类
+ */
 public class MergedRegionUtil {
 
     public interface MergedRegionContainer extends Serializable {
         /**
          * Gets the merged region starting at the given coordinates.
-         * 
+         *
          * @param column
          *            Column index, 1-based
          * @param row
@@ -35,7 +38,7 @@ public class MergedRegionUtil {
 
         /**
          * Gets the merged region overlapping the given coordinates.
-         * 
+         *
          * @param column
          *            Column index, 1-based
          * @param row
@@ -51,9 +54,9 @@ public class MergedRegionUtil {
      * of the selection are not in "the beginning / middle / end" of a merged
      * cell. Returns the correct increased selection, after taking the merged
      * cells into account.
-     * 
+     *
      * Parameters 1-based.
-     * 
+     *
      * @param topRow
      * @param bottomRow
      * @param leftColumn

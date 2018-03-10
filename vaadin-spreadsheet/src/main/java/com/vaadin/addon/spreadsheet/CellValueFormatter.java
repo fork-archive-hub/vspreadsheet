@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -25,6 +8,8 @@ import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 
 /**
+ * 单元格值的格式化操作类
+ * <p>
  * Utility class for formatting cell values
  */
 public class CellValueFormatter implements Serializable {
@@ -59,7 +44,7 @@ public class CellValueFormatter implements Serializable {
             // decimals and all decimal don't fit
             boolean needsScientific = integerPartLength > numberOfDigits
                     || (Math.abs(numericValue) < 1
-                            && formattedValue.length() > numberOfDigits && numberOfDigits > 4);
+                    && formattedValue.length() > numberOfDigits && numberOfDigits > 4);
             int numberOfDecimals = 0;
             if (needsScientific) {
                 // 0.#E10

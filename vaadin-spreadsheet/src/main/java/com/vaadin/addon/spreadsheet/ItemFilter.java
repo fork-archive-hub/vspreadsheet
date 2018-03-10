@@ -1,22 +1,5 @@
 package com.vaadin.addon.spreadsheet;
 
-/*
- * #%L
- * Vaadin Spreadsheet
- * %%
- * Copyright (C) 2013 - 2015 Vaadin Ltd
- * %%
- * This program is available under Commercial Vaadin Add-On License 3.0
- * (CVALv3).
- * 
- * See the file license.html distributed with this software for more
- * information about licensing.
- * 
- * You should have received a copy of the CVALv3 along with this program.
- * If not, see <http://vaadin.com/license/cval-3>.
- * #L%
- */
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,8 +24,9 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * A simple filter for spreadsheet filtering table, filtering cell values with
- * checkboxes.
+ * 单元格多选 过滤器
+ * <p>
+ * A simple filter for spreadsheet filtering table, filtering cell values with checkboxes.
  * <p>
  * Has a check box for selecting all items (cell values), and one check box per
  * unique cell value that can be found within the cells of the table column.
@@ -69,18 +53,14 @@ public class ItemFilter extends Panel implements SpreadsheetFilter {
     /**
      * Constructs a new item filter for the given spreadsheet, filtering range,
      * pop-up button and filtering table.
-     * 
-     * @param filterRange
-     *            Range of cells to filter
-     * @param spreadsheet
-     *            Target Spreadsheet
-     * @param popupButton
-     *            Pop-up button to insert the filter components in
-     * @param filterTable
-     *            Target SpreadsheetFilterTable
+     *
+     * @param filterRange Range of cells to filter
+     * @param spreadsheet Target Spreadsheet
+     * @param popupButton Pop-up button to insert the filter components in
+     * @param filterTable Target SpreadsheetFilterTable
      */
     public ItemFilter(CellRangeAddress filterRange, Spreadsheet spreadsheet,
-            PopupButton popupButton, SpreadsheetFilterTable filterTable) {
+                      PopupButton popupButton, SpreadsheetFilterTable filterTable) {
         this.filterRange = filterRange;
         this.spreadsheet = spreadsheet;
         this.popupButton = popupButton;
@@ -137,7 +117,7 @@ public class ItemFilter extends Panel implements SpreadsheetFilter {
                     if (currentValue.isEmpty()) {
                         if (latestFilteredValues.isEmpty()
                                 || latestFilteredValues
-                                        .containsAll(allCellValues)) {
+                                .containsAll(allCellValues)) {
                             allItems.setValue(true);
                             filterCheckbox.setValue(new HashSet<>(allCellValues));
                         } else {
@@ -167,17 +147,17 @@ public class ItemFilter extends Panel implements SpreadsheetFilter {
     protected void initAllItemsCheckbox() {
         allItems = new CheckBox("(Select All)", true);
         allItems.addValueChangeListener(event -> {
-                if (!cancelValueChangeUpdate) {
-                    Boolean value = allItems.getValue();
-                    cancelValueChangeUpdate = true;
-                    if (value) {
-                        filterCheckbox.setValue(new HashSet<>(allCellValues));
-                        updateFilteredItems(allCellValues);
-                    } else {
-                        filterCheckbox.setValue(Collections.emptySet());
-                    }
-                    cancelValueChangeUpdate = false;
+            if (!cancelValueChangeUpdate) {
+                Boolean value = allItems.getValue();
+                cancelValueChangeUpdate = true;
+                if (value) {
+                    filterCheckbox.setValue(new HashSet<>(allCellValues));
+                    updateFilteredItems(allCellValues);
+                } else {
+                    filterCheckbox.setValue(Collections.emptySet());
                 }
+                cancelValueChangeUpdate = false;
+            }
         });
     }
 
@@ -188,7 +168,7 @@ public class ItemFilter extends Panel implements SpreadsheetFilter {
         filterOptionsProvider = new ListDataProvider<>(filterOptions);
         filterCheckbox = new CheckBoxGroup<>();
         filterCheckbox.setDataProvider(filterOptionsProvider);
-        filterCheckbox.addValueChangeListener(event->{
+        filterCheckbox.addValueChangeListener(event -> {
             if (firstUpdate) {
                 firstUpdate = false;
             } else {
@@ -243,7 +223,7 @@ public class ItemFilter extends Panel implements SpreadsheetFilter {
         }
 
         if (needsSort) {
-            Comparator<String> byString = (String s1,String s2) -> s1.compareToIgnoreCase(s2);
+            Comparator<String> byString = (String s1, String s2) -> s1.compareToIgnoreCase(s2);
             Collections.sort(filterOptions, byString);
         }
 
@@ -256,9 +236,9 @@ public class ItemFilter extends Panel implements SpreadsheetFilter {
 
     /**
      * Gets the currently NOT filtered cell values.
-     * 
+     *
      * @return All unique values currently visible (= not filtered) within this
-     *         column
+     * column
      */
     protected Set<String> getVisibleValues() {
         Set<String> values = new HashSet<>();
@@ -273,7 +253,7 @@ public class ItemFilter extends Panel implements SpreadsheetFilter {
 
     /**
      * Gets all of the unique values for this filter column.
-     * 
+     *
      * @return All unique values within this column
      */
     protected Set<String> getAllValues() {
@@ -287,9 +267,8 @@ public class ItemFilter extends Panel implements SpreadsheetFilter {
 
     /**
      * Updates the filtered rows to reflect the new filtered values.
-     * 
-     * @param visibleValues
-     *            the values that are NOT filtered
+     *
+     * @param visibleValues the values that are NOT filtered
      */
     protected void updateFilteredItems(Collection<String> visibleValues) {
         filteredRows.clear();
